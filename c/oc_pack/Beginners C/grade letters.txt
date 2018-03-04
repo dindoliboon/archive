@@ -1,0 +1,62 @@
+// Beginners C
+// this program will take grades from a file and sum up the As, Bs, Cs, Ds, and 
+// Fs
+
+#include<stdio.h>
+main()
+{
+FILE *inptr;
+FILE *outptr;
+int a = 0;
+int b = 0;
+int c = 0;
+int d = 0;
+int e = 0;
+int f = 0;
+int min;
+int max;
+int i;
+int total = 0;
+int grade = 0;
+float average = 0;
+inptr = fopen("grades.dat", "r");
+outptr = fopen("results.dat", "w");
+while(fscanf(inptr,"%d",&e) != EOF)
+  {
+  if(e >= 90)
+   a++;
+  else
+   if(e >= 80)
+    b++;
+   else
+    if(e >= 70)
+     c++;
+    else
+     if(e >= 60) 
+      d++;
+     else
+       f++;
+grade = grade + e;
+max = e;
+if(e > max)
+  max = e;    
+if(e < min)
+  min = e;
+}
+total = a+b+c+d+f;
+
+printf("A's=%d\nB's=%d\nC's=%d\nD's=%d\nF's=%d",a,b,c,d,f); 
+printf("\ntotal number of grades = %d",total);
+average = grade/total;
+printf("\nthe average = %5.2f",average);
+printf("\nthe max = %d",max);
+printf("\nthe min = %d",min);
+fprintf(outptr,"A's=%d\nB's=%d\nC's=%d\nD's=%d\nF's=%d\n",a,b,c,d,f);
+fprintf(outptr,"total number of grades = %d",total);
+fprintf(outptr,"\nthe average = %5.2f",average);
+fprintf(outptr,"\nthe max = %d",max);
+fprintf(outptr,"\nthe min = %d",min);
+
+}
+
+

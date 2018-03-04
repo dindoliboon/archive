@@ -1,0 +1,87 @@
+# This is makefile for mingw32 - win32 port of GNU C
+# gcc version 2.8.1
+# Resource compiler is Watcom `wrc', because I can't 
+# build dialog resources with mingw32 `windres'
+# 
+# (C) 1999 Nikolay V. Redko <nike@zmail.ru>
+
+CC      = gcc
+DLLTOOL = dlltool
+DLLWRAP = dllwrap
+RC      = windres
+
+CFLAGS  = -O2
+DLL_LDFLAGS = -s
+DLL_LDLIBS  = 
+
+EXE_NAME    = rbtray.exe
+EXE_LDFLAGS = -mwindows -s
+EXE_LDLIBS  =
+
+DLL_SRC = rbhook.c
+EXE_SRC = rbtray.c
+RES_SRC = rbtray.rc
+
+DLL_NAME    = rbhook.dll
+DLL_EXP_DEF = rbhook.def
+DLL_EXP_LIB = libhook.a
+
+DLL_OBJ  = $(DLL_SRC:.c=.o)
+EXE_OBJ  = $(EXE_SRC:.c=.o)
+RES_OBJ  = rbtrayrc.o
+
+#-----------------------------------------------------------
+DLLWRAP_FLAGS = --driver-name $(CC) --def $(DLL_EXP_DEF) -DBUILDING_DLL
+
+all: rbhook.dll $(EXE_NAME)
+
+rbtray.rc: rbtray.h rbtray.ico
+rbtray.exe: rbtray.c rbtray.h rbhook.c rbtray.ico rbtray.rc
+rbhook.dll: rbhook.c rbtray.h
+rbhook.c: rbtray.h
+rbtray.c: rbtray.h
+
+rbhook.dll: $(DLL_OBJ) $(DLL_EXP_DEF) 
+	$(DLLWRAP) $(DLLWRAP_FLAGS) -o $(DLL_NAME) \
+	$(DLL_OBJ) $(DLL_LDFLAGS) $(DLL_LDLIBS)
+
+$(DLL_EXP_LIB): $(DLL_EXP_DEF)
+	$(DLLTOOL) --dllname $(DLL_NAME) --def $(DLL_EXP_DEF) \
+	--output-lib $(DLL_EXP_LIB)
+
+$(DLL_EXP_DEF): $(DLL_OBJ)
+	$(DLLTOOL) --export-all --output-def $@ $(DLL_OBJ)
+
+$(DLL_OBJ): rbhook.c
+	$(CC) $(CFLAGS) -c $< -o $@ -DBUILDIND_DLL=1
+
+$(EXE_NAME): $(EXE_OBJ) $(DLL_EXP_LIB) $(RES_OBJ)
+	$(CC) $(EXE_LDFLAGS)  -o $@ $(EXE_OBJ) $(RES_OBJ) -L./ -lhook
+
+$(EXE_OBJ): $(EXE_SRC)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(RES_OBJ): $(RES_SRC)
+	$(RC) $(RES_SRC) $(RES_OBJ)
+
+rbtray.rc: rbtray.h rbtray.ico
+rbtray.exe: rbtray.c rbtray.h rbhook.c rbtray.ico rbtray.rc
+rbhook.dll: rbhook.c rbtray.h
+#-----------------------------------------------------------
+clean: 
+	@rm -f *.o *.def *.a *.res
+
+cleanall: 
+	@rm -f *.o *.def *.a *.res $(EXE_NAME) $(DLL_NAME) 
+
+strip:
+	strip $(EXE_NAME)
+	strip rbhook.dll
+
+re: cleanall all
+
+co:
+	co Makefile $(EXE_SRC) rbhook.c $(RES_SRC) rbtray.h rbtray.ico
+
+ver:
+	ci Makefile $(EXE_SRC) rbhook.c $(RES_SRC) rbtray.h rbtray.ico

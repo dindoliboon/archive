@@ -1,0 +1,107 @@
+#include "splitit.h"
+
+SplititIcon ICON splitit.ico
+
+Splitit MENU
+    BEGIN
+    POPUP "&File"
+        BEGIN
+          MENUITEM "&L - List current directory", IDM_LIST
+          MENUITEM "&C - Copy from current to...\t [F9]", IDM_COPY
+          MENUITEM "&M - Move from current to...\t [F10]", IDM_MOVE
+          MENUITEM SEPARATOR
+          MENUITEM "&K - Kill a file (Erase) \t [DEL]", IDM_DELETE
+          MENUITEM SEPARATOR
+          MENUITEM "E&Xit \t [ESC]", IDM_QUIT
+        END
+    POPUP "&Split"
+        BEGIN
+          MENUITEM "&B - Behead a BIN file (Split)\t [F2]", IDM_BEHEAD
+          MENUITEM "&T - Trim a BIN file (Split)  \t [F3]", IDM_TRIM
+          MENUITEM "&C - Chunk a BIN file (Split) \t [F4]", IDM_CHUNK
+          MENUITEM "&A - Chunk a TEXT file (Split)\t [F5]", IDM_TEXT
+          MENUITEM "&S - Split a file to floppy...\t [F6]", IDM_SPLIT
+        END
+    POPUP "&Join"
+        BEGIN
+          MENUITEM "&J - Join a file (Join) \t [F7]", IDM_JOIN
+          MENUITEM "&F - Join from floppy...\t [F8]", IDM_FLOPPY
+        END
+    POPUP "\a&Help"
+        BEGIN
+          MENUITEM "&About", IDM_ABOUT
+          MENUITEM SEPARATOR
+          MENUITEM "&Help \t [F1]",   IDM_HELP
+        END
+  END
+
+// possibly for a future version
+// not this time.
+Tools MENU
+    BEGIN
+    POPUP "&Tools"
+        BEGIN
+          POPUP "&Edit Tools"
+          BEGIN
+            MENUITEM "&G - iGrep\t Search for text in Ascii files.", IDM_GREP
+            MENUITEM "&B - BinGrep\t Search for text in Binary files.", IDM_BINGREP
+            MENUITEM "&D - iDiff\t Compare two text files.", IDM_DIFF
+          END
+          POPUP "E&Xport Tools"
+          BEGIN
+            MENUITEM "&Bin To Hex", IDM_BINTOHEX
+          END
+          POPUP "&Import Tools",
+          BEGIN
+            MENUITEM "&Hex To Bin", IDM_HEXTOBIN
+          END
+        END
+  END
+
+Splitit ACCELERATORS
+BEGIN
+    VK_F1,     IDM_HELP,      VIRTKEY
+    VK_F2,     IDM_BEHEAD,    VIRTKEY
+    VK_F3,     IDM_TRIM,      VIRTKEY
+    VK_F4,     IDM_CHUNK,     VIRTKEY
+    VK_F5,     IDM_TEXT,      VIRTKEY
+    VK_F6,     IDM_SPLIT,     VIRTKEY
+    VK_F7,     IDM_JOIN,      VIRTKEY
+    VK_F8,     IDM_FLOPPY,    VIRTKEY
+    VK_F9,     IDM_COPY,      VIRTKEY
+    VK_F10,    IDM_MOVE,      VIRTKEY
+    VK_ESCAPE, IDM_QUIT,      VIRTKEY
+    VK_DELETE, IDM_DELETE,    VIRTKEY
+END
+
+TEXTENTRYBOX DIALOG 30, 24, 141, 40
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Splitit Text Entry Dialog"
+BEGIN
+    EDITTEXT        IDD_EDITTEXT, 27, 6, 108, 12
+    DEFPUSHBUTTON   "OK", IDD_OK, 42, 23, 31, 12
+    PUSHBUTTON      "Cancel", IDD_CANCEL, 88, 23, 31, 12
+    ICON            "SplititIcon", 800, 6, 4, 16, 16
+END
+
+NUMENTRYBOX DIALOG 30, 24, 207, 78
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Splitit Checksum Entry Dialog"
+BEGIN
+    EDITTEXT        IDD_EDITTEXT, 27, 53, 92, 12
+    DEFPUSHBUTTON   "OK", IDD_OK, 130, 55, 31, 12
+    PUSHBUTTON      "Cancel", IDD_CANCEL, 171, 55, 31, 12
+    ICON            "SplititIcon", 900, 6, 53, 16, 16
+    LTEXT           "Enter CheckSum (Number of Bytes to Split) Below.", 901,
+                    7, 5, 195, 10
+    LTEXT           "To Enter Kilobytes, add K to number.", 902, 7, 15, 195,
+                    10
+    LTEXT           "Enter 1.44M or 720K for 3 1/2"" Diskettes.", 903, 27, 27, 160,
+                    10
+    LTEXT           "Enter 1.2M or 360K for 5 1/4"" Diskettes.", 904, 27, 38, 160,
+                    10
+END
+
+// using an RLE compressed 16 color BMP logo.
+// this doesn't take much room
+Splitit BITMAP splitit.bmp

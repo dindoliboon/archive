@@ -1,0 +1,52 @@
+          This Utility Will Split,Join, and Kill Files * USE WITH CARE
+          Files Will Be Read And Written In The Current Directory Only
+ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฟ
+ณ             Splitit(C) Version 2.0แ Copyright 1992 by Bill Buckels           ณ
+ภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤู
+             Splits, Joins, and Kills Files in The Current Directory
+            Use With Care! Damage can be Caused if Your Disk Is Full!
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                         B - Behead a file      (Split)                       บ
+บ                                                                              บ
+บ                         T - Trim   a file      (Split)                       บ
+บ                                                                              บ
+บ                         C - Chunk  a BIN file  (Split)                       บ
+บ                                                                              บ
+บ                         A - Chunk  a TEXT file (Split)                       บ
+บ                                                                              บ
+บ                         J - Join   a file      (Join)                        บ
+บ                                                                              บ
+บ                         L - List current directory                           บ
+บ                                                                              บ
+บ                         K - Kill   a file      (Erase)                       บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+       F1 For HELP * Use Arrows to Select and Press Enter * ESCape to Exit
+ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฟ
+ณ                   Produced by Bill Buckels * (204) 489- 1405                 ณ
+ณ               589 Oxford St. * Winnipeg, Manitoba, Cdn * R3M 3J2             ณ
+ภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤู
+                     Splitit(C) Version 2.0แ by Bill Buckels
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ           This program is distributed without Warranty or liability          บ
+บ                                                                              บ
+บ   Split Files Into Two or more Parts. Headers or Footers may be removed      บ
+บ   using this method. Files may also be joined again using the Join Option.   บ
+บ   Splitit Offers Both interactive and command line usage modes.              บ
+บ   The commandline mode which is covered below allows Splitit to be           บ
+บ   called from a batch file and perform its handiwork non-interactively.      บ
+บ                                                                              บ
+บ   Commandline:  SPLITIT [command] ROOTNAME.EXT [checksum-bytes]              บ
+บ   B  Behead     remove [checksum] bytes from the beginning of the file.      บ
+บ                 2-files are created... [ROOTNAME].001 and [ROOTNAME].002.    บ
+บ   T  Trim       remove [checksum] bytes from the end of the file.            บ
+บ                 2-files are created... [ROOTNAME].001 and [ROOTNAME].002.    บ
+บ   C  Chunk      break file into pieces (multiple files) of [checksum] bytes  บ
+บ      BINARY     starting with  file [ROOTNAME].001, [ROOTNAME].002, etc.     บ
+บ   A  Chunk      break a file into pieces of [checksum] bytes same as binary  บ
+บ      ASCII      but do not split lines of text. Use for BBS Logfiles, etc.   บ
+บ   J  Join       Join a file that was previously split into pieces            บ
+บ                 (multiple files) starting with  file [ROOTNAME].001.         บ
+บ                 The [checksum] is not required for this option.              บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+                   Leave Yourself Lots Of Disk Space To Work In
+

@@ -1,0 +1,3 @@
+;SPLITIT.DEF module definition file
+NAME         Splitit
+DESCRIPTION  'A File Splitter by Bill Buckels 1999'

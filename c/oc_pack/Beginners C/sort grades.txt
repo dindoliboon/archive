@@ -1,0 +1,30 @@
+// Beginners C
+// This program will take an a file of numbers insert them into an array and then sort them from largest to smallest.
+#include<stdio.h>
+main()
+{
+FILE *inptr;
+int grades[100];
+int e;
+int i;
+int j;
+inptr = fopen("grades.dat", "r");
+for(i=0;i<100;i++)
+fscanf(inptr,"%d",&grades[i]);
+for(j=0;j<100;j++)
+{
+  for(i=0;i<99;i++)
+  {
+    if(grades[i]>grades[i+1])
+     {
+       e = grades[i];
+       grades[i]=grades[i+1];
+       grades[i+1]=e;
+     }
+  }
+}
+for(i=0;i<100;i++)     
+printf("%d ",grades[i]);
+}
+
+

@@ -1,0 +1,26 @@
+// Beginner's C
+// a simple while loop
+// this program takes a number input from user and adds up all numbers
+// up to itself
+// ex: if you type in 5, it'll add 1 to 1 and get 2
+// add 2 to 2 and get 4
+// add 3 to 4 and get 7
+// add 4 to 7 and get 11
+
+
+#include<stdio.h>
+main()
+{
+int sum=1;
+int t = 1;
+int n;
+printf("please enter a number to sum up : ");
+scanf("%d", &n);
+while (t <= n)
+ {
+ printf("%d\n", sum); 
+ sum=sum+t;
+ t++;
+ }
+}
+

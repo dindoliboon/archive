@@ -1,0 +1,22 @@
+#include <winuser.h>
+#include "rbtray.h"
+
+RBTrayICO ICON "rbtray.ico"
+
+IDD_DIALOG1 DIALOGEX 0, 0, 186, 87,0
+STYLE WS_POPUP | WS_DLGFRAME | DS_CENTER
+CAPTION "About RBTray"
+FONT 8, "MS Sans Serif"
+{
+    DEFPUSHBUTTON   "OK",IDOK,142,67,37,14,0
+    ICON            "RBTrayICO",0,7,7,21,20,0,0,0
+    LTEXT           "RBTray 2.7",0,45,7,47,9
+    LTEXT           "Freeware",0,45,17,65,11
+    LTEXT           "This program is distributed under the terms of GNU General Public License.",
+                    0,45,32,134,16
+    LTEXT           "© 1998-2000 Nikolay V. Redko",0,45,55,100,8
+    EDITTEXT        IDC_EDIT,
+    				45,70,94,12,ES_READONLY | NOT WS_BORDER
+}
+
+

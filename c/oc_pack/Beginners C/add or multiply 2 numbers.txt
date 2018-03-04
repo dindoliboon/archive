@@ -1,0 +1,29 @@
+// Beginners C
+// a simple if then loop
+// this program will add or multiply 2 numbers
+
+#include<stdio.h>
+main ()
+{
+int x;
+int y;
+int z;
+int a;
+int b;
+printf("Enter two numbers to be added or multiplied:\n ");
+scanf("%d%d",&x,&y);
+printf("To get the product of these numbers press  1");
+printf("\nTo get the sum of these numbers press 2\n");
+scanf("%d",&z);
+ if (z==1)
+  {
+   a=x*y;
+   printf("\n%d",a);
+  }
+ else
+  {
+   b=x+y;
+   printf("\n%d",b);
+  }
+}
+

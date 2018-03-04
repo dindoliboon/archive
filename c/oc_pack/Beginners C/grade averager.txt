@@ -1,0 +1,26 @@
+// Beginners C
+// A simle program that take grades from the keyboard and average them
+// the fflush function (file flush) flushes the stdin or standard 
+// input buffer(simply put the keyboard).
+#include<stdio.h>
+main()
+{
+int n;
+char s;
+float average;
+int total = 0;
+int count = 0;
+do
+{
+printf("enter the damn grade");
+scanf("%d",&n);
+total=total+n;
+count++;
+printf("\nwould you like to enter another grade?");
+printf("\ntype y for yes\n");
+fflush(stdin);
+scanf("%c",&s);
+}while(s == 'y');
+printf("average=%2.2f",average=total/count);
+}
+

@@ -1,0 +1,82 @@
+  RBTray 2.7
+  GNUware
+  (Distributed under terms of GNU General Public License - see below)
+  Copyright (C) 1999-2000 by Nikolay Redko
+
+ Allows you to minimize windows in the tray area on
+ taskbar by clicking right mouse button on the window's
+ minimize box or from system menu or from window's system menu (<Alt>+<Space>).
+ Allows to set any window in "Always on top" state from window's system menu. 
+
+ Thanx to Mumit Khan and GCC team for Mingw32 gcc ver. 2.95.2 
+
+------  VERSION HISTORY -------
+ - Bug fixed
+ + New feature
+ * Some other changes
+ ! Bug 
+
+ver 2.7
+ + Item "Always on top" in system menu for any window.
+ ! New system menu feature doesn`t work with WinNT consoles. 
+   (if you can help me with some info - i'll be glad to hear you)
+
+ver 2.6
+ - Minimize all the windows that min.boxes are on the same place
+   (one under another).
+ + Item "Minimize in tray" in system menu for any window.
+ + Exit with commandline argument '--exit'
+ ! New system menu feature doesn`t work with WinNT consoles. 
+
+ver 2.5
+ * Compiled with GNU gcc ver 2.95 for Mingw32. 
+
+ver. 2.1-2.4 - not viable.
+
+ver. 2.0
+ * Compiled with Watcom C.
+ - Dll stay in memory after exit
+ - Incorrect closing
+ + Menu for tray icons
+   (+About box,
+     restore,
+     close,
+     +kill the window trayed,
+     +exit)
+
+ver. 1.1 - 1.6
+ * Remaked by Aleksey Novosiolov for Borland C builder.
+ - System crash if traying win32 console windows.
+ + Closing window by right-clicking on tray icon.
+ + Tooltip updates when mouse moves over icon.
+ ! Works incorrectly when closing programs what asks for closing
+
+ver. 1.0
+ * Written in VC 5.0, compiled with Watcom C/C++ v11.0 (for less size).
+ * Only minimize windows in tray. Without menu.
+ ! System crash if traying win32 console windows.
+      Restoring trayed win32 console apps may hang the system.
+      The point is not in RBTray but in Windows 95.
+      If you ShowWindow with SW_MINIMIZE and the with SW_HIDE,
+      after restoring win32 console app you'll always hang up Win95.
+      Under WinNT works correctly.
+
+----------------------------------------------------
+ Copyright (c) 1999 Nikolay V. Redko <nike@sendmail.ru>
+ Comments and bugreports are welcome.
+----------------------------------------------------
+
+THIS PROGRAM IS FREE SOFTWARE; YOU CAN REDISTRIBUTE IT AND/OR MODIFY
+IT UNDER THE TERMS OF THE GNU GENERAL PUBLIC LICENSE AS PUBLISHED BY
+THE FREE SOFTWARE FOUNDATION; EITHER VERSION 2 OF THE LICENSE, OR
+(AT YOUR OPTION) ANY LATER VERSION.
+
+THIS PROGRAM IS DISTRIBUTED IN THE HOPE THAT IT WILL BE USEFUL,
+BUT WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF
+MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  SEE THE
+GNU GENERAL PUBLIC LICENSE FOR MORE DETAILS.
+
+YOU SHOULD HAVE RECEIVED A COPY OF THE GNU GENERAL PUBLIC LICENSE
+ALONG WITH THIS PROGRAM; IF NOT, WRITE TO THE FREE SOFTWARE
+FOUNDATION, INC., 59 TEMPLE PLACE - SUITE 330, BOSTON, MA 02111-1307, USA.
+or write me : nike@sendmail.ru

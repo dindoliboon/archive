@@ -1,0 +1,19 @@
+// Beginners C
+// this simple program will take a given number and reverse the order
+// this program uses the modulus(%) function
+#include<stdio.h>
+main()
+{
+int digit;
+int num;
+printf("please enter a number to reverse it: ");
+scanf("%d",&num);
+do
+{
+digit=num%10;
+printf("%d", digit);
+num = num/10;
+}
+while(num>0);
+}
+

@@ -1,0 +1,11 @@
+Starting the LCC-Win32 compiler on Sat 09/29/2001 at 22:00:22.07 ...
+Logiciels/Informatique lcc-win32 version 3.6
+compilation date: Jul 30 2001 21:50:28
+Spills:0 Chars read: 566721,Memory used:2162688,Time = 0.481 sec.
+
+Checking any files to be linked ...
+Output file: 'walkdir.lib'
+Lcclib version 1.0
+adding member 'walkdir.obj'
+
+Removing unneccessary files on Sat 09/29/2001 at 22:00:22.72 ...
