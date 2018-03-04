@@ -1,6 +1,6 @@
 ' //////////////////////////////////////////////////////////////////////////
 '
-' Dialog Starter 1.1
+' Dialog Starter 1.1c
 '
 ' Main application program.
 '
@@ -23,7 +23,8 @@
 '   1.1a        10/17/2001   + Suport for VC++ static control IDs.
 '                            > Repositioned icex variable.
 '                            > Cleaned up and commented code.
-'   1.1         11/02/2001   + Inserts #include "file.h" if it exists
+'   1.1b        ??/??/2001   + Inserts #include "file.h" if it exists
+'   1.1c        11/02/2001   + Fixed up include inserts for wedit
 '
 ' Author:
 '   DL             dl@tks.cjb.net / http://tks.cjb.net
@@ -161,7 +162,7 @@ szOutput$ = szOutput$ & ".bas"
 ' Check if we need to display the help screen
 IF gHelp = TRUE THEN
   PRINT "ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿"
-  PRINT "³ Dialog Starter 1.1                                                 ³"
+  PRINT "³ Dialog Starter 1.1c                                                ³"
   PRINT "ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´"
   PRINT "³ Converts dialog resource scripts to BCX BASIC source code.         ³"
   PRINT "³ ds [drive:][path]filename[.dlg] [/k] [/s] [/c] [/?] [a#]           ³"
@@ -864,8 +865,8 @@ SUB EmitHeader(FP@)
   IF NOT gComments THEN EXIT SUB
 
   EmitSeperator(FP)
-  FPRINT FP, "'", SPACE$(12), "BCX Source Code Generated Using Dialog Starter 1.1"
-  FPRINT FP, "'", SPACE$(17), "For Use With BCX Translator Version 2.68+"
+  FPRINT FP, "'", SPACE$(12), "BCX Source Code Generated Using Dialog Starter 1.1c"
+  FPRINT FP, "'", SPACE$(17), "For Use With BCX Translator Version 2.75+"
   EmitSeperator(FP)
   FPRINT FP, ""
 END SUB

@@ -1,7 +1,7 @@
 ; #########################################################################
 ;
 ;   title   : Dialog Starter
-;   version : 1.1
+;   version : 1.1c
 ;   date    : November 02, 2001
 ;   abstract: Converts dialog resource Scripts to BCX code.
 ;             Unlike DC, which converts everything to BCX, DS simply
