@@ -1,0 +1,48 @@
+2       Syntax Error
+3       Return Without GOSUB
+4       Out Of Data
+5       Illegal Function Call
+6       Over Flow
+7       Out Of Memory
+9       Subscript Out Of Range
+10      Duplicate Definition
+11      Division By Zero
+13      Type Mismatch
+14      Out Of String Space
+15      String Too Long
+19      No RESUME
+20      Resume Without Error
+24      Device TimeOut
+25      Device Fault
+27      Out Of Paper
+50      Field Overflow
+51      Internal Error
+52      Bad File Number
+53      File Not Found
+54      Bad File Mode
+55      File Already Open
+57      Device IO Error
+58      File Already Exists
+59      Bad Record Length
+61      Disk Full
+62      Input Past End
+63      Bad Record Number
+64      Bad File Name
+67      Too Many Files
+68      Device Unavailable
+69      Com Buffer Overflow
+70      Permission Denied
+71      Disk Not Ready
+72      Disk Media Error
+73      Feature Unavailable
+74      Rename AcrossDisks
+75      Path File Access Error
+76      Path Not Found
+201     Out Of Stack Space
+203     Mismatched Commons
+204     Mismatched Options
+205     Mismatched Revisions
+206     Invalid Program File
+207     Array Is Static
+208     Invalid String Handle
+209     Incompatible Mouse

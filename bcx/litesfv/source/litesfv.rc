@@ -1,0 +1,68 @@
+/* /////////////////////////////////////////////////////////////////////////
+  > litesfv.rc 1.0 11:55 AM 8/15/2001                        Resource File <
+  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+  Contains menu and dialog resources.
+
+  Copyright (c) 2001 DL
+  All Rights Reserved.
+
+  /////////////////////////////////////////////////////////////////////// */
+
+#include <windows.h>
+#include "litesfv.h"
+
+IDI_MAIN ICON "litesfv.ico"
+
+IDD_FORM2 DIALOG 0, 0, 160, 170
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Settings"
+FONT 8, "MS Shell Dlg"
+BEGIN
+  CONTROL         "Changing the chunk size will affect the speed of how the files are read. The default is 262,144 bytes.", IDC_STATIC1, "static", SS_LEFT | WS_CHILD | WS_VISIBLE | WS_GROUP, 4, 4, 152, 27
+  CONTROL         "262144", IDC_EDIT1, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, 4, 32, 152, 12
+  GROUPBOX        "Statusbar Panel Widths", 203, 4, 48, 152, 55
+  CONTROL         "Panel 1", IDC_STATIC2, "static", SS_LEFT | WS_CHILD | WS_VISIBLE | WS_GROUP, 10, 58, 25, 8
+  CONTROL         "80", IDC_EDIT2, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, 39, 58, 110, 12
+  CONTROL         "Panel 2", IDC_STATIC3, "static", SS_LEFT | WS_CHILD | WS_VISIBLE | WS_GROUP, 10, 72, 25, 8
+  CONTROL         "175", IDC_EDIT3, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, 40, 72, 109, 12
+  CONTROL         "Panel 3", IDC_STATIC4, "static", SS_LEFT | WS_CHILD | WS_VISIBLE | WS_GROUP, 10, 86, 25, 8
+  CONTROL         "-1", IDC_EDIT4, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, 40, 86, 109, 12
+  CONTROL         "Annoyance Factor", IDC_FRAME2, "button", BS_GROUPBOX | WS_CHILD | WS_VISIBLE, 4, 105, 152, 49 
+  CONTROL         "Notify after completion", IDC_CHECK1, "button", BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 10, 116, 95, 10 
+  CONTROL         "Display error messages", IDC_CHECK2, "button", BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 10, 128, 95, 10 
+  CONTROL         "Ask verification questions", IDC_CHECK3, "button", BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 10, 139, 95, 10 
+  CONTROL         "! Press the ESCAPE key to apply settings !", IDC_STATIC5, "static", SS_CENTER | WS_CHILD | WS_VISIBLE | WS_GROUP, 0, 158, 160, 8 
+END
+
+IDM_MAIN MENU
+BEGIN
+  POPUP "&File"
+  BEGIN
+    MENUITEM "&New\tCtrl+N",         IDM_NEW
+    MENUITEM "&Open\tCtrl+O",        IDM_OPEN
+    MENUITEM "&Save\tCtrl+S",        IDM_SAVE
+    MENUITEM SEPARATOR
+    MENUITEM "E&xit\tAlt+F4",        IDM_EXIT
+  END
+
+  POPUP "&Options"
+  BEGIN
+    MENUITEM "&Settings",            IDM_CHUNK
+    MENUITEM SEPARATOR
+    MENUITEM "Set on &Top",          IDM_ONTOP
+    MENUITEM "&Round Numbers",       IDM_ROUND
+    MENUITEM "&Use True Path",       IDM_TRUEPATH
+    MENUITEM "&Disable SFV Load",    IDM_SCANSFV
+  END
+
+  POPUP "&Help"
+  BEGIN
+    MENUITEM "&About",               IDM_ABOUT
+  END
+END
+
+/* /////////////////////////////////////////////////////////////////////////
+  > 69 lines for LRC 1.2                              End of Resource File <
+  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */

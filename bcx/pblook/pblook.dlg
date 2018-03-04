@@ -1,0 +1,15 @@
+#include <windows.h>
+
+100 DIALOG 6, 18, 163, 68
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "PowerBasic Error Code Lookup"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Error Code:", 101, 4, 4, 36, 8
+    EDITTEXT        102, 42, 5, 72, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "&Look Up", 103, 119, 4, 40, 14
+    GROUPBOX        "Results", 104, 4, 19, 155, 45
+    LTEXT           "Description:", 105, 8, 28, 39, 8
+    LTEXT           "", 106, 49, 28, 105, 30
+END

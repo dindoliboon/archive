@@ -1,0 +1,26 @@
+#define MFT_SEPARATOR       0x00000800L
+#define MFT_STRING          0x00000000L
+#define MFS_DEFAULT         0x00001000L
+#define MFS_ENABLED         0x00000000L
+
+#define IDI_MAIN            1000
+#define IDM_MAIN            2000
+#define IDM_ABOUT           2010
+#define IDM_BCX             2020
+#define IDM_LCC             2030
+#define IDM_EXIT            2040
+
+IDI_MAIN ICON MOVEABLE PURE LOADONCALL DISCARDABLE "trayicon.ico"
+
+IDM_MAIN MENUEX DISCARDABLE
+BEGIN
+	POPUP ""
+	BEGIN
+		MENUITEM "About",              IDM_ABOUT, MFT_STRING, MFS_DEFAULT | MFS_ENABLED
+		MENUITEM "",                              MFT_SEPARATOR
+		MENUITEM "BCX Homepage",       IDM_BCX,   MFT_STRING, MFS_ENABLED
+		MENUITEM "LCC-Win32 Homepage", IDM_LCC,   MFT_STRING, MFS_ENABLED
+		MENUITEM "",                              MFT_SEPARATOR
+		MENUITEM "Exit",               IDM_EXIT,  MFT_STRING, MFS_ENABLED
+	END
+END

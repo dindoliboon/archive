@@ -1,0 +1,78 @@
+ed v1.0 build 2528
+~~~~~~~~~~~~~~~~~~
+encode a file:
+	encode infile.txt
+
+	this will read key.txt and compare it with infile.txt
+	the output will be saved to eout.txt
+
+decode a file:
+	decode infile.txt
+
+	this will read key.txt and compare it with infile.txt
+	the output will be saved to dout.txt
+
+
+example using eds shell
+~~~~~~~~~~~~~~~~~~~~~~~
+to get the source code, try typing the following:
+	eds /d source.enc source.zip
+
+the bcx/c source should be available in the file source.zip
+
+if you want to encode a file, type:
+	eds /e myfile outfile
+
+this will create the file outfile
+
+
+what if my key doesn't contain all the characters in the file?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+then your sunk! the encoder requires all keys to be available
+or you will just be writing garbage files. And you don't want
+that!
+
+
+what if my key is missing a few bytes?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if your key is missing a few bytes, then say goodbye to your
+encoded file.
+
+however, its possible to recover parts of the file based on
+the corrupted key. you will have to know where the bytes start
+and then you can add some padding to it.
+
+
+my files get bigger with a larger key!
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+yes, the padding in the output depends on the size of your key.
+if your key is less than 257 bytes, then it will use a padding
+of 1.
+
+if your file is greater than 256 bytes and less than 65,537 bytes,
+the padding will be set to 2. Anything greater than 65,536 bytes
+will use a padding of 4. I'm unsure of what the maximum keyfile
+size is for a padding of 4.
+
+
+breakdown of output
+~~~~~~~~~~~~~~~~~~~
+1st byte - specifies the padding size
+
+ex:
+1st byte = 1
+orginal file 4,670 bytes
+encoded file 4,671 bytes
+1 + (4,670 * 1) = 4,671 bytes
+
+ex:
+1st byte = 2
+orginal file 4,670 bytes
+encoded file 9,341 bytes
+1 + (4,670 * 2) = 9,341 bytes
+
+ex:
+1st byte = 4
+orginal file 4,670 bytes
+encoded file 18,681 bytes
+1 + (4,670 * 4) = 18,681 bytes

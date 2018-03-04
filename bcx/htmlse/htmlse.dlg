@@ -1,0 +1,17 @@
+#include <windows.h>
+
+100 DIALOG 6, 18, 125, 74
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "html string encoder"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "", 101, 3, 0, 118, 52
+    LTEXT           "&Input:", 102, 8, 8, 24, 8
+    EDITTEXT        103, 36, 8, 80, 12, ES_AUTOHSCROLL
+    LTEXT           "&Output:", 104, 8, 23, 24, 8
+    EDITTEXT        105, 36, 23, 80, 12, ES_AUTOHSCROLL | ES_READONLY
+    AUTOCHECKBOX    "", 106, 36, 38, 80, 10
+    AUTOCHECKBOX    "&Encoder Mode", 107, 3, 58, 60, 10
+    PUSHBUTTON      "&Go", 108, 81, 56, 40, 14
+END

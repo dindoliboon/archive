@@ -1,0 +1,13 @@
+Started assembling process on Wed 08/15/2001 at 12:53:56.84 ...
+Microsoft (R) Macro Assembler Version 6.15.8803
+Copyright (C) Microsoft Corp 1981-2000.  All rights reserved.
+
+ Assembling: crc32.asm
+Checking any files to be linked ...
+Microsoft (R) Library Manager Version 5.12.8078
+Copyright (C) Microsoft Corp 1992-1998. All rights reserved.
+
+crc32.lib has been created!
+
+Removing unneccessary files on Wed 08/15/2001 at 12:53:57.04 ...
+Press any key to continue . . .

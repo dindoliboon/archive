@@ -1,0 +1,7 @@
+crc32.dll
+_AboutCrc32@4
+_ArrayCrc32@8
+_Crc32@8
+_FinishCrc32@4
+_InitCrc32
+_PartialCrc32@12

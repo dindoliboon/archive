@@ -1,0 +1,9 @@
+GLOBAL  \Name AS HANDLE
+CONST   ID_\Name =  \ID
+
+\Name = CreateWindowEx(\ExStyles, "\Class", "\Caption", _
+\Styles, \x, \y, \w, \h, _
+Form1, ID_\Name, hInst, NULL)
+
+SendMessage(\Name, WM_SETFONT, _
+GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(FALSE, 0))

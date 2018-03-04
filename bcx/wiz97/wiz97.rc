@@ -1,0 +1,158 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "windows.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define IDS_TITLE1                      1
+#define IDS_SUBTITLE1                   2
+#define IDS_TITLE2                      3
+#define IDS_SUBTITLE2                   4
+#define IDS_CAPTION                     5
+#define IDB_BANNER                      102
+#define IDB_WATERMARK                   103
+#define IDD_INTRO                       107
+#define IDD_INTERIOR1                   108
+#define IDD_INTERIOR2                   109
+#define IDD_END                         110
+#define IDC_TITLE                       1000
+#define IDC_INTRO_TEXT                  1001
+#define IDC_RADIO1                      1002
+#define IDC_RADIO2                      1003
+#define IDC_RADIO3                      1004
+#define IDC_EDIT2                       1006
+#define IDC_EDIT3                       1007
+#define IDC_EDIT4                       1008
+#define IDC_CHECK1                      1010
+#define IDC_GROUP1                      1011
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_INTRO DIALOG DISCARDABLE  0, 0, 317, 193
+STYLE WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Welcome Page"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Welcome to Wiz97",IDC_TITLE,115,9,189,31,NOT WS_GROUP
+    LTEXT           "Some explanatory text",IDC_INTRO_TEXT,115,40,189,18
+END
+
+IDD_INTERIOR1 DIALOG DISCARDABLE  0, 0, 317, 143
+STYLE WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "First Interior Page"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "You must click the checkbox or a radio button to advance to the next page",
+                    IDC_STATIC,21,1,282,14
+    CONTROL         "A  radio button",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,
+                    28,41,62,10
+    CONTROL         "Another radio Button",IDC_RADIO2,"Button",
+                    BS_AUTORADIOBUTTON,28,61,81,10
+    CONTROL         "A third radio button",IDC_RADIO3,"Button",
+                    BS_AUTORADIOBUTTON,28,80,75,10
+    GROUPBOX        "A Group of radio buttons",IDC_GROUP1,21,24,119,74,
+                    WS_GROUP
+    CONTROL         "Go directly to the last page",IDC_CHECK1,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,194,61,100,10
+END
+
+IDD_INTERIOR2 DIALOG DISCARDABLE  0, 0, 317, 143
+STYLE WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Second Interior Page"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Some explanatory text",IDC_STATIC,21,1,70,8
+    LTEXT           "An Edit Box",IDC_STATIC,21,38,38,8
+    LTEXT           "Another Edit Box",IDC_STATIC,21,67,54,8
+    LTEXT           "A Third Edit Box",IDC_STATIC,21,96,52,8
+    EDITTEXT        IDC_EDIT2,108,38,86,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT3,108,67,86,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT4,108,96,86,14,ES_AUTOHSCROLL
+END
+
+IDD_END DIALOG DISCARDABLE  0, 0, 317, 193
+STYLE WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Completion Page"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Completing Wiz97",IDC_TITLE,115,8,195,37
+    LTEXT           "Some Explanatory Text",IDC_STATIC,115,58,195,128
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_INTRO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 310
+        VERTGUIDE, 115
+        VERTGUIDE, 304
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 186
+        HORZGUIDE, 8
+        HORZGUIDE, 40
+    END
+
+    IDD_INTERIOR1, DIALOG
+    BEGIN
+        LEFTMARGIN, 28
+        RIGHTMARGIN, 310
+        VERTGUIDE, 28
+        VERTGUIDE, 189
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_INTERIOR2, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 310
+        VERTGUIDE, 21
+        VERTGUIDE, 108
+        VERTGUIDE, 194
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 136
+        HORZGUIDE, 38
+        HORZGUIDE, 68
+        HORZGUIDE, 98
+    END
+
+    IDD_END, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 310
+        VERTGUIDE, 115
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 186
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BANNER              BITMAP  DISCARDABLE     "header.bmp"
+IDB_WATERMARK           BITMAP  DISCARDABLE     "watermrk.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_TITLE1              "Title: First Interior Page"
+    IDS_SUBTITLE1           "Subtitle: Some explanatory text..."
+    IDS_TITLE2              "Title: Second Interior Page"
+    IDS_SUBTITLE2           "Subtitle: Some explanatory text..."
+END

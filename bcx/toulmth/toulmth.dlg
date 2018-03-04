@@ -1,0 +1,20 @@
+
+100 DIALOG 106, 48, 170, 136
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Toulmth v1.0 :: build 3070"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        101, 0, 0, 170, 1, WS_DISABLED | NOT WS_TABSTOP
+    LTEXT           "File Category:", 102, 5, 5, 50, 8
+    RTEXT           "None Selected", 103, 60, 5, 105, 8
+    LTEXT           "Number of Files:", 104, 5, 14, 50, 8
+    RTEXT           "Unknown", 105, 60, 14, 105, 8
+    LTEXT           "Group Position:", 106, 5, 23, 50, 8
+    RTEXT           "Unknown", 107, 60, 22, 105, 8
+    CONTROL         "", 108, "SysListView32", WS_TABSTOP, 5, 34, 160, 69
+    EDITTEXT        109, 5, 106, 160, 1, WS_DISABLED | NOT WS_TABSTOP
+    COMBOBOX        110, 5, 110, 70, 50, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Create", 111, 80, 110, 40, 13
+    PUSHBUTTON      "E&xit", 112, 125, 110, 40, 13
+END

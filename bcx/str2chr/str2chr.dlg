@@ -1,0 +1,15 @@
+#include "windows.h"
+
+100 DIALOG 0, 0, 120, 65
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
+CAPTION "str2chr"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "", 101, 3, 0, 113, 44
+    LTEXT           "&String:", 102, 8, 10, 25, 8
+    EDITTEXT        103, 34, 10, 75, 12, ES_AUTOHSCROLL
+    LTEXT           "&Output:", 104, 8, 26, 25, 8
+    EDITTEXT        105, 34, 26, 75, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "&Create", 106, 75, 48, 40, 14
+END

@@ -1,0 +1,12 @@
+1 ICON "sx32.ico"
+
+1 RCDATA "myfile.ini"
+2 RCDATA "myfile.hlp"
+3 RCDATA "myfile.exe"
+
+STRINGTABLE 
+{
+ 1, "myfile.ini"
+ 2, "myfile.hlp"
+ 3, "myfile.exe"
+}

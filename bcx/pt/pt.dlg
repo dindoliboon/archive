@@ -1,0 +1,15 @@
+#include <windows.h>
+
+100 DIALOG 6, 18, 130, 62
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Product Test"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "", 101, 3, 0, 123, 58
+    LTEXT           "What is", 102, 8, 8, 25, 8
+    LTEXT           "8 times 15?", 103, 34, 8, 86, 8
+    LTEXT           "Your Answer?", 104, 8, 20, 45, 8
+    EDITTEXT        105, 60, 20, 60, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "GO", 106, 80, 38, 40, 14
+END

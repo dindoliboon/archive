@@ -1,0 +1,23 @@
+#include "windows.h"
+
+100 DIALOG 0, 0, 157, 86
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
+CAPTION "Build Number 1.1"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "", 101, 3, 0, 150, 65
+    LTEXT           "&Program:", 102, 9, 9, 28, 8
+    EDITTEXT        103, 41, 9, 105, 12, ES_AUTOHSCROLL
+    LTEXT           "M&onth:", 104, 9, 28, 22, 8
+    EDITTEXT        105, 41, 28, 15, 12, ES_AUTOHSCROLL
+    LTEXT           "&Day:", 106, 61, 28, 20, 8
+    EDITTEXT        107, 79, 28, 15, 12, ES_AUTOHSCROLL
+    LTEXT           "&Year:", 108, 101, 28, 20, 8
+    EDITTEXT        109, 120, 28, 26, 12, ES_AUTOHSCROLL
+    LTEXT           "&Revision:", 110, 9, 47, 30, 8
+    EDITTEXT        111, 41, 47, 40, 12, ES_AUTOHSCROLL
+    LTEXT           "&Build:", 112, 86, 47, 20, 8
+    EDITTEXT        113, 107, 47, 39, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "&Create", 114, 113, 69, 40, 14
+END

@@ -1,0 +1,29 @@
+#include <windows.h>
+
+100  BITMAP  "episode.bmp"
+100  ICON    "episode.ico"
+
+100 DIALOG 77, 22, 348, 218
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Episode Estimator"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "", 101, 4, 45, 203, 168
+    LTEXT           "Episode Estimator simply calculates how many episodes can fit on a certain media using a certain video compression codec. Numbers based on my actual media.", 
+                    1001, 10, 55, 189, 26
+    LTEXT           "Number of Episodes:", 111, 10, 86, 67, 8
+    EDITTEXT        112, 167, 86, 32, 12, ES_AUTOHSCROLL
+    LTEXT           "Length of Episodes in minutes (avg is 25):", 113, 10, 
+                    100, 131, 8
+    EDITTEXT        114, 167, 100, 32, 12, ES_AUTOHSCROLL
+    LTEXT           "Size of Data Per Minute (in MB):", 115, 10, 114, 132, 8
+    EDITTEXT        116, 167, 114, 32, 12, ES_AUTOHSCROLL
+    LTEXT           "General Data Size Per Minute (in MB):", 117, 10, 130, 
+                    121, 8
+    LISTBOX         118, 10, 140, 189, 72, WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        102, 213, 49, 130, 164, ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | WS_VSCROLL | 0x1000
+    GROUPBOX        "", 103, 4, 0, 339, 44
+END

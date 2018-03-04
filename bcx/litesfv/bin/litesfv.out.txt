@@ -1,0 +1,56 @@
+Started BCX translation process on Wed 08/15/2001 at 12:56:36.81 ...
+BCX-32: BASIC to C Translator by Kevin Diggins (c) 2001 Version 2.41d
+[ Lines Read: 1688]  [ Lines Written: 2217]  [ Translation Time: 30 seconds ]
+BCX translated LITESFV.Bas to LITESFV.C
+
+Searching for any resource files ...
+Output file name: litesfv.res
+Resource: Icon
+Resource: Dialog
+Resource: Menu
+
+Starting the LCC-Win32 compiler ...
+Logiciels/Informatique lcc-win32 version 3.6
+compilation date: Jul 27 2001 09:07:53
+Spills:0 Chars read: 1916302,Memory used:5177344,Time = 4.627 sec.
+
+Checking any files to be linked ...
+lcclnk version 1.3
+processing option -o
+processing option -subsystem
+processing option -s
+adding file litesfv.obj
+adding file litesfv.res
+adding file shell32.lib
+adding file crc32.lib
+adding file readme.lib
+Link time: 0 seconds
+litesfv.exe has been created!
+
+Running any external tools ...
+SUCCESS: litesfv.exe has been patched.
+                     Ultimate Packer for eXecutables
+            Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001
+UPX 1.20w        Markus F.X.J. Oberhumer & Laszlo Molnar        May 23rd 2001
+
+        File size         Ratio      Format      Name
+   --------------------   ------   -----------   -----------
+     43552 ->     16416   37.69%    win32/pe     litesfv.exe
+
+Packed 1 file.
+file scanner by SMT
++------------------------C:\litesfv\source\litesfv.exe------------------------+
+¦extension: executable file                                                   ¦
++----------------------------MZ-EXE DOS executable---------------------------+¦
+¦¦sizes: header 28, relocs 0, empty 36, image 1104, overlay 15248 bytes      ¦¦
+¦¦dos/exe DOS stub from MSVC                                                 ¦¦
+¦+----------------------------Portable executable----------------------------¦¦
+¦¦subsystem: Win32 GUI, cpu: i386                                            ¦¦
+¦¦linktime: Wed, 15.Aug.2001 at 12:57.11 (UTC 16:57.11)                      ¦¦
+¦¦setting new checksum                                                       ¦¦
+¦¦sizes: stub 128, header 384, image 15872, overlay 32                       ¦¦
+¦+----------------------------------overlay----------------------------------¦¦
+¦+---------------------------------------------------------------------------+¦
++-----------------------------------------------------------------------------+
+Removing unneccessary files on Wed 08/15/2001 at 12:57:19.55 ...
+Press any key to continue . . .
