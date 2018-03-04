@@ -1,15 +1,15 @@
 ' -------------------------------------------------------------------------
 '
-' Dialog Converter 3.01
+' Dialog Converter 3.2
 '
 ' Converts Microsoft Dialog Editor scripts into complete BCX source code,
-' removing the need for the resource file completely, or a BCX template,
-' where your application depends on a resource file (*.RES).
+' removing the need for the resource file completely. Or it can create BCX
+' template, where your application depends on a resource file (*.RES).
 '
-' Copyright (C) D. Liboon 2001-2003. All rights reserved.
+' Copyright (C) Dindo Liboon 2001-2005. All rights reserved.
 '
-' mailto: dl @ tks.cjb.net
-'    url: http://tks.cjb.net
+' mailto: dliboon@hotmail.com
+'    url: http://dliboon.freeshell.org
 '
 ' -------------------------------------------------------------------------
 
@@ -111,6 +111,12 @@ $CCODE
         CLS_SCROLL, CLS_COMBO, CLS_EDIT, CLS_LIST};
 $CCODE
 
+'****************************************************
+' Modified: 1/1/2005, 3.2
+' Added debugging code
+'****************************************************
+'Const DEBUG_MODE
+
 Const DLG_OPEN  = 1 ' found dialog or dialogex
 Const DLG_BEGIN = 2 ' found begin block
 Const DLG_END   = 3 ' found end block
@@ -191,8 +197,8 @@ Function main%(argc%, argv As PCHAR PTR)
 
     Chr34$ = Chr$(34)
 
-    ? "Dialog Converter 3.01"
-    ? "Copyright (C) D. Liboon 2001-2003. All rights reserved."
+    ? "Dialog Converter 3.2"
+    ? "Copyright (C) Dindo Liboon 2001-2005. All rights reserved."
 
     '---------------------------------------------
     ' check if there are any commandline arguments
@@ -327,7 +333,7 @@ Sub GenerateCode(file$)
     If opt.comments = True Then
         Call EmitSep()
         FPrint DlgOut, "'"
-        FPrint DlgOut, "' BCX Source Code Generated With Dialog Converter 3.01"
+        FPrint DlgOut, "' BCX Source Code Generated With Dialog Converter 3.2"
         FPrint DlgOut, "' For Use With BCX Translator Version 3.0"
         FPrint DlgOut, "'"
         Call EmitSep()
@@ -366,7 +372,9 @@ Sub MakeDC()
     '-----------------------------------
     ' don't waste time if nothing exists
     '-----------------------------------
-    If numFrm = 0 Then Exit Sub
+    If numFrm = 0 Then
+        Exit Sub
+    End If
 
     '-------------------------------------
     ' add Gui keyword and set window types
@@ -390,7 +398,11 @@ Sub MakeDC()
     '--------------------------------------------
     If opt.codelevel = CL_EXPANDED Then
         FPrint DlgOut, "Function WinMain(hInst As HINSTANCE, hPrev As HINSTANCE, CmdLine As LPSTR, CmdShow%)"
-    Else If opt.codelevel = CL_COMPACT Then
+    ElseIf opt.codelevel = CL_COMPACT Then
+        '****************************************************
+        ' Modified: 1/1/2005, 3.2
+        ' Corrected "Else If" to "ElseIf"
+        '****************************************************
         FPrint DlgOut, "Function WinMain()"
     End If
 
@@ -419,7 +431,7 @@ Sub MakeDC()
         For i = 0 to numFrm - 1
             FPrint DlgOut, ""
             FPrint DlgOut, Align$(1), "wc.style           = CS_HREDRAW or CS_VREDRAW or CS_DBLCLKS"
-            FPrint DlgOut, Align$(1), "wc.lpfnWndProc     = Form", Trim$(Str$(i + 1)), "_Proc"
+            FPrint DlgOut, Align$(1), "wc.lpfnWndProc     = Form", NumToStr$(i + 1), "_Proc"
             FPrint DlgOut, Align$(1), "wc.cbClsExtra      = 0"
             FPrint DlgOut, Align$(1), "wc.cbWndExtra      = 0"
             FPrint DlgOut, Align$(1), "wc.hInstance       = hInst"
@@ -479,10 +491,19 @@ Sub MakeDC()
     End If
 
     For i = 0 to numFrm - 1
-        FPrint DlgOut, Align$(1), "Global Form", Trim$(Str$(i + 1)), typNm$
+        FPrint DlgOut, Align$(1), "Global Form", NumToStr$(i + 1), typNm$
         FPrint DlgOut, ""
 
-        FPrint DlgOut, Align$(1), "Form", Trim$(Str$(i + 1)), " = ";
+        '****************************************************
+        ' Modified: 1/1/2005, 3.2
+        ' Removed the WS_VISIBLE to prevent a window from
+        ' displaying itself twice in DC mode
+        '****************************************************
+        frm[i].style$ = Replace$(frm[i].style$, "WS_VISIBLE or ", "")
+        frm[i].style$ = Replace$(frm[i].style$, " or WS_VISIBLE", "")
+        frm[i].style$ = Replace$(frm[i].style$, "WS_VISIBLE",     "")
+
+        FPrint DlgOut, Align$(1), "Form", NumToStr$(i + 1), " = ";
 
         If opt.codelevel = CL_SIMPLIFIED Then
             FPrint DlgOut, "BCX_FORM(";
@@ -528,17 +549,17 @@ Sub MakeDC()
 
         If i > 0 Then
             FPrint DlgOut, ""
-            FPrint DlgOut, Align$(1), "Global lpForm", Trim$(Str$(i + 1));
+            FPrint DlgOut, Align$(1), "Global lpForm", NumToStr$(i + 1);
             FPrint DlgOut, "_Proc As WNDPROC"
 
-            FPrint DlgOut, Align$(1), "lpForm", Trim$(Str$(i + 1)), "_Proc = ";
+            FPrint DlgOut, Align$(1), "lpForm", NumToStr$(i + 1), "_Proc = ";
 
             If opt.codelevel = CL_EXPANDED Then
-                FPrint DlgOut, "((WNDPROC)SetWindowLong(Form", Trim$(Str$(i + 1)), ", GWL_WNDPROC, _"
-                FPrint DlgOut, Align$(2), "(LPARAM)(WNDPROC)Form", Trim$(Str$(i + 1)), "_Proc))"
+                FPrint DlgOut, "((WNDPROC)SetWindowLong(Form", NumToStr$(i + 1), ", GWL_WNDPROC, _"
+                FPrint DlgOut, Align$(2), "(LPARAM)(WNDPROC)Form", NumToStr$(i + 1), "_Proc))"
             Else
-                FPrint DlgOut, "SubclassWindow(Form", Trim$(Str$(i + 1));
-                FPrint DlgOut, ", Form", Trim$(Str$(i + 1)), "_Proc)"
+                FPrint DlgOut, "SubclassWindow(Form", NumToStr$(i + 1);
+                FPrint DlgOut, ", Form", NumToStr$(i + 1), "_Proc)"
             End If
         End If
 
@@ -552,13 +573,13 @@ Sub MakeDC()
     '----------------------------
     For i = 0 to numCtl - 1
         FPrint DlgOut, Align$(1), "Global ", ctl[i].owner$;
-        FPrint DlgOut, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), typNm$
+        FPrint DlgOut, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), typNm$
 
         '-----------------------------
         ' generate control identifiers
         '-----------------------------
         tmp$ = "IDC_"
-        tmp$ = tmp & UCase$(ctl[i].owner$) & UCase$(ctlName$[ctl[i].token]) & Trim$(Str$(ctl[i].no))
+        tmp$ = tmp & UCase$(ctl[i].owner$) & UCase$(ctlName$[ctl[i].token]) & NumToStr$(ctl[i].no)
 
         '---------------------------------
         ' check if generated id and actual
@@ -575,23 +596,41 @@ Sub MakeDC()
         End If
 
         FPrint DlgOut, Align$(1), ctl[i].owner$;
-        FPrint DlgOut, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), " = ";
+        FPrint DlgOut, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), " = ";
 
         If Trim$(ctl[i].text$) = "" Then ctl[i].text$ = Chr34$ & Chr34$
 
         If opt.codelevel = CL_SIMPLIFIED Then
             Select Case ctl[i].token
+            Case TYP_STATUS
+                FPrint DlgOut, "BCX_", UCase$(ctlName$[ctl[i].token]);
+                FPrint DlgOut, "(", ctl[i].text$, ", _"
+                FPrint DlgOut, Align$(2), "Form", NumToStr$(ctl[i].ownerN + 1), ", ", ctl[i].id$, ", ", ctl[i].x$, ", ", ctl[i].y$, ", ", ctl[i].width$, ", ", ctl[i].height$, ")"
             Case TYP_BLACKRECT, TYP_BUTTON, TYP_CHECK, TYP_COMBO,     _
               TYP_CONTROL, TYP_DATEPICK, TYP_EDIT, TYP_GRAYRECT,      _
               TYP_GROUP, TYP_ICON, TYP_LABEL, TYP_LIST, TYP_LISTVIEW, _
-              TYP_RADIO, TYP_RICHEDIT1, TYP_RICHEDIT2, TYP_STATUS,    _
-              TYP_TREE, TYP_WHITERECT
+              TYP_RADIO, TYP_RICHEDIT1, TYP_RICHEDIT2, TYP_TREE,      _
+              TYP_WHITERECT
+
                 FPrint DlgOut, "BCX_", UCase$(ctlName$[ctl[i].token]);
                 FPrint DlgOut, "(", ctl[i].text$, ", _"
-                FPrint DlgOut, Align$(2), "Form", Trim$(Str$(ctl[i].ownerN + 1)), ", ", ctl[i].id$, ", ", ctl[i].x$, ", ", ctl[i].y$, ", ", ctl[i].width$, ", ", ctl[i].height$, ")"
+                FPrint DlgOut, Align$(2), "Form", NumToStr$(ctl[i].ownerN + 1), ", ", ctl[i].id$, ", ", ctl[i].x$, ", ", ctl[i].y$, ", ", ctl[i].width$, ", ", ctl[i].height$;
+
+                '****************************************************
+                ' Modified: 1/1/2005, 3.2
+                ' BCX controls can now use Windows Styles if supplied
+                '****************************************************
+                If Len(ctl[i].style$) Then
+                    FPrint DlgOut, ", ", ctl[i].style$;
+                    If Len(ctl[i].exStyle$) Then
+                        FPrint DlgOut, ", ", ctl[i].exStyle$;
+                    End If
+                End If
+
+                FPrint DlgOut, ")"
             Case Else
                 FPrint DlgOut, "BCX_CONTROL(";
-                FPrint DlgOut, ctl[i].class$, ", Form", Trim$(Str$(ctl[i].ownerN + 1)), ", ";
+                FPrint DlgOut, ctl[i].class$, ", Form", NumToStr$(ctl[i].ownerN + 1), ", ";
                 FPrint DlgOut, ctl[i].text$, ", _"
                 FPrint DlgOut, Align$(2), ctl[i].id$, ", ", ctl[i].x$, ", ", ctl[i].y$, ", ", ctl[i].width$, ", ", ctl[i].height$;
                 If Len(ctl[i].style$) Then
@@ -626,13 +665,13 @@ Sub MakeDC()
             FPrint DlgOut, ", ", ctl[i].y$, " * BCX_ScaleY";
             FPrint DlgOut, ", ", ctl[i].width$, " * BCX_ScaleX";
             FPrint DlgOut, ", ", ctl[i].height$, " * BCX_ScaleY, _"
-            FPrint DlgOut, Align$(2), "Form", Trim$(Str$(ctl[i].ownerN + 1)), ", ", ctl[i].id$, ", hInstance, NULL)"
+            FPrint DlgOut, Align$(2), "Form", NumToStr$(ctl[i].ownerN + 1), ", ", ctl[i].id$, ", hInstance, NULL)"
         End If
 
         If opt.codelevel <> CL_SIMPLIFIED Then
             FPrint DlgOut, ""
             FPrint DlgOut, Align$(1), "SendMessage(";
-            FPrint DlgOut, ctl[i].owner$, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no));
+            FPrint DlgOut, ctl[i].owner$, ctlName$[ctl[i].token], NumToStr$(ctl[i].no);
             FPrint DlgOut, ", WM_SETFONT, _"
             FPrint DlgOut, Align$(2), "GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(False, 0))"
         End If
@@ -641,17 +680,17 @@ Sub MakeDC()
             FPrint DlgOut, ""
 
             FPrint DlgOut, Align$(1), "Global lp", ctl[i].owner$;
-            FPrint DlgOut, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), "_Proc As WNDPROC"
+            FPrint DlgOut, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), "_Proc As WNDPROC"
 
             FPrint DlgOut, Align$(pos), "lp", ctl[i].owner$;
-            FPrint DlgOut, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), "_Proc = ";
+            FPrint DlgOut, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), "_Proc = ";
 
             If opt.codelevel = CL_EXPANDED Then
-                FPrint DlgOut, "((WNDPROC)SetWindowLong(", ctl[i].owner$, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), ", GWL_WNDPROC, _"
-                FPrint DlgOut, Align$(pos + 1), "(LPARAM)(WNDPROC)", ctl[i].owner$, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), "_Proc))"
+                FPrint DlgOut, "((WNDPROC)SetWindowLong(", ctl[i].owner$, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), ", GWL_WNDPROC, _"
+                FPrint DlgOut, Align$(pos + 1), "(LPARAM)(WNDPROC)", ctl[i].owner$, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), "_Proc))"
             Else
-                FPrint DlgOut, "SubclassWindow(", ctl[i].owner$, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no));
-                FPrint DlgOut, ", ", ctl[i].owner$, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), "_Proc)"
+                FPrint DlgOut, "SubclassWindow(", ctl[i].owner$, ctlName$[ctl[i].token], NumToStr$(ctl[i].no);
+                FPrint DlgOut, ", ", ctl[i].owner$, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), "_Proc)"
             End If
         End If
 
@@ -669,8 +708,17 @@ Sub MakeDC()
     ' generate show/center form
     '--------------------------
     For i = 0 to numFrm - 1
-        FPrint DlgOut, Align$(1), "Call Center(Form", Trim$(Str$(i + 1)), ")"
-        FPrint DlgOut, Align$(1), "Call Show(Form", Trim$(Str$(i + 1)), ")"
+        FPrint DlgOut, Align$(1), "Call Center(Form", NumToStr$(i + 1), ")"
+
+        '****************************************************
+        ' Modified: 1/1/2005, 3.2
+        ' Uses ShowWindow when in Expanded mode
+        '****************************************************
+        If opt.codelevel = CL_EXPANDED Then
+            FPrint DlgOut, Align$(1), "Call ShowWindow(Form", NumToStr$(i + 1), ", SW_SHOW)"
+        Else
+            FPrint DlgOut, Align$(1), "Call Show(Form", NumToStr$(i + 1), ")"
+        End If
 
         If i <> numFrm - 1 Then FPrint DlgOut, ""
     Next
@@ -716,7 +764,7 @@ Sub MakeDC()
             FPrint DlgOut, "Callback ";
         End If
 
-        FPrint DlgOut, "Function Form", Trim$(Str$(i + 1)), "_Proc(";
+        FPrint DlgOut, "Function Form", NumToStr$(i + 1), "_Proc(";
 
         If opt.codelevel = CL_EXPANDED Then
             FPrint DlgOut, "hWnd As HWND, Msg As UINT, wParam As WPARAM, lParam As LPARAM) As LRESULT CALLBACK"
@@ -771,7 +819,7 @@ Sub MakeDC()
                 FPrint DlgOut, "Callback ";
             End If
 
-            FPrint DlgOut, "Function ", ctl[i].owner$, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), "_Proc(";
+            FPrint DlgOut, "Function ", ctl[i].owner$, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), "_Proc(";
 
             If opt.codelevel = CL_EXPANDED Then
                 FPrint DlgOut, "hWnd As HWND, Msg As UINT, wParam As WPARAM, lParam As LPARAM) As LRESULT CALLBACK"
@@ -783,11 +831,11 @@ Sub MakeDC()
             Call EmitSep()
             FPrint DlgOut, Align$(1), "Case WM_LBUTTONDBLCLK"
             Call EmitSep()
-            FPrint DlgOut, Align$(2), "MsgBox ", Chr34$, ctlName$[ctl[i].token], " ", Trim$(Str$(ctl[i].no)), " Double Clicked", Chr34$
+            FPrint DlgOut, Align$(2), "MsgBox ", Chr34$, ctlName$[ctl[i].token], " ", NumToStr$(ctl[i].no), " Double Clicked", Chr34$
             FPrint DlgOut, Align$(2), "Exit Function"
             FPrint DlgOut, Align$(1), "End Select"
             FPrint DlgOut, ""
-            FPrint DlgOut, Align$(1), "Function = CallWindowProc(lp", ctl[i].owner$, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), "_Proc, hWnd, Msg, wParam, lParam)"
+            FPrint DlgOut, Align$(1), "Function = CallWindowProc(lp", ctl[i].owner$, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), "_Proc, hWnd, Msg, wParam, lParam)"
             FPrint DlgOut, "End Function"
         Next
     End If
@@ -812,7 +860,7 @@ Sub MakeDS()
     '-------------------------------------
     Call EmitComm("Form/Control Identifiers")
     For i = 0 to numFrm - 1
-        tmp$ = "IDD_FORM" & Trim$(Str$(i + 1))
+        tmp$ = "IDD_FORM" & NumToStr$(i + 1)
 
         If LCase$(tmp$) <> LCase$(frm[i].id$) Then
             FPrint DlgOut, "Const ", tmp$, " = ", frm[i].id$
@@ -824,7 +872,7 @@ Sub MakeDS()
         ' generate control identifiers
         '-----------------------------
         tmp$ = "IDC_"
-        tmp$ = tmp & UCase$(ctl[i].owner$) & UCase$(ctlName$[ctl[i].token]) & Trim$(Str$(ctl[i].no))
+        tmp$ = tmp & UCase$(ctl[i].owner$) & UCase$(ctlName$[ctl[i].token]) & NumToStr$(ctl[i].no)
 
         '---------------------------------
         ' check if generated id and actual
@@ -852,12 +900,12 @@ Sub MakeDS()
     Call EmitComm("Form/control handles")
 
     For i = 0 to numFrm - 1
-        FPrint DlgOut, "Global Form", Trim$(Str$(i + 1)), " As HWND"
+        FPrint DlgOut, "Global Form", NumToStr$(i + 1), " As HWND"
     Next
 
     For i = 0 to numCtl - 1
         FPrint DlgOut, "Global ", ctl[i].owner$;
-        FPrint DlgOut, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), " As HWND"
+        FPrint DlgOut, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), " As HWND"
     Next
 
     FPrint DlgOut, ""
@@ -870,7 +918,7 @@ Sub MakeDS()
 
         For i = 0 to numCtl - 1
             FPrint DlgOut, "Global lp", ctl[i].owner$;
-            FPrint DlgOut, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), "_Proc As WNDPROC"
+            FPrint DlgOut, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), "_Proc As WNDPROC"
         Next
 
         FPrint DlgOut, ""
@@ -894,9 +942,9 @@ Sub MakeDS()
 
     For i = 0 to numFrm - 1
         If opt.codelevel = CL_EXPANDED Then
-            FPrint DlgOut, Align$(1), "Call DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FORM", Trim$(Str$(i + 1)), "), NULL, (DLGPROC)Form", Trim$(Str$(i + 1)), "_Proc, 0L)"
+            FPrint DlgOut, Align$(1), "Call DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FORM", NumToStr$(i + 1), "), NULL, (DLGPROC)Form", NumToStr$(i + 1), "_Proc, 0L)"
         Else
-            FPrint DlgOut, Align$(1), "Call DialogBox(hInst, MAKEINTRESOURCE(IDD_FORM", Trim$(Str$(i + 1)), "), NULL, (DLGPROC)Form", Trim$(Str$(i + 1)), "_Proc)"
+            FPrint DlgOut, Align$(1), "Call DialogBox(hInst, MAKEINTRESOURCE(IDD_FORM", NumToStr$(i + 1), "), NULL, (DLGPROC)Form", NumToStr$(i + 1), "_Proc)"
         End If
     Next
     FPrint DlgOut, ""
@@ -921,7 +969,7 @@ Sub MakeDS()
             FPrint DlgOut, "Callback ";
         End If
 
-        FPrint DlgOut, "Function Form", Trim$(Str$(i + 1)), "_Proc(";
+        FPrint DlgOut, "Function Form", NumToStr$(i + 1), "_Proc(";
 
         If opt.codelevel = CL_EXPANDED Then
             FPrint DlgOut, "hWnd As HWND, Msg As UINT, wParam As WPARAM, lParam As LPARAM) As LRESULT CALLBACK"
@@ -934,11 +982,11 @@ Sub MakeDS()
         FPrint DlgOut, Align$(1), "Case WM_INITDIALOG"
         Call EmitSep()
         Call EmitComm("Retrieves the dialog/control handles", 2)
-        FPrint DlgOut, Align$(2), "Form", Trim$(Str$(i + 1)), " = hWnd"
+        FPrint DlgOut, Align$(2), "Form", NumToStr$(i + 1), " = hWnd"
 
         For j = 0 to numCtl - 1
             If ctl[j].ownerN = i Then
-                FPrint DlgOut, Align$(2), ctl[j].owner$, ctlName$[ctl[j].token], Trim$(Str$(ctl[j].no)), " = GetDlgItem(hWnd, ", ctl[j].id$, ")"
+                FPrint DlgOut, Align$(2), ctl[j].owner$, ctlName$[ctl[j].token], NumToStr$(ctl[j].no), " = GetDlgItem(hWnd, ", ctl[j].id$, ")"
             End If
         Next
         FPrint DlgOut, ""
@@ -948,14 +996,14 @@ Sub MakeDS()
             For j = 0 to numCtl - 1
                 If ctl[j].ownerN = i Then
                     FPrint DlgOut, Align$(2), "lp", ctl[j].owner$;
-                    FPrint DlgOut, ctlName$[ctl[j].token], Trim$(Str$(ctl[j].no)), "_Proc = ";
+                    FPrint DlgOut, ctlName$[ctl[j].token], NumToStr$(ctl[j].no), "_Proc = ";
 
                     If opt.codelevel = CL_EXPANDED Then
-                        FPrint DlgOut, "((WNDPROC)SetWindowLong(", ctl[j].owner$, ctlName$[ctl[j].token], Trim$(Str$(ctl[j].no)), ", GWL_WNDPROC, _"
-                        FPrint DlgOut, Align$(3), "(LPARAM)(WNDPROC)", ctl[j].owner$, ctlName$[ctl[j].token], Trim$(Str$(ctl[j].no)), "_Proc))"
+                        FPrint DlgOut, "((WNDPROC)SetWindowLong(", ctl[j].owner$, ctlName$[ctl[j].token], NumToStr$(ctl[j].no), ", GWL_WNDPROC, _"
+                        FPrint DlgOut, Align$(3), "(LPARAM)(WNDPROC)", ctl[j].owner$, ctlName$[ctl[j].token], NumToStr$(ctl[j].no), "_Proc))"
                     Else
-                        FPrint DlgOut, "SubclassWindow(", ctl[j].owner$, ctlName$[ctl[j].token], Trim$(Str$(ctl[j].no));
-                        FPrint DlgOut, ", ", ctl[j].owner$, ctlName$[ctl[j].token], Trim$(Str$(ctl[j].no)), "_Proc)"
+                        FPrint DlgOut, "SubclassWindow(", ctl[j].owner$, ctlName$[ctl[j].token], NumToStr$(ctl[j].no);
+                        FPrint DlgOut, ", ", ctl[j].owner$, ctlName$[ctl[j].token], NumToStr$(ctl[j].no), "_Proc)"
                     End If
                 End If
             Next
@@ -998,7 +1046,7 @@ Sub MakeDS()
                 FPrint DlgOut, "Callback ";
             End If
 
-            FPrint DlgOut, "Function ", ctl[i].owner$, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), "_Proc(";
+            FPrint DlgOut, "Function ", ctl[i].owner$, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), "_Proc(";
 
             If opt.codelevel = CL_EXPANDED Then
                 FPrint DlgOut, "hWnd As HWND, Msg As UINT, wParam As WPARAM, lParam As LPARAM) As LRESULT CALLBACK"
@@ -1010,14 +1058,14 @@ Sub MakeDS()
             Call EmitSep()
             FPrint DlgOut, Align$(1), "Case WM_LBUTTONDBLCLK"
             Call EmitSep()
-            FPrint DlgOut, Align$(2), "MsgBox ", Chr34$, ctlName$[ctl[i].token], " ", Trim$(Str$(ctl[i].no)), " Double Clicked", Chr34$
+            FPrint DlgOut, Align$(2), "MsgBox ", Chr34$, ctlName$[ctl[i].token], " ", NumToStr$(ctl[i].no), " Double Clicked", Chr34$
             FPrint DlgOut, Align$(2), "Exit Function"
             FPrint DlgOut, ""
             Call EmitSep()
             FPrint DlgOut, Align$(1), "Case Else"
             Call EmitSep()
             Call EmitComm("No messages have been processed", 2)
-            FPrint DlgOut, Align$(2), "Function = CallWindowProc(lp", ctl[i].owner$, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no)), "_Proc, hWnd, Msg, wParam, lParam)"
+            FPrint DlgOut, Align$(2), "Function = CallWindowProc(lp", ctl[i].owner$, ctlName$[ctl[i].token], NumToStr$(ctl[i].no), "_Proc, hWnd, Msg, wParam, lParam)"
             FPrint DlgOut, Align$(1), "End Select"
             FPrint DlgOut, ""
             Call EmitComm("Default message has been processed", 1)
@@ -1273,6 +1321,12 @@ Sub AnalyzeTokens(token$[], tokNum%)
             style$ = AddStyle$("WS_VISIBLE", style$)
             style$ = AddStyle$("WS_CHILD", style$)
 
+            $IF DEBUG_MODE
+                Print "     Token : ", token$
+                Print "     Styles: ", style$
+                Print "     Class : ", class$
+            $ENDIF
+
             Call SetCtrlInfo(token$, tokNum, typ, class$, style$, 1, 5, 7, 9, 11, 3, 7)
             Exit For
         End If
@@ -1306,6 +1360,12 @@ Sub AnalyzeTokens(token$[], tokNum%)
             If typ = TYP_LIST Then  style$ = AddStyle$("WS_BORDER", style$)
             If typ = TYP_COMBO Then style$ = AddStyle$("WS_TABSTOP", style$) 
 
+            $IF DEBUG_MODE
+                Print "     Token : ", token$
+                Print "     Styles: ", style$
+                Print "     Class : ", class$
+            $ENDIF
+
             Call SetCtrlInfo(token$, tokNum, typ, class$, style$, 0, 3, 5, 7, 9, 1, 6)
             Exit For
         End If
@@ -1320,6 +1380,13 @@ Sub AnalyzeTokens(token$[], tokNum%)
         style$ = GrabTokens$(token$, tokNum, 6)
         style$ = AddStyle$("WS_VISIBLE", style$)
         style$ = AddStyle$("WS_CHILD", style$)
+
+        $IF DEBUG_MODE
+            Print "     Token : ", token$
+            Print "     Styles: ", style$
+            Print "     Class : ", class$
+        $ENDIF
+
         Call SetCtrlInfo(token$, tokNum, typ, class$, style$, 0, 5, 7, 9, 11, 3, 7)
     End If
 
@@ -1367,6 +1434,12 @@ Sub AnalyzeTokens(token$[], tokNum%)
             useCommCtrl = True
         End If
 
+        $IF DEBUG_MODE
+            Print "     Token : ", token$
+            Print "     Styles: ", style$
+            Print "     Class : ", class$
+        $ENDIF
+
         Call SetCtrlInfo(token$, tokNum, typ, class$, style$, 1, 0, 0, 0, 0, 3, 8)
 
         '---------------------------------------
@@ -1386,7 +1459,7 @@ Sub AnalyzeTokens(token$[], tokNum%)
         typ = TYP_BLOCKSTART
 
         If inDlg = DLG_OPEN Then
-            If opt.status = True Then ? " --> Found Form", Trim$(Str$(numFrm + 1))
+            If opt.status = True Then ? " --> Found Form", NumToStr$(numFrm + 1)
 
             inDlg = DLG_BEGIN
         End If
@@ -1463,14 +1536,14 @@ Sub SetCtrlInfo(token$[], tokNum%, typ%, class$, style$, text%, x%, y%, width%, 
         If numFrm = 0 Then
             ctl[numCtl].owner$ = ""
         Else
-            ctl[numCtl].owner$   = "Form" & Trim$(Str$(numFrm + 1)) & "_"
+            ctl[numCtl].owner$   = "Form" & NumToStr$(numFrm + 1) & "_"
         End If
 
         iTmp = LocComma(token$, tokNum, exStyle)
         If iTmp <> -1 Then
             ctl[numCtl].exStyle$ = GrabTokens$(token$, tokNum, iTmp + 1)
         End If
-        If opt.status = True Then ? " --> Found Form", Trim$(Str$(numFrm + 1)), ".", ctlName$[typ], Trim$(Str$(ctl[numCtl].no))
+        If opt.status = True Then ? " --> Found Form", NumToStr$(numFrm + 1), ".", ctlName$[typ], NumToStr$(ctl[numCtl].no)
 
         Incr numCtl
 
@@ -1732,4 +1805,19 @@ Function LocComma%(Buf$[], tokNum%, iNum%)
     Next
 
     Function = -1
+End Function
+
+
+' -------------------------------------------------------------------------
+' A wrapper for converting a number to a string
+'
+' Returns a string that contains a number
+' -------------------------------------------------------------------------
+Function NumToStr$(iNum%)
+        '****************************************************
+        ' Modified: 1/1/2005, 3.2
+        ' Removed the WS_VISIBLE to prevent a window from
+        ' displaying itself twice in DC mode
+        '****************************************************
+	Function = Trim$(Str$(iNum))
 End Function

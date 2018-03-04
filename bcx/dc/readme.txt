@@ -1,12 +1,12 @@
 ; -------------------------------------------------------------------------
 
     title   : Dialog Converter
-    version : 3.01
+    version : 3.2
 
     abstract: Converts Microsoft Dialog Editor scripts into complete
               BCX source code, removing the need for the resource file
-              completely, or a BCX template, where your application
-              depends on a resource file (*.RES).
+              completely. Or it can create BCX template, where your
+              application depends on a resource file (*.RES).
 
               The code will be generated for BCX 3.0. Supports several
               of the standard controls such as edit, static, combobox,
@@ -15,11 +15,16 @@
 
     compile : build.bat
     usage   : run dc.exe
-    tools   : BCX Translator 3.32
-              LCC-Win32 Development System 1.3
+    tools   : BCX Translator 5.05.11a
+              LCC-Win32 Development System 3.8 - Nov 17 2004 12:00:09
               UPX 1.22
 
-    history : Updated Dec. 31, 2002 / 3.01
+    history : Updated Jan. 01, 2005 / 3.2
+                  - Fixed ElseIf when adding entry point in DC mode
+                  - Removed WS_VISIBLE flag on a form in DC mode
+                  - Allowed BCX controls to use Windows styles when
+                    using simplified GUI commands
+              Updated Dec. 31, 2002 / 3.01
                   - Fixed title bug when using the /l3 option
                   - Fixed duplicate handles on multiple dialogs
                   - Fixed displaying status on conversion
@@ -41,37 +46,25 @@
               Updated Feb. 23, 2001 / 1.3
               Created Jan. 13, 2001 / 1.0
 
-       notes: To my knowledge, there are no known bugs in this version.
-
-              However, there are a few issues, but this is not due to
-              Dialog Converter (DC from hereon).
-
-              1) When using DC mode (-g1), a GUI window will appear and the
-                 move itself to the center to the screen. This is caused by
-                 having the WS_VISIBLE flag in your dialog.
-
-                 You will have to either modify the dialog script and
-                 remove the WS_VISIBLE flag manually OR modify the
-                 generated source code.
-
-              2) When using DS mode (-g2), a dialog may not appear. This is
+    known
+    issues  : 1) When using DS mode (-g2), a dialog may not appear. This is
                  caused by having the CLASS property for a specific dialog.
 
                  You will have to modify the dialog script and remove the
                  CLASS property manually.
 
-              3) Comments are not skipped over in a dialog script.
+              2) Comments are not skipped over in a dialog script.
                  Therefore, if you had something like:
                          /*
                              CLASS "my dialog class"
                          */
                  Class will be processed by DC.
 
-              4) Identifiers declared as non-integers will remain undefined
+              3) Identifiers declared as non-integers will remain undefined
                  if you do not include the header (*.h) with the
                  identifiers.
 
-      mailto: dl @ tks.cjb.net
-         url: http://tks.cjb.net
+      mailto: dliboon@hotmail.com
+         url: http://dliboon.freeshell.org
 
 ; -------------------------------------------------------------------------
