@@ -1,18 +1,17 @@
 ' -------------------------------------------------------------------------
 '
-' Dialog Converter 3.0
+' Dialog Converter 3.01
 '
 ' Converts Microsoft Dialog Editor scripts into complete BCX source code,
 ' removing the need for the resource file completely, or a BCX template,
 ' where your application depends on a resource file (*.RES).
 '
-' Copyright (C) D. Liboon 2001-2002. All rights reserved.
+' Copyright (C) D. Liboon 2001-2003. All rights reserved.
 '
 ' mailto: dl @ tks.cjb.net
 '    url: http://tks.cjb.net
 '
 ' -------------------------------------------------------------------------
-
 
 $NOMAIN ' disable default main(), and use our custom main()
 
@@ -192,8 +191,8 @@ Function main%(argc%, argv As PCHAR PTR)
 
     Chr34$ = Chr$(34)
 
-    ? "Dialog Converter 3.0"
-    ? "Copyright (C) D. Liboon 2001-2002. All rights reserved."
+    ? "Dialog Converter 3.01"
+    ? "Copyright (C) D. Liboon 2001-2003. All rights reserved."
 
     '---------------------------------------------
     ' check if there are any commandline arguments
@@ -234,29 +233,17 @@ Function main%(argc%, argv As PCHAR PTR)
                 End Select
             End If
         Next
-
-        '-----------------------------------------------
-        ' allocate and clear memory for dialogs/controls
-        '-----------------------------------------------
-        numFrm = 0
-        numCtl = 0
-        dynFrm = 5
-        dynCtl = 30
-
-        frm = (LPELEMENT)malloc(sizeof(Element) * dynFrm)
-        ctl = (LPELEMENT)malloc(sizeof(Element) * dynCtl)
-
-        ZeroMemory(frm, sizeof(Element) * dynFrm)
-        ZeroMemory(ctl, sizeof(Element) * dynCtl)
     Else
-        ? CRLF$, "usage: dc filename... [ option... ]"
-        ? "   ie: dc dialog.dlg -l3 -s -a4 -c -m"
-        ? " help: dc -?"
-
         '-----------------------------
         ' check if any arguments exist
         '-----------------------------
-        If argc = 1 Then Function = 1
+        If argc = 1 Then
+            ? CRLF$, "usage: dc filename... [ option... ]"
+            ? "   ie: dc dialog.dlg -l3 -s -a4 -c -m"
+            ? " help: dc -?"
+
+            Function = 1
+        End If
     End If
 
     '---------------------------
@@ -292,6 +279,20 @@ Function main%(argc%, argv As PCHAR PTR)
     ' open script for reading if it exists
     '-------------------------------------
     If Lof(inFile$) > 0 Then
+        '-----------------------------------------------
+        ' allocate and clear memory for dialogs/controls
+        '-----------------------------------------------
+        numFrm = 0
+        numCtl = 0
+        dynFrm = 5
+        dynCtl = 30
+
+        frm = (LPELEMENT)malloc(sizeof(Element) * dynFrm)
+        ctl = (LPELEMENT)malloc(sizeof(Element) * dynCtl)
+
+        ZeroMemory(frm, sizeof(Element) * dynFrm)
+        ZeroMemory(ctl, sizeof(Element) * dynCtl)
+
         ? ""
         Call AnalyzeDlg(inFile$)
         ? " --> Converted the file ", inFile$, " to ", outFile$
@@ -326,7 +327,7 @@ Sub GenerateCode(file$)
     If opt.comments = True Then
         Call EmitSep()
         FPrint DlgOut, "'"
-        FPrint DlgOut, "' BCX Source Code Generated With Dialog Converter 3.0"
+        FPrint DlgOut, "' BCX Source Code Generated With Dialog Converter 3.01"
         FPrint DlgOut, "' For Use With BCX Translator Version 3.0"
         FPrint DlgOut, "'"
         Call EmitSep()
@@ -362,9 +363,9 @@ Sub MakeDC()
     Dim tmp$   ' temporary buffer
     Dim typNm$ ' window type
 
-    '-------------------------------------
+    '-----------------------------------
     ' don't waste time if nothing exists
-    '-------------------------------------
+    '-----------------------------------
     If numFrm = 0 Then Exit Sub
 
     '-------------------------------------
@@ -485,7 +486,7 @@ Sub MakeDC()
 
         If opt.codelevel = CL_SIMPLIFIED Then
             FPrint DlgOut, "BCX_FORM(";
-            If Len(Trim$(ctl[i].text$)) > 0 Then
+            If Len(Trim$(frm[i].text$)) > 0 Then
                 FPrint DlgOut, frm[i].text$;
 
                 FPrint DlgOut, ", ", frm[i].x$;
@@ -628,11 +629,13 @@ Sub MakeDC()
             FPrint DlgOut, Align$(2), "Form", Trim$(Str$(ctl[i].ownerN + 1)), ", ", ctl[i].id$, ", hInstance, NULL)"
         End If
 
-        FPrint DlgOut, ""
-        FPrint DlgOut, Align$(1), "SendMessage(";
-        FPrint DlgOut, ctl[i].owner$, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no));
-        FPrint DlgOut, ", WM_SETFONT, _"
-        FPrint DlgOut, Align$(2), "GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(False, 0))"
+        If opt.codelevel <> CL_SIMPLIFIED Then
+            FPrint DlgOut, ""
+            FPrint DlgOut, Align$(1), "SendMessage(";
+            FPrint DlgOut, ctl[i].owner$, ctlName$[ctl[i].token], Trim$(Str$(ctl[i].no));
+            FPrint DlgOut, ", WM_SETFONT, _"
+            FPrint DlgOut, Align$(2), "GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(False, 0))"
+        End If
 
         If opt.subclass = True Then
             FPrint DlgOut, ""
@@ -799,9 +802,9 @@ Sub MakeDS()
     Dim Raw j% ' temporary variable
     Dim tmp$   ' temporary buffer
 
-    '-------------------------------------
+    '-----------------------------------
     ' don't waste time if nothing exists
-    '-------------------------------------
+    '-----------------------------------
     If numFrm = 0 Then Exit Sub
 
     '-------------------------------------
@@ -934,7 +937,9 @@ Sub MakeDS()
         FPrint DlgOut, Align$(2), "Form", Trim$(Str$(i + 1)), " = hWnd"
 
         For j = 0 to numCtl - 1
-            FPrint DlgOut, Align$(2), ctl[j].owner$, ctlName$[ctl[j].token], Trim$(Str$(ctl[j].no)), " = GetDlgItem(hWnd, ", ctl[j].id$, ")"
+            If ctl[j].ownerN = i Then
+                FPrint DlgOut, Align$(2), ctl[j].owner$, ctlName$[ctl[j].token], Trim$(Str$(ctl[j].no)), " = GetDlgItem(hWnd, ", ctl[j].id$, ")"
+            End If
         Next
         FPrint DlgOut, ""
 
@@ -1381,7 +1386,7 @@ Sub AnalyzeTokens(token$[], tokNum%)
         typ = TYP_BLOCKSTART
 
         If inDlg = DLG_OPEN Then
-            If opt.status = True Then " --> Found Form", Trim$(Str$(numFrm + 1))
+            If opt.status = True Then ? " --> Found Form", Trim$(Str$(numFrm + 1))
 
             inDlg = DLG_BEGIN
         End If
@@ -1465,7 +1470,7 @@ Sub SetCtrlInfo(token$[], tokNum%, typ%, class$, style$, text%, x%, y%, width%, 
         If iTmp <> -1 Then
             ctl[numCtl].exStyle$ = GrabTokens$(token$, tokNum, iTmp + 1)
         End If
-        If opt.status = True Then " --> Found Form", Trim$(Str$(numFrm + 1)), ".", ctlName$[typ], Trim$(Str$(ctl[numCtl].no))
+        If opt.status = True Then ? " --> Found Form", Trim$(Str$(numFrm + 1)), ".", ctlName$[typ], Trim$(Str$(ctl[numCtl].no))
 
         Incr numCtl
 

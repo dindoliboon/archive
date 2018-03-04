@@ -1,7 +1,7 @@
 ; -------------------------------------------------------------------------
 
     title   : Dialog Converter
-    version : 3.0
+    version : 3.01
 
     abstract: Converts Microsoft Dialog Editor scripts into complete
               BCX source code, removing the need for the resource file
@@ -15,11 +15,17 @@
 
     compile : build.bat
     usage   : run dc.exe
-    tools   : BCX Translator 3.0
+    tools   : BCX Translator 3.32
               LCC-Win32 Development System 1.3
               UPX 1.22
 
-    history : Updated Sep. 03, 2002 / 3.0 Final
+    history : Updated Dec. 31, 2002 / 3.01
+                  - Fixed title bug when using the /l3 option
+                  - Fixed duplicate handles on multiple dialogs
+                  - Fixed displaying status on conversion
+                  - Fixed unnecessary usage display
+                  - Fixed form/control memory allocation
+              Updated Sep. 03, 2002 / 3.0 Final
                   - Fixed mapping pointers for std. classes
                   - Compressed with UPX
                     upx --best --crp-ms=999999 dc.exe
@@ -38,7 +44,7 @@
        notes: To my knowledge, there are no known bugs in this version.
 
               However, there are a few issues, but this is not due to
-              Dialog Converter (DC) from hereon.
+              Dialog Converter (DC from hereon).
 
               1) When using DC mode (-g1), a GUI window will appear and the
                  move itself to the center to the screen. This is caused by
