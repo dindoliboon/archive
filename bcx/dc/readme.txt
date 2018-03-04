@@ -1,8 +1,8 @@
 ; #########################################################################
 ;
 ;   title   : Dialog Converter
-;   version : 1.0.4121
-;   date    : January 17, 2001
+;   version : 1.3
+;   date    : February 23, 2001
 ;   abstract: Generates code based on Microsoft Dialog Editor text
 ;             resources. The code will be generated for BCX 2.0 or
 ;             higher. Supports several of the standard controls
@@ -41,6 +41,10 @@
 ;                 made GenerateProc print pound seperator (easier reading)
 ;                 removed obsolete code
 ;                 cleaned up example dialog
+;             feb. 23, ver 1.3
+;                 added WS_SHOWNORMAL
+;                 modified parsing
+;                 modified multiple dialog code
 ;   target  : Windows 95/NT or Higher
 ;   tools   : BCX Translator 2.26
 ;             LCC-Win32 Development System 1.3
