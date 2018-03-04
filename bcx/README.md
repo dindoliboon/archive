@@ -14,14 +14,14 @@ View at your **own risk**! :smiley:
 ## Files
 
 ### Tutorials
-Thumbnail | Title | Description | Download with DownGit
+Thumbnail | Title | Description | Download
 :----:|:----:|------|:----:
 ![Thumbnail](https://dindoliboon.github.io/repo/archive/bcx/screenshot/gs.png) | [BCX Getting Started Guide](https://github.com/dindoliboon/archive/tree/master/bcx/gs) | PDF containing 3 examples loaded with comments to help someone get started with BCX. | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/gs)
 ![Thumbnail](https://dindoliboon.github.io/repo/archive/bcx/screenshot/gs2.png) | [BCX Getting Started Guide 2](https://github.com/dindoliboon/archive/tree/master/bcx/gs2) | An HTML Help file containing several console, GUI, and DLL examples for BCX. Also includes information on setting up BCX, compiling your applications, and tutorials on several BCX tools. | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/gs2)
 
 
 ### Tools
-Thumbnail | Title | Description | Download with DownGit
+Thumbnail | Title | Description | Download
 :----:|:----:|------|:----:
 | | [BCX Archive](https://github.com/dindoliboon/archive/tree/master/bcx/bca) | Contains compiled BCX translator versions 2.02 to 2.75. | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/bca)
 | | [Dialog Converter](https://github.com/dindoliboon/archive/tree/master/bcx/dc) | Converts Microsoft Dialog Editor scripts into complete BCX source code, removing the need for the resource file completely. Or it can create a BCX template, where your application embeds a resource file (*.RES). | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/dc)
@@ -29,7 +29,7 @@ Thumbnail | Title | Description | Download with DownGit
 ![Thumbnail](https://dindoliboon.github.io/repo/archive/bcx/screenshot/litesfv.png) | [LiteSFV](https://github.com/dindoliboon/archive/tree/master/bcx/litesfv) | Verifies and creates SFV files using the CRC-32 algorithm. CRC-32 library created by [Adam Stanislav](http://www.whizkidtech.redprince.net). | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/litesfv)
 
 ### GUI
-Thumbnail | Title | Description | Download with DownGit
+Thumbnail | Title | Description | Download
 :----:|:----:|------|:----:
 ![Thumbnail](https://dindoliboon.github.io/repo/archive/bcx/screenshot/bide.png) | [bide](https://github.com/dindoliboon/archive/tree/master/bcx/bide) | A sample form designer containing several of the standard Windows controls wrapped in an MDI interface. | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/bide)
 ![Thumbnail](https://dindoliboon.github.io/repo/archive/bcx/screenshot/buildno.png) | [buildno](https://github.com/dindoliboon/archive/tree/master/bcx/buildno) | Generates a non-unique number based on the title of your program, version, and the current time & date. | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/buildno)
@@ -55,7 +55,7 @@ Thumbnail | Title | Description | Download with DownGit
 ![Thumbnail](https://dindoliboon.github.io/repo/archive/bcx/screenshot/wiz97.png) | [wiz97](https://github.com/dindoliboon/archive/tree/master/bcx/wiz97) | Port of Microsoft's Wizard 97 specification. Uses common controls, checkboxes, radio controls, and has support for custom bitmap logos. | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/wiz97)
 
 ### Console
-Thumbnail | Title | Description | Download with DownGit
+Thumbnail | Title | Description | Download
 :----:|:----:|------|:----:
 | | [count](https://github.com/dindoliboon/archive/tree/master/bcx/count) | Counts the number of files in a certain directory. | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/count)
 | | [cprog](https://github.com/dindoliboon/archive/tree/master/bcx/cprog) | Creates a percentage bar using text characters in console mode. Also displays the current percentage in numbers. | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/cprog)
@@ -78,7 +78,7 @@ Thumbnail | Title | Description | Download with DownGit
 | | [strip](https://github.com/dindoliboon/archive/tree/master/bcx/strip) | Leading/trailing space sample code for the BCX Getting Started Guide. | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/strip)
 
 ### Libraries
-Thumbnail | Title | Description | Download with DownGit
+Thumbnail | Title | Description | Download
 :----:|:----:|------|:----:
 | | [aplib](https://github.com/dindoliboon/archive/tree/master/bcx/aplib) | Compresses a message and saves it to a file. When the program is ran again, it will decompress the message and display it. aPLib is the work of [Joergen Ibsen](http://ibsensoftware.com). | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/aplib)
 | | [crc32](https://github.com/dindoliboon/archive/tree/master/bcx/crc32) | Calculate the CRC-32 checksum for any file. CRC-32 library created by [Adam Stanislav](http://www.whizkidtech.redprince.net). | [![DownloadWithDownGit]](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/dindoliboon/archive/tree/master/bcx/crc32)
