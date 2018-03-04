@@ -2,7 +2,7 @@
 
 Collection of code samples that I downloaded or created over the years, starting from the late 1990s.
 
-Most of the apps target **Windows 95/98/2000** and probably no longer run or compile.
+Most of *my* apps target **Windows 95/98/2000** and probably no longer run or compile.
 
 View at your **own risk**! :smiley:
 

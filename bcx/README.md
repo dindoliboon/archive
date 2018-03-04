@@ -2,7 +2,7 @@
 
 BCX is one of my favorite programming tools that gives the programmer the ability to mix C along with BCX BASIC source code. The BCX BASIC language consists of keywords found in QuickBasic, Visual Basic, and PowerBasic. It is a great way for those that know BASIC and want to get started in C.
 
-Most of the apps target **Windows 95/98/2000** and probably no longer run or compile.
+Most of *my* apps target **Windows 95/98/2000** and probably no longer run or compile.
 
 View at your **own risk**! :smiley:
 
