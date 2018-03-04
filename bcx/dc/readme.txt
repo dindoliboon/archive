@@ -1,56 +1,71 @@
-; #########################################################################
-;
-;   title   : Dialog Converter
-;   version : 1.3
-;   date    : February 23, 2001
-;   abstract: Generates code based on Microsoft Dialog Editor text
-;             resources. The code will be generated for BCX 2.0 or
-;             higher. Supports several of the standard controls
-;             such as edit, static, combobox, listbox, and more. It
-;             even handles the richedit 1.0-3.0, win95 controls,
-;             and multiple dialogs!
-;   notes   : jan. 13, build 2024
-;                 wrote preliminary version
-;                 detects statics, edit, groups, and multiple forms
-;             jan. 14, build 2025
-;                 prints progress
-;                 detects hscroll, vscroll, icon, combobox, listbox,
-;                     buttons, radio, and checkbox
-;                 made status messages an option
-;                 command argument parsed
-;                 added menu generation argument
-;                 separate functions for various code generation
-;                 added help argument
-;                 attempt to handle multi-case dialog content
-;                 generates code for multiple forms
-;             jan. 15, build 2026
-;                 parse function handles quotes to a certain degree
-;                 added support for frames, other statics, rects
-;                 smarter parser, that counts the quotes
-;                 added options for subclass generation
-;                 added support for richedit 1.0/2.0
-;                 added support for win9x common controls
-;             jan. 16, build 2027
-;                 fixed reported winproc error under w98 (thanks kevin)
-;                 added some comments to source for easier understanding
-;                 switched to createwindowex to give controls 3d border
-;             jan. 16, build 4120
-;                 changed way build number is made
-;                 reformats dialog (fixes modified dlg problem)
-;             jan. 17, build 4121
-;                 made GenerateProc print pound seperator (easier reading)
-;                 removed obsolete code
-;                 cleaned up example dialog
-;             feb. 23, ver 1.3
-;                 added WS_SHOWNORMAL
-;                 modified parsing
-;                 modified multiple dialog code
-;   target  : Windows 95/NT or Higher
-;   tools   : BCX Translator 2.26
-;             LCC-Win32 Development System 1.3
-;   compile : build.bat
-;   usage   : run dc.exe
-;
-;   - dl (dl@tks.cjb.net)
-;
-; #########################################################################
+; -------------------------------------------------------------------------
+
+    title   : Dialog Converter
+    version : 3.0
+
+    abstract: Converts Microsoft Dialog Editor scripts into complete
+              BCX source code, removing the need for the resource file
+              completely, or a BCX template, where your application
+              depends on a resource file (*.RES).
+
+              The code will be generated for BCX 3.0. Supports several
+              of the standard controls such as edit, static, combobox,
+              listbox, and more. It even handles the richedit, common
+              controls, and multiple dialogs!
+
+    compile : build.bat
+    usage   : run dc.exe
+    tools   : BCX Translator 3.0
+              LCC-Win32 Development System 1.3
+              UPX 1.22
+
+    history : Updated Sep. 03, 2002 / 3.0 Final
+                  - Fixed mapping pointers for std. classes
+                  - Compressed with UPX
+                    upx --best --crp-ms=999999 dc.exe
+                  - Expanded SubclassWindow and Dialog macros
+                    when using the -l1 argument
+                  - Added menu creation for dialog starter mode
+                  - Disabled adding RichEdit code for DC gui code
+              Updated Sep. 02, 2002 / 3.0 Beta
+                  - Rewritten using new GUI keywords
+                  - Merged /w Dialog Starter
+                  - Dynamically adds form and control elements
+                  - Several code options (gui/compact/expanded)
+              Updated Feb. 23, 2001 / 1.3
+              Created Jan. 13, 2001 / 1.0
+
+       notes: To my knowledge, there are no known bugs in this version.
+
+              However, there are a few issues, but this is not due to
+              Dialog Converter (DC) from hereon.
+
+              1) When using DC mode (-g1), a GUI window will appear and the
+                 move itself to the center to the screen. This is caused by
+                 having the WS_VISIBLE flag in your dialog.
+
+                 You will have to either modify the dialog script and
+                 remove the WS_VISIBLE flag manually OR modify the
+                 generated source code.
+
+              2) When using DS mode (-g2), a dialog may not appear. This is
+                 caused by having the CLASS property for a specific dialog.
+
+                 You will have to modify the dialog script and remove the
+                 CLASS property manually.
+
+              3) Comments are not skipped over in a dialog script.
+                 Therefore, if you had something like:
+                         /*
+                             CLASS "my dialog class"
+                         */
+                 Class will be processed by DC.
+
+              4) Identifiers declared as non-integers will remain undefined
+                 if you do not include the header (*.h) with the
+                 identifiers.
+
+      mailto: dl @ tks.cjb.net
+         url: http://tks.cjb.net
+
+; -------------------------------------------------------------------------

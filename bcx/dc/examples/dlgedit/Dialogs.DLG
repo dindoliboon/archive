@@ -1,0 +1,29 @@
+#include <windows.h>
+100 DIALOG 6, 18, 160, 120
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Example"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Welcome to my sample application!", 101, 0, 0, 112, 8
+    RTEXT           "This application is just an example!", 102, 0, 9, 160, 
+                    8
+    CTEXT           "Enjoy!", 103, 0, 18, 160, 8
+    EDITTEXT        104, 0, 28, 160, 12, ES_AUTOHSCROLL
+    GROUPBOX        "Group", 105, 0, 41, 48, 40
+    AUTOCHECKBOX    "Check", 106, 3, 50, 40, 10
+    AUTORADIOBUTTON "Radio", 107, 5, 65, 39, 10
+    COMBOBOX        108, 53, 45, 48, 35, CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         109, 108, 44, 48, 40, LBS_SORT | WS_VSCROLL | WS_TABSTOP
+    SCROLLBAR       110, 0, 87, 48, 10
+    SCROLLBAR       111, 55, 60, 11, 40, SBS_VERT
+    CONTROL         "", 112, "Static", SS_BLACKFRAME, 75, 63, 20, 16
+    CONTROL         "", 113, "Static", SS_BLACKRECT, 74, 84, 20, 16
+    CONTROL         "", 114, "Static", SS_GRAYRECT, 104, 85, 20, 16
+    CONTROL         "", 115, "Static", SS_WHITERECT, 134, 83, 20, 16
+    PUSHBUTTON      "Push", 116, 0, 105, 40, 14
+    AUTOCHECKBOX    "Check", 117, 47, 107, 40, 10, BS_LEFTTEXT
+    AUTORADIOBUTTON "Radio", 118, 105, 106, 39, 10, BS_LEFTTEXT
+END
+

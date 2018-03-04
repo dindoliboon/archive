@@ -1,0 +1,10 @@
+#include <windows.h>
+#include "wedit.h"
+
+DLG_0100 DIALOG 6, 18, 180, 180
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Title"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "", IDC_3423, "SysMonthCal32", WS_BORDER, 6, 6, 168, 174
+END

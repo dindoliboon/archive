@@ -1,9 +1,9 @@
 @ECHO OFF
+SET name=dc
 
-IF NOT EXIST dc.bas GOTO done
-bc.exe dc
-lcc.exe dc.c
-lcclnk.exe -o dc.exe -subsystem console -s dc.obj
-ECHO Finished!
+BC %name%
+LCC %name%.c
+LCCLNK -subsystem console -o %name%.exe -s %name%.obj
 
-:done
+DEL %name%.c
+DEL %name%.obj
