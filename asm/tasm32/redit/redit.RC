@@ -1,0 +1,360 @@
+#include <windows.h>
+
+/* non menu resources */
+#define IDI_ICON1                       101
+#define IDR_MENU1                       102
+#define IDD_FIND                        103
+#define IDD_FINDREPLACE                 104
+#define IDC_FIND                        105
+#define IDC_CASE                        106
+#define IDC_WORDS                       107
+#define IDB_FIND                        108
+#define IDB_REPLACE                     109
+#define IDB_REPLACEALL                  110
+#define IDC_REPLACEWITH                 111
+#define IDD_ABOUTBOX                    112
+#define IDR_ACCEL                       113
+#define IDB_LIGHTBULB                   114
+#define IDD_TIP                         115
+#define IDC_BULB                        116
+#define IDC_TIPSEDIT                    117
+#define IDC_STARTUP                     118
+#define IDC_NEXTTIP                     119
+#define IDB_DYKT                        120
+#define IDC_DYKT                        121
+#define IDB_TOOLBAR                     122
+#define ID_TOOLBAR                      123
+#define IDB_NEXTTIP                     124
+#define IDD_LINENUMBER                  125
+#define IDC_LINENUMBER                  126
+
+/* Files menu (menu 0) */
+#define IDM_NEW                         1001
+#define IDM_OPEN                        1002
+#define IDM_CLOSE                       1003
+#define IDM_SAVE                        1004
+#define IDM_SAVEAS                      1005
+#define IDM_PRINT                       1006
+#define IDM_SAVESETTINGS                1007
+#define IDM_EXIT                        1008
+
+/* Edit menu (menu 1) */
+#define IDM_UNDO                        2001
+#define IDM_CUT                         2002
+#define IDM_COPY                        2003
+#define IDM_PASTE                       2004
+#define IDM_DEL                         2005
+#define IDM_FIND                        2006
+#define IDM_FINDNEXT                    2007
+#define IDM_REPLACE                     2008
+#define IDM_REPLACENEXT                 2009
+#define IDM_GOTOLINE                    2010
+#define IDM_SELALL                      2011
+
+/* Format menu (menu 2) */
+#define IDM_FONT                        3001
+#define IDM_BOLD                        3002
+#define IDM_ITALIC                      3003
+#define IDM_UNDERLINE                   3004
+#define IDM_STRIKEOUT                   3005
+#define IDM_LEFT                        3006
+#define IDM_CENTER                      3007
+#define IDM_RIGHT                       3008
+#define IDM_SUPERSCRIPT                 3009
+#define IDM_SUBSCRIPT                   3010
+
+/* Help menu (menu 3) */
+#define IDM_HELP                        4001
+#define IDM_ABOUT                       4002
+#define IDM_TIPS                        4003
+
+#define IDC_STATIC                      -1
+
+IDI_ICON1               ICON    DISCARDABLE     "icon1.ico"
+IDB_TOOLBAR             BITMAP  DISCARDABLE     "toolbar1.bmp"
+IDB_LIGHTBULB           BITMAP  DISCARDABLE     "litebulb.bmp"
+IDB_DYKT                BITMAP  DISCARDABLE     "dykt.bmp"
+
+
+STRINGTABLE DISCARDABLE
+BEGIN
+
+/* toolbar tips */
+
+    IDM_NEW                         "New"
+    IDM_OPEN                        "Open"
+    IDM_CLOSE                       "Close"
+    IDM_SAVE                        "Save"
+    IDM_SAVEAS                      "Save As"
+    IDM_PRINT                       "Print"
+    IDM_EXIT                        "Exit"
+    IDM_UNDO                        "Undo"
+    IDM_CUT                         "Cut"
+    IDM_COPY                        "Copy"
+    IDM_PASTE                       "Paste"
+    IDM_DEL                         "Delete"
+    IDM_SELALL                      "Select All"
+    IDM_ABOUT                       "About"
+    IDM_FONT                        "Font"
+    IDM_BOLD                        "Bold"
+    IDM_ITALIC                      "Italic"
+    IDM_UNDERLINE                   "Underline"
+    IDM_STRIKEOUT                   "Strikeout"
+    IDM_LEFT                        "Align Left"
+    IDM_CENTER                      "Center Text"
+    IDM_RIGHT                       "Align Right"
+    IDM_FIND                        "Find"
+    IDM_FINDNEXT                    "Find Next"
+    IDM_REPLACE                     "Replace"
+    IDM_REPLACENEXT                 "Replace Next"
+    IDM_SUPERSCRIPT                 "Superscript"
+    IDM_SUBSCRIPT                   "Subscript"
+    IDM_SAVESETTINGS                "Save Settings"
+    IDM_GOTOLINE                    "Goto Line"
+
+/* menutracking context help strings, add 10000 to menu id */
+
+    IDM_NEW+10000                   "Creates a new file"
+    IDM_OPEN+10000                  "Open existing file"
+    IDM_CLOSE+10000                 "Closes a file"
+    IDM_SAVE+10000                  "Saves the file"
+    IDM_SAVEAS+10000                "Saves file with new name"
+    IDM_PRINT+10000                 "Prints the contents"
+    IDM_EXIT+10000                  "Exit program"
+    IDM_UNDO+10000                  "Undo previous change"
+    IDM_CUT+10000                   "Cut item to clipboard"
+    IDM_COPY+10000                  "Copy to clipboard"
+    IDM_PASTE+10000                 "Paste from clipboard"
+    IDM_DEL+10000                   "Delete selected text"
+    IDM_SELALL+10000                "Select all text"
+    IDM_ABOUT+10000                 "About"
+    IDM_HELP+10000                  "Invoke Help"
+    IDM_TIPS+10000                  "Tip of the day"
+    IDM_FONT+10000                  "Choose Font"
+    IDM_BOLD+10000                  "Bold Text"
+    IDM_ITALIC+10000                "Make Text Italic"
+    IDM_UNDERLINE+10000             "Underlines Text"
+    IDM_STRIKEOUT+10000             "Strikeout Text"
+    IDM_LEFT+10000                  "Left Justify Text"
+    IDM_CENTER+10000                "Center Text"
+    IDM_RIGHT+10000                 "Right Justify Text"
+    IDM_FIND+10000                  "Find Text"
+    IDM_FINDNEXT+10000              "Find Next"
+    IDM_REPLACE+10000               "Find & Replace"
+    IDM_REPLACENEXT+10000           "Replace Next"
+    IDM_SUPERSCRIPT+10000           "Superscript Text"
+    IDM_SUBSCRIPT+10000             "Subscript Text"
+    IDM_SAVESETTINGS+10000          "Save Settings"
+    IDM_GOTOLINE+10000              "Goto Line"
+
+/* tip of the day is randomized mod(NUM_TIPS)+20000 */
+
+    20000    "You can format the text using different fonts, sizes and colors using the Format+Font menu."
+    20001    "You can change the text to bold by pressing Ctrl+B"
+    20002    "You can change the text to italics by pressing Ctrl+I"
+    20003    "To undo you're last change, press Ctrl+Z"
+    20004    "You can exit quickly by pressing F4"
+    20005    "You can search for text by pressing Ctrl+F"
+    20006    "You can repeat the last find operation by pressing F3"
+    20007    "You can replace text by pressing Ctrl+H"
+    20008    "You can repeat you're last replace operation by pressing F6"
+    20009    "You can open rich text documents (.RTF files) by changing the file type in the open dialog"
+    20010    "You can print the current contents by pressing Ctrl+P"
+    20011    "To underline you're text, press Ctrl+U"
+    20012    "You can place a strikeout mark over the current selection by pressing Ctrl+K"
+    20013    "You can center text by pressing Ctrl+T"
+    20014    "You can left justify you're text by pressing Ctrl+L"
+    20015    "You can right justify you're text by pressing Ctrl+R"
+    20016    "To save you're current changes, press Ctrl+S"
+    20017    "Pressing Ctrl+O invokes the open dialog"
+    20018    "Pressing Ctrl+X cuts the selected text to the clipboard"
+    20019    "Pressing Ctrl+C copies the selected text to the clipboard"
+#define NUM_TIPS 20
+
+/* Error messages */
+
+    30001     "Could not create TOOLBAR Window"
+    30002     "Could not create STATUSBAR Window"
+    30003     "A copy of this program is already running"
+    30004     "Could not open requested file"
+    30005     "File size error"
+    30006     "Could not read requested file"
+    30007     "Could not create or open requested file"
+    30008     "Do you want to save the file before quitting?"
+    30009     "File has been modified"
+    30010     "Could not create edit window"
+    30011     "End of document reached"
+END
+
+
+IDB_TOOLBAR TOOLBAR DISCARDABLE  256, 15
+BEGIN
+    BUTTON      ID_TOOLBAR
+END
+
+IDR_MENU1 MENU DISCARDABLE
+BEGIN
+        POPUP "&File"
+        BEGIN
+            MENUITEM "&New\tCtrl+n",                IDM_NEW
+            MENUITEM "&Open...\tCtrl+o",            IDM_OPEN
+            MENUITEM "&Close",                      IDM_CLOSE
+            MENUITEM SEPARATOR
+            MENUITEM "&Save...\tCtrl+s",            IDM_SAVE
+            MENUITEM "Save &As...\tCtrl+a",         IDM_SAVEAS
+            MENUITEM SEPARATOR
+            MENUITEM "&Print...\tCtrl+p",           IDM_PRINT
+            MENUITEM SEPARATOR
+            MENUITEM "Save Settings",               IDM_SAVESETTINGS
+            MENUITEM "E&xit\tF4",                   IDM_EXIT
+        END
+        POPUP "&Edit"
+        BEGIN
+            MENUITEM "&Undo\tCtrl+z",               IDM_UNDO
+            MENUITEM SEPARATOR
+            MENUITEM "Cu&t\tCtrl+x",                IDM_CUT
+            MENUITEM "&Copy\tCtrl+c",               IDM_COPY
+            MENUITEM "&Paste\tCtrl+p",              IDM_PASTE
+            MENUITEM "&Delete\tDel",                IDM_DEL
+            MENUITEM SEPARATOR
+            MENUITEM "&Find\tCtrl+f",               IDM_FIND
+            MENUITEM "&Find Next\tF3",              IDM_FINDNEXT,GRAYED
+            MENUITEM "&Replace\tCtrl+h",            IDM_REPLACE
+            MENUITEM "&Replace Next\tF6",           IDM_REPLACENEXT, GRAYED
+            MENUITEM SEPARATOR
+            MENUITEM "&Goto Line\tCtrl+g",          IDM_GOTOLINE
+            MENUITEM SEPARATOR
+            MENUITEM "&Select All",                 IDM_SELALL
+
+        END
+        POPUP "F&ormat"
+        BEGIN
+            MENUITEM "&Font",                       IDM_FONT
+            MENUITEM SEPARATOR
+            MENUITEM "&Bold\tCtrl+b",               IDM_BOLD
+            MENUITEM "&Italic\tCtrl+i",             IDM_ITALIC
+            MENUITEM "&Underline\tCtrl+u",          IDM_UNDERLINE
+            MENUITEM "&Strikeout\tCtrl+k",          IDM_STRIKEOUT
+            MENUITEM SEPARATOR
+            MENUITEM "&Left Justify\tCtrl+l",       IDM_LEFT
+            MENUITEM "&Center Text\tCtrl+t",        IDM_CENTER
+            MENUITEM "&Right Justify\tCtrl+r",      IDM_RIGHT
+            MENUITEM SEPARATOR
+            MENUITEM "Superscript",                 IDM_SUPERSCRIPT
+            MENUITEM "Subscript",                   IDM_SUBSCRIPT
+         END
+        POPUP "&Help"
+        BEGIN
+            MENUITEM "&Contents\tF1",               IDM_HELP
+            MENUITEM "&About",                      IDM_ABOUT
+            MENUITEM SEPARATOR
+            MENUITEM "Tip of the day",              IDM_TIPS
+        END
+END
+
+IDR_ACCEL ACCELERATORS
+BEGIN
+    "a",  IDM_SAVEAS, VIRTKEY, CONTROL
+    "b",  IDM_BOLD, VIRTKEY, CONTROL
+    "c",  IDM_COPY, VIRTKEY,CONTROL
+    "f",  IDM_FIND, VIRTKEY, CONTROL
+    "g",  IDM_GOTOLINE, VIRTKEY, CONTROL
+    "h",  IDM_REPLACE, VIRTKEY, CONTROL
+    "i",  IDM_ITALIC, VIRTKEY, CONTROL
+    "k",  IDM_STRIKEOUT, VIRTKEY, CONTROL
+    "l",  IDM_LEFT, VIRTKEY, CONTROL
+    "n",  IDM_NEW, VIRTKEY,CONTROL
+    "o",  IDM_OPEN, VIRTKEY,CONTROL
+    "p",  IDM_PRINT, VIRTKEY,CONTROL
+    "r",  IDM_RIGHT, VIRTKEY, CONTROL
+    "s",  IDM_SAVE, VIRTKEY,CONTROL
+    "t",  IDM_CENTER, VIRTKEY, CONTROL
+    "u",  IDM_UNDERLINE, VIRTKEY, CONTROL
+    "v",  IDM_PASTE, VIRTKEY,CONTROL
+    "x",  IDM_CUT, VIRTKEY,CONTROL
+    "z",  IDM_UNDO, VIRTKEY, CONTROL
+    VK_DELETE, IDM_DEL, VIRTKEY
+    VK_F1, IDM_HELP, VIRTKEY
+    VK_F4, IDM_EXIT, VIRTKEY
+    VK_F3, IDM_FINDNEXT, VIRTKEY
+    VK_F6, IDM_REPLACENEXT, VIRTKEY
+END
+
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 198, 110
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CAPTION |
+    WS_SYSMENU
+CAPTION "Rich Text Editor"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,71,83,50,14
+    LTEXT           "Copyright (r) Gary T. Desrosiers, 1996. All Rights Reserved",
+                    IDC_STATIC,35,15,134,36
+    CTEXT           "Rich Text Editor Version 1.0",
+                    IDC_STATIC,47,54,105,20,SS_SUNKEN | WS_BORDER
+END
+
+IDD_TIP DIALOG DISCARDABLE  0, 0, 231, 130
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Tip of the Day"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "",-1,"Static",SS_BLACKFRAME,12,11,207,95
+    CONTROL         "&Show Tips on StartUp",IDC_STARTUP,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,13,112,85,10
+    DEFPUSHBUTTON   "&Close",IDOK,169,110,50,14,WS_GROUP
+    CONTROL         "",IDC_BULB,"Static",SS_BITMAP,20,17,190,111
+    EDITTEXT        IDC_TIPSEDIT,38,54,154,33,ES_CENTER | ES_MULTILINE |
+                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY |
+                    ES_WANTRETURN
+    CONTROL         "",IDC_DYKT,"Static",SS_BITMAP,65,28,15,13
+    PUSHBUTTON      "&Next Tip",IDB_NEXTTIP,111,110,50,14
+END
+
+
+IDD_FIND DIALOG DISCARDABLE  0, 0, 217, 78
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Find"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,160,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,160,24,50,14
+    LTEXT           "Find What:",IDC_STATIC,17,21,39,10
+    EDITTEXT        IDC_FIND,61,17,89,15,ES_AUTOHSCROLL
+    CONTROL         "Match Case",IDC_CASE,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,17,45,69,8
+    CONTROL         "Whole Words",IDC_WORDS,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,17,54,68,11
+END
+
+IDD_FINDREPLACE DIALOG DISCARDABLE  0, 0, 242, 106
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Find and Replace"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Find",IDB_FIND,185,17,50,14
+    PUSHBUTTON      "Replace",IDB_REPLACE,185,36,50,14
+    PUSHBUTTON      "Replace All",IDB_REPLACEALL,185,55,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,185,74,50,14
+    EDITTEXT        IDC_FIND,75,18,92,15,ES_AUTOHSCROLL
+    EDITTEXT        IDC_REPLACEWITH,75,36,92,15,ES_AUTOHSCROLL
+    LTEXT           "Find What:",IDC_STATIC,32,20,38,11
+    LTEXT           "Replace With:",IDC_STATIC,19,39,51,10
+    CONTROL         "Match Case",IDC_CASE,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,25,67,69,8
+    CONTROL         "Whole Words",IDC_WORDS,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,25,79,68,11
+END
+
+IDD_LINENUMBER DIALOG DISCARDABLE  0, 0, 187, 47
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Line Number to Goto"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,130,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,130,24,50,14
+    LTEXT           "Line Number:",IDC_STATIC,28,18,43,8
+    EDITTEXT        IDC_LINENUMBER,77,16,40,14,ES_AUTOHSCROLL
+END
+
+

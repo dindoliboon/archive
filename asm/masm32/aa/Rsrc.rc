@@ -1,0 +1,222 @@
+////
+#define	IDHOME		0x00000000L
+#define	DS_MODALFRAME	0x00000080L	// Definition of Windows constants
+#define	WS_SYSMENU		0x00080000L
+#define	WS_CAPTION		0x00C00000L
+#define	WS_POPUP		0x80000000L
+#define	IDOK			0x00000001L
+#define	IDCANCEL		0x00000002L
+#define 	IDC_STATIC		-1
+
+#define 	ES_UPPERCASE	0x00000008L
+#define 	ES_AUTOHSCROLL	0x00000080L
+#define	BS_FLAT           0x00008000L
+#define	WS_EX_STATICEDGE	0x00020000L
+
+#define VK_F1             0x70
+#define VK_F2             0x71
+#define VK_F3             0x72
+#define VK_F4             0x73
+#define VK_F5             0x74
+#define VK_F6             0x75
+#define VK_F7             0x76
+#define VK_F8             0x77
+#define VK_F9             0x78
+#define VK_F10            0x79
+
+
+#define	IDI_ICON		0x01L		// IDs same as in Common.inc
+#define	IDM_MENU		0x02L
+#define	IDA_ACCEL		0x03L
+#define	IDD_ABOUT		0x04L
+#define	IDD_DEMO		0x40L
+#define	IDD_CHAR		0x41L
+
+#define 	IDD_COLOR		101
+#define 	IDC_RED		1000
+#define 	IDC_GREEN		1001
+#define 	IDC_BLUE		1002
+#define 	IDC_PREVIEW		1003
+
+#define	IDI_UP		0x05L
+#define	IDI_DOWN		0x06L
+#define	IDI_LEFT		0x07L
+#define	IDI_RIGHT		0x08L
+
+#define	IDC_PAINT		0x09L
+#define	IDC_SEL		0x10L
+
+#define	IDM_FILEMENU	0x011L
+#define	IDM_OPTIONSMENU	0x012L
+#define	IDM_VIEWMENU	0x013L
+#define	IDM_HELPMENU	0x014L
+
+	// The file menu items
+#define  	IDM_NEW		0x020L
+#define  	IDM_OPENFILE	0x021L
+#define  	IDM_SAVEFILEAS	0x022L
+#define  	IDM_SAVEFILE	0x023L
+#define  	IDM_PRINT		0x024L
+#define  	IDM_EXPORTTEXT	0x025L
+#define  	IDM_EXPORTHTML	0x027L
+#define	IDM_EXIT		0x028L
+
+	// The option menu items
+#define	IDM_CHANGEFONT	0x029L
+#define  	IDM_SAVEPALETTE	0x030L
+#define  	IDM_LOADPALETTE	0x031L
+#define  	IDM_RESTORE		0x032L
+#define  	IDM_SHOWLINES	0x033L
+
+	// The view menu items
+#define	IDM_VIEW1		0x034L
+#define	IDM_VIEW2		0x035L
+#define	IDM_VIEW3		0x036L
+#define	IDM_VIEW4		0x037L
+
+	// The help menu items
+#define	IDM_CONTENTS	0x038L
+#define	IDM_ABOUT		0x039L
+
+IDC_PAINT	CURSOR "Paint.cur"
+
+IDI_ICON	ICON "AA.ico"
+IDI_UP	ICON "Up.ico"
+IDI_DOWN	ICON "Down.ico"
+IDI_LEFT	ICON "Left.ico"
+IDI_RIGHT	ICON "Right.ico"
+
+IDM_MENU MENU DISCARDABLE
+BEGIN
+	POPUP "&File"						
+	BEGIN
+		MENUITEM "&New Artwork\tCtrl+N",		IDM_NEW
+		MENUITEM "&Open Artwork\tCtrl+O",		IDM_OPENFILE
+		MENUITEM SEPARATOR
+		MENUITEM "Save Artwork &As...\tCtrl+A",	IDM_SAVEFILEAS
+		MENUITEM "&Save Artwork\tCtrl+S",		IDM_SAVEFILE
+		MENUITEM SEPARATOR
+		MENUITEM "&Print Artwork\tCtrl+P",		IDM_PRINT
+
+		POPUP "&Export Artwork As..."
+		BEGIN
+		MENUITEM "Export &Text File",			IDM_EXPORTTEXT
+		MENUITEM "Export &HTML File",			IDM_EXPORTHTML
+		END
+
+		MENUITEM SEPARATOR
+		MENUITEM "E&xit\tCtrl+Q",			IDM_EXIT
+	END
+	POPUP "&Options"
+	BEGIN
+		MENUITEM "&Change Font\tCtrl+F",		IDM_CHANGEFONT
+		MENUITEM SEPARATOR
+		MENUITEM "&Save Palette\tF2",			IDM_SAVEPALETTE
+		MENUITEM "&Load Palette\tF3",			IDM_LOADPALETTE
+		MENUITEM SEPARATOR
+		MENUITEM "&Restore Palette Defaults\tCtrl+R",	IDM_RESTORE
+		MENUITEM SEPARATOR
+		MENUITEM "Show Grid &Lines\tF4",		IDM_SHOWLINES
+	END
+	POPUP "&View"
+	BEGIN
+		MENUITEM "View &1:1 - 80 x 80\tCTRL+1",	IDM_VIEW1
+		MENUITEM "View &2:1 - 40 x 40\tCTRL+2",	IDM_VIEW2
+		MENUITEM "View &3:1 - 20 x 20\tCTRL+3",	IDM_VIEW3
+		MENUITEM "View &4:1 - 10 x 10\tCTRL+4",	IDM_VIEW4
+	END
+	POPUP "&Help"
+	BEGIN
+		MENUITEM "&Contents...\tF1",			IDM_CONTENTS
+		MENUITEM "&About",				IDM_ABOUT
+	END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDA_ACCEL ACCELERATORS 
+BEGIN
+	"N",		IDM_NEW,		CONTROL, VIRTKEY
+	"O",		IDM_OPENFILE,	CONTROL, VIRTKEY
+	"A",		IDM_SAVEFILEAS,	CONTROL, VIRTKEY 
+	"S",		IDM_SAVEFILE,	CONTROL, VIRTKEY 
+	"P",		IDM_PRINT,		CONTROL, VIRTKEY 
+	"Q",		IDM_EXIT,		CONTROL, VIRTKEY 
+	"F",		IDM_CHANGEFONT,	CONTROL, VIRTKEY 
+	VK_F2,	IDM_SAVEPALETTE,	VIRTKEY
+	VK_F3,	IDM_LOADPALETTE,	VIRTKEY
+	"R",		IDM_RESTORE,	CONTROL, VIRTKEY
+	"1",		IDM_VIEW1,		CONTROL, VIRTKEY
+	"2",		IDM_VIEW2,		CONTROL, VIRTKEY
+	"3",		IDM_VIEW3,		CONTROL, VIRTKEY
+	"4",		IDM_VIEW4,		CONTROL, VIRTKEY
+	VK_F4,	IDM_SHOWLINES,	VIRTKEY
+	VK_F1,	IDM_CONTENTS,	VIRTKEY
+END
+
+// The compressed help file
+HELP		RCDATA  MOVEABLE PURE   "AA.qck"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUT DIALOG DISCARDABLE  0, 0, 160, 115
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About ASCII Artpad"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDI_ICON,-1,8,8,21,20
+    CTEXT           "ASCII Artpad",-1,30,8,100,8
+    CTEXT           " Copyright © 1999 By Lightning Software",-1,29,
+                    25,100,17
+    CTEXT           "Programmer: Chris Hobbs",-1,0,50,158,8
+    CTEXT           "Created: June 25, 1999",-1,0,60,158,8
+    DEFPUSHBUTTON   "OK",IDOK,100,80,50,14
+    DEFPUSHBUTTON	  "Homepage",IDHOME,10,80,50,14
+    CTEXT		  "**Written in 100% pure Assembly Language**",-1,0,100,165,8
+
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_COLOR DIALOG DISCARDABLE  0, 0, 231, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Change Color To..."
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Change",IDOK,174,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,174,74,50,14
+    CTEXT           "Please Enter Red, Green, and Blue Values",IDC_STATIC,7,
+                    7,164,11
+    CTEXT           "(Between 0 and  255)",IDC_STATIC,7,18,166,9
+    EDITTEXT        IDC_RED,47,30,42,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_GREEN,47,50,42,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BLUE,47,69,42,12,ES_AUTOHSCROLL
+    RTEXT           "RED",IDC_STATIC,7,34,34,8
+    RTEXT           "GREEN",IDC_STATIC,7,52,35,9
+    RTEXT           "BLUE",IDC_STATIC,7,72,34,10
+    PUSHBUTTON      "Preview",IDC_PREVIEW,109,40,47,19
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CHAR DIALOG DISCARDABLE  0, 0, 242, 113
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION 
+"Frequently Used Characters -- Click on any character to select and use it"
+
+FONT 10, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Cancel",IDCANCEL,97,92,50,14
+END

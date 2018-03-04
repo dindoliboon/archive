@@ -1,0 +1,9 @@
+NAME         REDIT
+DESCRIPTION 'Rich Text Editor'
+CODE         PRELOAD MOVEABLE DISCARDABLE
+DATA         PRELOAD MOVEABLE MULTIPLE
+EXETYPE      WINDOWS
+EXPORTS      WndProc
+IMPORTS      COMCTL32.CreateToolbarEx
+             OLE32.OleInitialize
+

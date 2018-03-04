@@ -1,0 +1,41 @@
+1 ICON "tks_sx32.ico"
+
+1 VERSIONINFO 
+FILEVERSION 1, 1, 0, 0
+PRODUCTVERSION 1, 1, 0, 0
+FILEOS 0x00040004L
+FILETYPE 0x00000001L
+{
+ BLOCK "StringFileInfo"
+ {
+  BLOCK "040904E4"
+  {
+   VALUE "Comments", "Extracts files from the package.\000"
+   VALUE "CompanyName", "Trunks\000"
+   VALUE "FileDescription", "Self-Extractor 32-Bit\000"
+   VALUE "FileVersion", "1.1.0.0\000"
+   VALUE "InternalName", "tks_sx32\000"
+   VALUE "LegalCopyright", "Copyright \251 1999 Trunks\000"
+   VALUE "OriginalFilename", "tks_sx32.exe\000"
+   VALUE "ProductName", "Self-Extractor 32-Bit\000"
+   VALUE "ProductVersion", "1.1.0.0\000"
+   VALUE "Webpage", "http://tks.cjb.net\000"
+   VALUE "E-Mail", "tks@tks.cjb.net\000"
+  }
+ }
+ BLOCK "VarFileInfo"
+ {
+  VALUE "Translation", 0x409, 1252
+ }
+}
+
+1 RCDATA "myfile.ini"
+2 RCDATA "myfile.hlp"
+3 RCDATA "myfile.exe"
+
+STRINGTABLE 
+{
+ 1, "myfile.ini"
+ 2, "myfile.hlp"
+ 3, "myfile.exe"
+}

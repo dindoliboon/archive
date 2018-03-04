@@ -1,0 +1,30 @@
+1 ICON "tks_acc3.ico"
+
+1 VERSIONINFO 
+FILEVERSION 3, 1, 0, 0
+PRODUCTVERSION 3, 1, 0, 0
+FILEOS 0x00040004L
+FILETYPE 0x00000001L
+{
+ BLOCK "StringFileInfo"
+ {
+  BLOCK "040904E4"
+  {
+   VALUE "Comments", "This will list several undocumented console commands for AOL Instant Messenger v1.75.\000"
+   VALUE "CompanyName", "Trunks\000"
+   VALUE "FileDescription", "AOL Instant Messenger Console Commands\000"
+   VALUE "FileVersion", "3.1.0.0\000"
+   VALUE "InternalName", "tks_acc3\000"
+   VALUE "LegalCopyright", "Copyright \251 1999 Trunks\000"
+   VALUE "OriginalFilename", "tks_acc3.exe\000"
+   VALUE "ProductName", "AOL Instant Messenger Console Commands\000"
+   VALUE "ProductVersion", "3.1.0.0\000"
+   VALUE "Web Page", "Visit Trunks Online at http://tks.cjb.net or http://www.bigfoot.com/~Trunks_x99\000"
+   VALUE "E-Mail", "Contact Trunks at tks@tks.cjb.net or Trunks_x99@bigfoot.com\000"
+  }
+ }
+ BLOCK "VarFileInfo"
+ {
+  VALUE "Translation", 0x409, 1252
+ }
+}

@@ -1,0 +1,6 @@
+Hash numbers in c:\home\tasm\redit\REDIT.HLP
+
+Hash #	Topic #	Topic Title
+2551221821 (0x98108e3d)	1	Overview
+122553218 (0x74e0382)	0	Start
+386800391 (0x170e1b07)	2	Key Help

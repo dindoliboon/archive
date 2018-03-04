@@ -1,0 +1,29 @@
+1 ICON "aim.ico"
+
+1 VERSIONINFO
+FILEVERSION 0,0,0,0
+PRODUCTVERSION 0,0,0,0
+FILEOS 0x10004
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904E4"
+	{
+		VALUE "CompanyName", "America Online, Inc."
+		VALUE "LegalCopyright", "Copyright © 1996-2001 America Online, Inc."
+		VALUE "ProductName", "AOL Instant Messenger (SM)"
+		VALUE "ProductVersion", "4.4.2286"
+		VALUE "Build Number", "2286"
+		VALUE "FileDescription", "AOL Instant Messenger (SM)"
+		VALUE "FileVersion", "4.4.2286"
+		VALUE "InternalName", "AIM"
+		VALUE "OriginalFilename", "AIM.EXE"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04E4
+}
+}

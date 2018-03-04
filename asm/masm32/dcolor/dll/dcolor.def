@@ -1,0 +1,9 @@
+LIBRARY dcolor
+EXPORTS
+InstallHook
+UninstallHook
+GetDesktop
+GetDesktopLV
+ChangeColors
+GetFGColor
+GetBGColor

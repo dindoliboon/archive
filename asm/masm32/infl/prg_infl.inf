@@ -1,0 +1,180 @@
+[Version]
+Signature=$Chicago$
+Provider=%Author%
+SetupClass=BASE
+AdvancedINF=2.5,"You need a newer version of AdvPack.DLL!"
+
+[Optional Components]
+INFTool_1
+
+[Optional Components.ntx86]
+INFTool_1.ntx86
+
+[AdvSetup]
+HKLM,%RunOnce%Setup,"INF Launcher v1.0...",,"RunDll32.exe %11%\advpack.dll,LaunchINFSection PRG_INFL.INF,DefaultInstall2"
+[AdvSetup.ntx86]
+HKLM,%RunOnce%Setup,"INF Launcher v1.0...",,"RunDll32.exe %11%\advpack.dll,LaunchINFSection PRG_INFL.INF,DefaultInstall2.ntx86"
+
+[Strings]
+Product="INF Launcher"
+Version="1.0"
+Author="Trunks"
+Copyright="Copyright © 1999 Trunks"
+DiskName="INF Launcher v1.0, Setup Disk #1"
+Uninstall="Software\Microsoft\Windows\CurrentVersion\Uninstall\"
+Runonce="SOFTWARE\Microsoft\Windows\CurrentVersion\Runonce\"
+Setup="SOFTWARE\Microsoft\Windows\CurrentVersion\Setup"
+
+[INFTool.RegFix]
+HKCR,lnkfile,IsShortcut
+HKCR,piffile,IsShortcut
+
+[INFTool.Add.Reg.95]
+HKLM,%Uninstall%%Product%
+HKLM,%Uninstall%%Product%,DisplayName,,"%Product%"
+HKLM,%Uninstall%%Product%,UninstallString,,"RunDll32 advpack.dll,LaunchINFSection %17%\PRG_INFL.INF, DefaultUninstall"
+HKCU,"SOFTWARE\INF Launcher v1.0",InstallDir1,,""%49001%""
+
+[INFTool.Add.Reg.ntx86]
+HKLM,%Uninstall%%Product%
+HKLM,%Uninstall%%Product%,DisplayName,,"%Product%"
+HKLM,%Uninstall%%Product%,UninstallString,,"RunDll32 advpack.dll,LaunchINFSection %17%\PRG_INFL.INF, DefaultUninstall.ntx86"
+HKCU,"SOFTWARE\INF Launcher v1.0",InstallDir1,,""%49001%""
+
+[INFTool.Add.Ini1]
+setup.ini, progman.groups,, "group1=""INF Launcher v1.0"""
+setup.ini, group1,, """INF Launcher"",""""""%49001%\TKS_INFL.EXE"""""",,,,""%49001%"",""TKS_INFL.EXE"""
+setup.ini, group1,, """Uninstall INF Launcher v1.0"",""rundll32.exe advpack.dll,LaunchINFSection %17%\PRG_INFL.INF, DefaultUninstall"",""%11%\setupapi.dll"",7,,%11%,"""
+
+[INFTool.Del.Ini1]
+setup.ini, progman.groups,, "group1=""INF Launcher v1.0"""
+setup.ini, group1,, """INF Launcher"""
+setup.ini, group1,, """Uninstall INF Launcher v1.0"""
+
+[INFTool.AddINI]
+win.ini,Desktop,Wallpaper,HKLM,%Setup%,2
+win.ini,Desktop,TileWallpaper,HKLM,%Setup%,2
+
+[SourceDisksNames]
+1=%DiskName%,,0
+
+[SourceDisksFiles]
+FILE_ID.DIZ=1,,251
+TKS_INFL.EXE=1,,4976
+TKS_INFL.INI=1,,24
+
+[DestGrp]
+TKS_INFL.INI
+TKS_INFL.EXE
+FILE_ID.DIZ
+
+[DestLGrp]
+"tks_infl.ini"
+"tks_infl.exe"
+"file_id.diz"
+
+[UninstGrp]
+"tks_infl.ini"
+"tks_infl.exe"
+"file_id.diz"
+
+[Add.Inf]
+PRG_INFL.INF
+
+[DestinationDirs]
+DestGrp=49001
+DestLGrp=49001
+UninstGrp=49001
+Add.Inf=17
+
+[CustomDirs]
+49001,49002,49003,49004=Custom49001,1
+60001=ProgramFiles,7
+
+[CustomRemove]
+49001,49002,49003,49004=Custom49001,5
+
+[Custom49001]
+"HKCU","SOFTWARE\INF Launcher v1.0",InstallDir1,""Continuing will overwrite the existing version of INF Launcher v1.0 on your computer. Please enter the desired directory."",""
+"","","",""Where would you like to install INF Launcher v1.0?"","%24%\Program files\TKS Programs\prg_infl"
+
+[ProgramFiles]
+"HKLM","SOFTWARE\Microsoft\Windows\CurrentVersion","ProgramFilesDir","",%24%
+"","","",""This software requires that you have a local "Program Files" folder for installation."",""
+
+[RemoveDirs]
+%49003%
+
+[DefaultInstall]
+Ini2Reg=INFTool.AddINI
+AddReg=AdvSetup
+
+[DefaultInstall2]
+AddReg=INFTool.Add.Reg.95,INFTool.RegFix
+CustomDestination=CustomDirs
+UpdateInis=INFTool.Add.Ini1,IniUpdate
+Copyfiles=DestGrp,Add.Inf
+BeginPrompt=InstallBegin
+SmartReboot=N
+Uninstall=DefaultUninstall
+
+[DefaultInstall.ntx86]
+AddReg=AdvSetup.ntx86
+
+[DefaultInstall2.ntx86]
+AddReg=INFTool.Add.Reg.ntx86
+CustomDestination=CustomDirs
+UpdateInis=INFTool.Add.Ini1
+Copyfiles=DestGrp,Add.Inf
+BeginPrompt=InstallBegin
+SmartReboot=N
+Uninstall=DefaultUninstall.ntx86
+
+[INFTool_1]
+OptionDesc=%Product%
+Tip=%info%
+InstallType=0
+IconIndex=0
+AddReg=AdvSetup
+
+[INFTool_1.ntx86]
+OptionDesc=%Product%
+Tip=%info%
+InstallType=0
+IconIndex=0
+AddReg=AdvSetup.ntx86
+
+[InstallBegin]
+Title="INF Launcher v1.0"
+
+[DefaultUninstall]
+BeginPrompt=BeginUPromptSection
+EndPrompt=EndUPromptSection
+DelReg=INFTool.Add.Reg.95
+UpdateInis=INFTool.Del.Ini1
+DelFiles=UninstGrp
+CustomDestination=CustomRemove
+DelDirs=RemoveDirs
+Cleanup=1
+
+[DefaultUninstall.ntx86]
+BeginPrompt=BeginUPromptSection
+EndPrompt=EndUPromptSection
+DelReg=INFTool.Add.Reg.ntx86
+UpdateInis=INFTool.Del.Ini1
+DelFiles=UninstGrp
+DelDirs=RemoveDirs
+CustomDestination=CustomRemove
+Cleanup=1
+
+[BeginUPromptSection]
+Prompt="Are you sure you want to remove INF Launcher v1.0?"
+ButtonType=YESNO
+Title=%Product% Uninstall
+
+[EndUPromptSection]
+Prompt="INF Launcher v1.0 was successfully removed from your computer."
+
+[IniUpdate]
+Win.ini,Desktop,"WallpaperOriginX=*"
+Win.ini,Desktop,"WallpaperOriginY=*"

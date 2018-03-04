@@ -1,0 +1,21 @@
+; This file is maintained by HCW. Do not modify this file directly.
+
+[OPTIONS]
+HCW=0
+LCID=0x409 0x0 0x0 ;English (United States)
+REPORT=Yes
+TITLE=Rich Text Editor
+COPYRIGHT=(c) Gary T. Desrosiers, All Rights Reserved
+HLP=.\redit.hlp
+
+[FILES]
+.\redit.rtf
+
+[MAP]
+Key_Help=002
+Overview=001
+Start=000
+
+[WINDOWS]
+main="Rich Text Editor",(605,66,360,600),20736,(r14876671),(r12632256),f2
+sec="",(653,102,360,600),20736,(r14876671),(r12632256),f3

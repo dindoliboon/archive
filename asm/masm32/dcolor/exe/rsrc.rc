@@ -1,0 +1,47 @@
+#include <windows.h>
+
+100 ICON "dcolor.ico"
+200 ICON "picker.ico"
+100 CURSOR "picker.cur"
+100 BITMAP "grid.bmp"
+100 DIALOG 6, 18, 178, 118
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "D-Color Settings"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    ICON            102, 101, 12, 5, 21, 20
+    CTEXT           "D-Color 1.0", 103, 5, 30, 42, 8, SS_NOTIFY
+    LTEXT           "", 
+                    104, 55, 5, 116, 33
+    GROUPBOX        "", 105, 3, 40, 171, 57
+    RTEXT           "&Text Color:", 106, 8, 48, 60, 8
+    COMBOBOX        107, 72, 48, 78, 200, CBS_DROPDOWN | CBS_OWNERDRAWFIXED | 
+                    CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      ">>", 108, 155, 48, 14, 13
+    RTEXT           "&Background Color:", 109, 8, 64, 60, 8
+    COMBOBOX        110, 72, 64, 78, 200, CBS_DROPDOWN | CBS_OWNERDRAWFIXED | 
+                    CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Color &Format:", 111, 8, 80, 60, 8
+    COMBOBOX        112, 72, 80, 78, 75, CBS_DROPDOWNLIST | 
+                    CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "OK", 113, 47, 101, 40, 14
+    PUSHBUTTON      "Cancel", 114, 90, 101, 40, 14
+    PUSHBUTTON      "&Apply", 115, 133, 101, 40, 14
+
+    CONTROL         "", 116, "static", SS_NOTIFY | SS_BITMAP | WS_BORDER, 9, 48, 143, 45
+    CONTROL         "", 117, "static", SS_NOTIFY | SS_ICON, 155, 65, 14, 14
+END
+
+100 MENU
+BEGIN
+    POPUP ""
+    BEGIN
+        MENUITEM "Configure D-Color", 101
+        MENUITEM "Startup with Windows", 102
+        MENUITEM "Show Desktop Icons", 103
+        MENUITEM "Display D-Color Help", 104
+        MENUITEM SEPARATOR
+        MENUITEM "Unload D-Color", 105
+    END
+END

@@ -1,0 +1,37 @@
+#############################################################
+# Assembles, resource compile, and link the redit project   #
+#                                                           #
+# INVOKE VIA:                                               #
+#  make                                                     #
+#   OR                                                      #
+#  make -DDEBUG                                             #
+#                                                           #
+#############################################################
+
+NAME = redit
+ASM  = $(NAME).asm
+OBJS = $(NAME).obj
+DEF  = $(NAME).def
+RES  = $(NAME).res
+RC   = $(NAME).rc
+
+IMPORT = \tasm\lib\import32
+
+!if $d(DEBUG)
+TASMDEBUG=/zi
+LINKDEBUG=/v
+!else
+TASMDEBUG=
+LINKDEBUG=
+!endif
+
+$(NAME).EXE: $(OBJS) $(DEF) $(RES)
+  tlink32 /ml /Tpe /aa /c $(LINKDEBUG) $(OBJS),$(NAME),,$(IMPORT),$(DEF),$(RES)
+
+$(NAME).OBJ: $(ASM)
+   tasm32 $(TASMDEBUG) /l /ml /m2 $(ASM)
+
+$(NAME).RES: $(RC)
+   rc $(NAME)
+
+

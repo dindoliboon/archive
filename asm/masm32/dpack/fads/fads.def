@@ -1,0 +1,4 @@
+LIBRARY fads
+EXPORTS
+InstallHook
+UninstallHook

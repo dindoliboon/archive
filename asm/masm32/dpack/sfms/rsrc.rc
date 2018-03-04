@@ -1,0 +1,37 @@
+#define ICON_1	1
+#define VERSIONINFO_1	1
+
+1 VERSIONINFO 
+FILEVERSION 1, 0, 0, 0
+PRODUCTVERSION 1, 0, 0, 0
+FILEOS 0x00040004L
+FILETYPE 0x00000001L
+{
+ BLOCK "StringFileInfo"
+ {
+  BLOCK "040904E4"
+  {
+   VALUE "CompanyName", "Nod Programming, Inc.\000"
+   VALUE "FileDescription", "SFMenu Sorter\000"
+   VALUE "Comments", "Sorts the start menu and favorites menu in alphabetical order.\000"
+   VALUE "FileVersion", "1.0.0.0\000"
+   VALUE "InternalName", "tks_rdl\000"
+   VALUE "LegalCopyright", "Copyright \251 1999 Trunks\000"
+   VALUE "OriginalFilename", "tks_rdl.exe\000"
+   VALUE "ProductName", "SFMenu Sorter\000"
+   VALUE "ProductVersion", "1.0.0.0\000"
+   VALUE "PrivateBuild", "Visit Trunks' File Base at http://tks.cjb.net or http://www.bigfoot.com/~Trunks_x99\000"
+   VALUE "SpecialBuild", "Visit Nod Programming Inc. http://come.to/NodProgrammingInc\000"
+  }
+
+ }
+
+ BLOCK "VarFileInfo"
+ {
+  VALUE "Translation", 0x409, 1252
+ }
+
+}
+
+
+1 ICON "tks_sfms.ico"
