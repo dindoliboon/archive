@@ -1,7 +1,7 @@
 ; -------------------------------------------------------------------------
 
     title   : Dialog Converter
-    version : 3.2
+    version : 3.4
 
     abstract: Converts Microsoft Dialog Editor scripts into complete
               BCX source code, removing the need for the resource file
@@ -15,11 +15,20 @@
 
     compile : build.bat
     usage   : run dc.exe
-    tools   : BCX Translator 5.05.11a
-              LCC-Win32 Development System 3.8 - Nov 17 2004 12:00:09
-              UPX 1.22
+    tools   : BCX-32 Version 6.8.3 (2011/10/24)
+              Pelles ISO C Compiler, Version 6.00.6
+              UPX 3.07w
 
-    history : Updated Jan. 01, 2005 / 3.2
+    history : Updated Oct. 29, 2011 / 3.4
+                  - Added return type for WinMain when using /l1 option
+                  - Updated build.bat to use Pelles C instead of LCC-Win32
+                  - Added blank afxres.h for vc example
+              Updated Jan. 03, 2005 / 3.3
+                  - Renamed hInstance to BCX_hInstance
+                  - Changed the scaling method to reflect BCX 5.05-12
+                  - Added support for BCX_Input
+                  - Properly removes NOT statements
+              Updated Jan. 01, 2005 / 3.2
                   - Fixed ElseIf when adding entry point in DC mode
                   - Removed WS_VISIBLE flag on a form in DC mode
                   - Allowed BCX controls to use Windows styles when

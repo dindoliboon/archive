@@ -12,45 +12,34 @@ DEL guiDS_%name%.bas
 
 DC %name% -l1 -s -c
 BC %name%
-LCC %name%.c
 MOVE %name%.bas expDC_%name%.bas
-LCCLNK -subsystem windows -o expDC_%name%.exe -s %name%.obj
+CALL PWALL expDC_%name%
 
 DC %name% -l2 -s -c
 BC %name%
-LCC %name%.c
 MOVE %name%.bas cmpDC_%name%.bas
-LCCLNK -subsystem windows -o cmpDC_%name%.exe -s %name%.obj
+CALL PWALL cmpDC_%name%
 
 DC %name% -l3 -s -c
 BC %name%
-LCC %name%.c
 MOVE %name%.bas guiDC_%name%.bas
-LCCLNK -subsystem windows -o guiDC_%name%.exe -s %name%.obj
+CALL PWALL guiDC_%name%
 
 : generate dialog starter code
-RC.EXE %name%.dlg
-CVTRES /OUT:%name%.res.obj %name%.res
+CALL "C:\Program Files\PellesC\Bin\povars32.bat"
+PORC.EXE %name%.dlg
 
 DC %name% -g2 -l1 -s -c
-BC %name%
-LCC %name%.c
 MOVE %name%.bas expDS_%name%.bas
-LCCLNK -subsystem windows -o expDS_%name%.exe -s %name%.obj %name%.res.obj
+CALL PWALL expDS_%name% %name%.res
 
 DC %name% -g2 -l2 -s -c
-BC %name%
-LCC %name%.c
 MOVE %name%.bas cmpDS_%name%.bas
-LCCLNK -subsystem windows -o cmpDS_%name%.exe -s %name%.obj %name%.res.obj
+CALL PWALL cmpDS_%name% %name%.res
 
 DC %name% -g2 -l3 -s -c
-BC %name%
-LCC %name%.c
 MOVE %name%.bas guiDS_%name%.bas
-LCCLNK -subsystem windows -o guiDS_%name%.exe -s %name%.obj %name%.res.obj
+CALL PWALL guiDS_%name% %name%.res
 
 DEL %name%.c
-DEL %name%.obj
 DEL %name%.res
-DEL %name%.res.obj

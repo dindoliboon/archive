@@ -1,12 +1,12 @@
 ' -------------------------------------------------------------------------
 '
-' Dialog Converter 3.2
+' Dialog Converter 3.4
 '
 ' Converts Microsoft Dialog Editor scripts into complete BCX source code,
 ' removing the need for the resource file completely. Or it can create BCX
 ' template, where your application depends on a resource file (*.RES).
 '
-' Copyright (C) Dindo Liboon 2001-2005. All rights reserved.
+' Copyright (C) Dindo Liboon 2001-2011. All rights reserved.
 '
 ' mailto: dliboon@hotmail.com
 '    url: http://dliboon.freeshell.org
@@ -30,7 +30,7 @@ $CCODE
         TYP_TREE, TYP_TAB, TYP_UPDOWN, TYP_PROGRESS,
         TYP_HOTKEY, TYP_TRACK, TYP_COMBOEX, TYP_CONTROL, TYP_ICON,
         TYP_BITMAP, TYP_BLACKFRAME, TYP_WHITEFRAME, TYP_GRAYFRAME,
-        TYP_WHITERECT, TYP_GRAYRECT, TYP_BLACKRECT,
+        TYP_WHITERECT, TYP_GRAYRECT, TYP_BLACKRECT, TYP_INPUT,
         TYP_DIALOG, TYP_STYLE, TYP_CAPTION, TYP_BLOCKEND, TYP_BLOCKSTART,
         TYP_EXSTYLE, TYP_CLASS, TYP_DIALOGEX, TYP_ERROR};
 
@@ -48,7 +48,7 @@ $CCODE
         "TreeView", "Tab", "UpDown", "Progress",
         "Hotkey", "Trackbar", "ComboEx", "Control", "Icon",
         "Bitmap", "BlackFrame", "WhiteFrame", "GrayFrame",
-        "WhiteRect", "GrayRect", "BlackRect"};
+        "WhiteRect", "GrayRect", "BlackRect", "Input"};
 
     // control styles
     char *stylPak1[] = {"BS_AUTO3STATE", "BS_AUTOCHECKBOX", "BS_CHECKBOX",
@@ -163,7 +163,7 @@ Global dynFrm%          ' number of allocated forms
 Global dynCtl%          ' number of allocated controls
 Global numFrm%          ' used forms
 Global numCtl%          ' used controls
-Global curCtrl%[41]     ' used current control
+Global curCtrl%[42]     ' used current control
 Global incFile$[20]     ' allow for 20 includes
 Global incNum%          ' number of include files
 Global opt As Flags     ' holds application options
@@ -197,8 +197,8 @@ Function main%(argc%, argv As PCHAR PTR)
 
     Chr34$ = Chr$(34)
 
-    ? "Dialog Converter 3.2"
-    ? "Copyright (C) Dindo Liboon 2001-2005. All rights reserved."
+    ? "Dialog Converter 3.4"
+    ? "Copyright (C) Dindo Liboon 2001-2011. All rights reserved."
 
     '---------------------------------------------
     ' check if there are any commandline arguments
@@ -333,7 +333,7 @@ Sub GenerateCode(file$)
     If opt.comments = True Then
         Call EmitSep()
         FPrint DlgOut, "'"
-        FPrint DlgOut, "' BCX Source Code Generated With Dialog Converter 3.2"
+        FPrint DlgOut, "' BCX Source Code Generated With Dialog Converter 3.4"
         FPrint DlgOut, "' For Use With BCX Translator Version 3.0"
         FPrint DlgOut, "'"
         Call EmitSep()
@@ -397,7 +397,11 @@ Sub MakeDC()
     ' add windows EntryPoint, expand if requested
     '--------------------------------------------
     If opt.codelevel = CL_EXPANDED Then
-        FPrint DlgOut, "Function WinMain(hInst As HINSTANCE, hPrev As HINSTANCE, CmdLine As LPSTR, CmdShow%)"
+        '****************************************************
+        ' Modified: 10/29/2011, 3.4
+        ' Added " As int WINAPI" to "WinMain" for expanded code
+        '****************************************************
+        FPrint DlgOut, "Function WinMain(hInst As HINSTANCE, hPrev As HINSTANCE, CmdLine As LPSTR, CmdShow%) As int WINAPI"
     ElseIf opt.codelevel = CL_COMPACT Then
         '****************************************************
         ' Modified: 1/1/2005, 3.2
@@ -413,20 +417,32 @@ Sub MakeDC()
     If opt.codelevel <> CL_SIMPLIFIED Then
         FPrint DlgOut, Align$(1), "Dim wc  As WNDCLASS"
         FPrint DlgOut, Align$(1), "Dim msg As MSG"
-        FPrint DlgOut, Align$(1), "Global hInstance As HINSTANCE"
-        FPrint DlgOut, Align$(1), "Global BCX_GetDiaUnit%"
-        FPrint DlgOut, Align$(1), "Global BCX_cxBaseUnit%"
-        FPrint DlgOut, Align$(1), "Global BCX_cyBaseUnit%"
+
+        '****************************************************
+        ' Modified: 1/3/2005, 3.3
+        ' Renamed hInstance to BCX_hInstance
+        '****************************************************
+
+        FPrint DlgOut, Align$(1), "Global BCX_hInstance As HINSTANCE"
         FPrint DlgOut, Align$(1), "Global BCX_ScaleX%"
         FPrint DlgOut, Align$(1), "Global BCX_ScaleY%"
+
+        '****************************************************
+        ' Modified: 1/3/2005, 3.3
+        ' Changed the scaling method to reflect BCX 5.05-12
+        '****************************************************
+
         FPrint DlgOut, ""
-        FPrint DlgOut, Align$(1), "hInstance = hInst"
+        FPrint DlgOut, Align$(1), "Set rc As RECT"
+        FPrint DlgOut, Align$(2), "0, 0, 4, 8"
+        FPrint DlgOut, Align$(1), "End Set"
         FPrint DlgOut, ""
-        FPrint DlgOut, Align$(1), "BCX_GetDiaUnit = GetDialogBaseUnits()"
-        FPrint DlgOut, Align$(1), "BCX_cxBaseUnit = LOWORD(BCX_GetDiaUnit)"
-        FPrint DlgOut, Align$(1), "BCX_cyBaseUnit = HIWORD(BCX_GetDiaUnit)"
-        FPrint DlgOut, Align$(1), "BCX_ScaleX     = BCX_cxBaseUnit / 4"
-        FPrint DlgOut, Align$(1), "BCX_ScaleY     = BCX_cyBaseUnit / 8"
+        FPrint DlgOut, Align$(1), "BCX_hInstance = hInst"
+        FPrint DlgOut, ""
+        FPrint DlgOut, Align$(1), "MapDialogRect(NULL, &rc)"
+        FPrint DlgOut, Align$(1), "BCX_ScaleX = rc.right / 2"
+        FPrint DlgOut, Align$(1), "BCX_ScaleY = rc.bottom / 4"
+
 
         For i = 0 to numFrm - 1
             FPrint DlgOut, ""
@@ -543,7 +559,7 @@ Sub MakeDC()
             FPrint DlgOut, ", ", frm[i].y$, " * BCX_ScaleY";
             FPrint DlgOut, ", (4 + ", frm[i].width$, ") * BCX_ScaleX";
             FPrint DlgOut, ", (12 + ", frm[i].height$, ") * BCX_ScaleY, _"
-            FPrint DlgOut, Align$(2), "NULL, NULL, hInstance, NULL";
+            FPrint DlgOut, Align$(2), "NULL, NULL, BCX_hInstance, NULL";
         End If
         FPrint DlgOut, ")"
 
@@ -602,15 +618,11 @@ Sub MakeDC()
 
         If opt.codelevel = CL_SIMPLIFIED Then
             Select Case ctl[i].token
-            Case TYP_STATUS
-                FPrint DlgOut, "BCX_", UCase$(ctlName$[ctl[i].token]);
-                FPrint DlgOut, "(", ctl[i].text$, ", _"
-                FPrint DlgOut, Align$(2), "Form", NumToStr$(ctl[i].ownerN + 1), ", ", ctl[i].id$, ", ", ctl[i].x$, ", ", ctl[i].y$, ", ", ctl[i].width$, ", ", ctl[i].height$, ")"
             Case TYP_BLACKRECT, TYP_BUTTON, TYP_CHECK, TYP_COMBO,     _
               TYP_CONTROL, TYP_DATEPICK, TYP_EDIT, TYP_GRAYRECT,      _
               TYP_GROUP, TYP_ICON, TYP_LABEL, TYP_LIST, TYP_LISTVIEW, _
               TYP_RADIO, TYP_RICHEDIT1, TYP_RICHEDIT2, TYP_TREE,      _
-              TYP_WHITERECT
+              TYP_WHITERECT, TYP_STATUS, TYP_INPUT
 
                 FPrint DlgOut, "BCX_", UCase$(ctlName$[ctl[i].token]);
                 FPrint DlgOut, "(", ctl[i].text$, ", _"
@@ -620,10 +632,12 @@ Sub MakeDC()
                 ' Modified: 1/1/2005, 3.2
                 ' BCX controls can now use Windows Styles if supplied
                 '****************************************************
-                If Len(ctl[i].style$) Then
-                    FPrint DlgOut, ", ", ctl[i].style$;
-                    If Len(ctl[i].exStyle$) Then
-                        FPrint DlgOut, ", ", ctl[i].exStyle$;
+                If ctl[i].token <> TYP_STATUS Then
+                    If Len(ctl[i].style$) Then
+                        FPrint DlgOut, ", ", ctl[i].style$;
+                        If Len(ctl[i].exStyle$) Then
+                            FPrint DlgOut, ", ", ctl[i].exStyle$;
+                        End If
                     End If
                 End If
 
@@ -665,7 +679,7 @@ Sub MakeDC()
             FPrint DlgOut, ", ", ctl[i].y$, " * BCX_ScaleY";
             FPrint DlgOut, ", ", ctl[i].width$, " * BCX_ScaleX";
             FPrint DlgOut, ", ", ctl[i].height$, " * BCX_ScaleY, _"
-            FPrint DlgOut, Align$(2), "Form", NumToStr$(ctl[i].ownerN + 1), ", ", ctl[i].id$, ", hInstance, NULL)"
+            FPrint DlgOut, Align$(2), "Form", NumToStr$(ctl[i].ownerN + 1), ", ", ctl[i].id$, ", BCX_hInstance, NULL)"
         End If
 
         If opt.codelevel <> CL_SIMPLIFIED Then
@@ -928,7 +942,11 @@ Sub MakeDS()
     ' add windows EntryPoint, expand if requested
     '--------------------------------------------
     If opt.codelevel = CL_EXPANDED Then
-        FPrint DlgOut, "Function WinMain(hInst As HINSTANCE, hPrev As HINSTANCE, CmdLine As LPSTR, CmdShow%)"
+        '****************************************************
+        ' Modified: 10/29/2011, 3.4
+        ' Added " As int WINAPI" to "WinMain" for expanded code
+        '****************************************************
+        FPrint DlgOut, "Function WinMain(hInst As HINSTANCE, hPrev As HINSTANCE, CmdLine As LPSTR, CmdShow%) As int WINAPI"
     Else Then
         FPrint DlgOut, "Function WinMain()"
     End If
@@ -1323,6 +1341,7 @@ Sub AnalyzeTokens(token$[], tokNum%)
 
             $IF DEBUG_MODE
                 Print "     Token : ", token$
+                Print "     Tok # : ", tokNum
                 Print "     Styles: ", style$
                 Print "     Class : ", class$
             $ENDIF
@@ -1360,8 +1379,42 @@ Sub AnalyzeTokens(token$[], tokNum%)
             If typ = TYP_LIST Then  style$ = AddStyle$("WS_BORDER", style$)
             If typ = TYP_COMBO Then style$ = AddStyle$("WS_TABSTOP", style$) 
 
+            '****************************************************
+            ' Modified: 1/3/2005, 3.3
+            ' Added support for BCX_Input
+            '****************************************************
+            If typ = TYP_EDIT and opt.codelevel = CL_SIMPLIFIED and Len(style$) > 0 Then
+                typ = TYP_INPUT
+                class$ = "Input"
+
+                For tmp = comma + 1 To tokNum - 1
+                    '-------------------------------------
+                    ' look for the text style ES_MULTILINE
+                    '-------------------------------------
+                    If UCase$(token$[tmp]) = "ES_MULTILINE" Then
+                        typ = TYP_EDIT
+                        class$ = "Edit"
+
+                        Exit For
+                    End If
+
+                    '---------------------------------------------
+                    ' look for the hex style ES_MULTILINE (0x0004)
+                    '---------------------------------------------
+                    If Len(token$[tmp]) > 2 and LCase$(Left$(token$[tmp], 2)) = "0x" Then
+                        If Hex2Dec(token$[tmp]) BOR 0x0004 = Hex2Dec(token$[tmp]) Then
+                            typ = TYP_EDIT
+                            class$ = "Edit"
+
+                            Exit For
+                        End If
+                    End If
+                Next
+            End If
+
             $IF DEBUG_MODE
                 Print "     Token : ", token$
+                Print "     Tok # : ", tokNum
                 Print "     Styles: ", style$
                 Print "     Class : ", class$
             $ENDIF
@@ -1383,6 +1436,7 @@ Sub AnalyzeTokens(token$[], tokNum%)
 
         $IF DEBUG_MODE
             Print "     Token : ", token$
+            Print "     Tok # : ", tokNum
             Print "     Styles: ", style$
             Print "     Class : ", class$
         $ENDIF
@@ -1436,6 +1490,7 @@ Sub AnalyzeTokens(token$[], tokNum%)
 
         $IF DEBUG_MODE
             Print "     Token : ", token$
+            Print "     Tok # : ", tokNum
             Print "     Styles: ", style$
             Print "     Class : ", class$
         $ENDIF
@@ -1474,7 +1529,7 @@ Sub AnalyzeTokens(token$[], tokNum%)
             '-------------------------------
             ' reset number of controls found
             '-------------------------------
-            For idx = 0 To 40
+            For idx = 0 To 41
                 curCtrl[idx] = 0
             Next
         End If
@@ -1755,31 +1810,32 @@ End Sub
 Function GrabTokens$(Buf$[], tokNum%, iStart%)
     Dim styl$
     Dim Raw i%
-    Dim Raw foundNot%
 
-    foundNot = False
-
+    '****************************************************
+    ' Modified: 1/3/2005, 3.3
+    ' Properly removes NOT statements
+    '****************************************************
     For i = iStart To tokNum - 1
         '------------------------------
         ' break if a comma was detected
         '------------------------------
         If Buf[i][0] = 44 Then Exit For
 
-        '----------------------
-        ' remove any NOT styles
-        '----------------------
+        '------------------------------
+        ' skip any NOT statements
+        '------------------------------
         If UCase$(Buf$[i]) = "NOT" Then
-            foundNot = True
+            i += 2
         Else
-            If foundNot = False Then
-                styl$ = styl$ & Buf$[i]
-            Else
-                foundNot = False
-            End If
+            styl$ = styl$ & Buf$[i] & " "
         End If
     Next
 
-    Function = Replace$(styl$, "|", " or ")
+    If Len(styl$) > 0 and Right$(styl$, 2) = "| " Then
+        styl$ = Left$(styl$, Len(styl$) - 2)
+    End If
+
+    Function = Trim$(Replace$(styl$, "|", "or"))
 End Function
 
 
@@ -1814,10 +1870,5 @@ End Function
 ' Returns a string that contains a number
 ' -------------------------------------------------------------------------
 Function NumToStr$(iNum%)
-        '****************************************************
-        ' Modified: 1/1/2005, 3.2
-        ' Removed the WS_VISIBLE to prevent a window from
-        ' displaying itself twice in DC mode
-        '****************************************************
 	Function = Trim$(Str$(iNum))
 End Function
