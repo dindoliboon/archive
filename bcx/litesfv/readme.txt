@@ -1,16 +1,51 @@
 ' //////////////////////////////////////////////////////////////////////////
-' > readme.txt 1.0 1:36 PM 8/15/2001                          Read Me File <
+' > readme.txt 1.01 10¦42 PM 8/15/2001                        Read Me File <
 ' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 '
-' LiteSFV 1.0
+' LiteSFV 1.01
 '
 ' Verifies and creates SFV files using the CRC-32 algorithm.
 ' It is free to use and of course, it's open-source!
+'
+' History
+'    1.0  ->  1¦36 PM  8/15/2001
+'    1.01 -> 10¦42 PM  8/15/2001
 '
 ' Copyright (c) 2001 DL
 ' All Rights Reserved.
 '
 ' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+'                                   LEGEND
+' //////////////////////////////////////////////////////////////////////////
+
+                                    + new
+                                    ! fix
+                                    > info
+
+' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+'                                 CHANGE LOG
+' //////////////////////////////////////////////////////////////////////////
+
+  1.01     > main.bas
+           + switche to registry format
+           + checks for total of good/bad files before save
+
+           > misc.bas
+           + checks for missing status before creating SFV
+           + during scan, it resets file properties
+           ! checks for true path when loading SFVs
+           ! adds total good/bad when saving SFVs
+           ! changed from integer cast to ceil during rounding
+           ! moved timer before message box (lag time between OK)
+
+           > tools.bas
+           + added backslash function
+
+  1.0      > First Release
+
+' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+'                               DIRECTORY TREE
+' //////////////////////////////////////////////////////////////////////////
 
 root
 ¦   litesfv.sfv				verification file
@@ -56,5 +91,5 @@ root
         readme.rtf                      RTF for readme.asm
 
 ' //////////////////////////////////////////////////////////////////////////
-' > 56 lines for Notepad                               End of Read Me File <
+' > 96 lines for Notepad                               End of Read Me File <
 ' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

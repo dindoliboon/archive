@@ -1,8 +1,12 @@
 ; //////////////////////////////////////////////////////////////////////////
-; > readme.asm 1.0 1:02 PM 8/15/2001                        Read Me Dialog <
+; > readme.asm 1.01 10:16 PM 8/15/2001                      Read Me Dialog <
 ; \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ;
 ; Read me dialog with richedit 2.0+ control.
+;
+; History
+;    1.0  -> 12:38 PM  8/15/2001
+;    1.01 -> 10:14 PM  8/15/2001
 ;
 ; Copyright (c) 2001 DL
 ; All Rights Reserved.
@@ -54,7 +58,7 @@
 ; \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   .data
-    szTitle   db 'Welcome to LiteSFV!', 0
+    szTitle   db 'About LiteSFV', 0
     szEdit    db 'richedit20a',0
     szRichDll db 'riched20.dll',0
     hInstance dd 0
@@ -112,7 +116,7 @@ RichMain proc public hInst:DWORD
   ; Center window at following size
   ;================================
   mov Wwd, 500
-  mov Wht, 380
+  mov Wht, 330
 
   invoke GetSystemMetrics, SM_CXSCREEN
   invoke TopXY, Wwd, eax
@@ -240,5 +244,5 @@ TopXY endp
 end start
 
 ; //////////////////////////////////////////////////////////////////////////
-; > 245 lines for MASM 6.15.8803                     End of Read Me Dialog <
+; > 249 lines for MASM 6.15.8803                     End of Read Me Dialog <
 ; \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

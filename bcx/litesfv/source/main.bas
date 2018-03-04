@@ -1,11 +1,15 @@
 ' //////////////////////////////////////////////////////////////////////////
-' > main.bas 1.0 11:54 AM 8/15/2001                            Main Dialog <
+' > main.bas 1.01 10:20 PM 8/15/2001                           Main Dialog <
 ' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 '
 ' This is the main program which contains the initial window
 ' information, as well as links to the required includes.
 '
 ' Globals and constants are also included in this file.
+'
+' History
+'    1.0  -> 11:54 AM  8/15/2001
+'    1.01 -> 10:20 PM  8/15/2001
 '
 ' Copyright (c) 2001 DL
 ' All Rights Reserved.
@@ -19,17 +23,19 @@ CONST LITESFV_TB_SETBUTTONINFO = WM_USER + 66
 
 ' this tells BCX to turn off processing of the \ slash
 $IPRINT_OFF
-
 CONST szFilter$     = "All Files (*.*)\0*.*\0SFV Files (*.sfv)\0*.sfv\0\0"
+' turn on processing of \ slahes
+' remember, C/C++ use \\ instead of a single \ slash
+$IPRINT_ON
+' NEW ## 1.01 // registry location
+CONST szSubKey$     = "Software\DL Software\LiteSFV\"
+' NEW ## 1.01 // registry location
 CONST szWait$       = " Waiting for command..."
 CONST szObtn$       = " Obtaining file names..."
 CONST szCalc$       = " Calculating CRC-32..."
 CONST CaptionName1$ = "LiteSFV"
 CONST ClassName1$   = "Class Name"
-
-' turn on processing of \ slahes
-' remember, C/C++ use \\ instead of a single \ slash
-$IPRINT_ON
+CONST szINI$        = "litesfv.ini"
 
 TYPE MY_INI
   rc                 AS RECT
@@ -66,7 +72,6 @@ GLOBAL uiGood    AS UINT
 GLOBAL uiBad     AS UINT
 GLOBAL uiMiss    AS UINT
 GLOBAL myi       AS MY_INI
-GLOBAL szINI$
 GLOBAL szStop$
 
 ' this gives us global access to the command-line
@@ -137,7 +142,6 @@ FUNCTION StartMain(hInst AS HINSTANCE)
 
   ' init common controls and get INI name
   InitCommonControls()
-  szINI$ = AppPath$(EXEModule$()) & "litesfv.ini"
 
   ' setup columns to have an 80 pixel width
   DIM wCnt AS WORD
@@ -156,25 +160,8 @@ FUNCTION StartMain(hInst AS HINSTANCE)
   myi.iPt[1]    = 175
   myi.iPt[2]    = -1
 
-  DIM hFile AS HANDLE
-  DIM dwRead AS DWORD
-
-  IF EXIST(szINI$) = -1 THEN
-    ' read INI if it exists, storing the values into the structure MY_INI
-    hFile = CreateFile(szINI$, GENERIC_READ, 0, NULL, OPEN_EXISTING, _
-      FILE_ATTRIBUTE_ARCHIVE OR FILE_ATTRIBUTE_HIDDEN OR _
-      FILE_ATTRIBUTE_READONLY OR FILE_ATTRIBUTE_SYSTEM OR _
-      FILE_FLAG_RANDOM_ACCESS, NULL)
-    IF hFile = INVALID_HANDLE_VALUE THEN
-      DisplayLastError()
-    ELSE
-      IF ReadFile(hFile, &myi, sizeof(MY_INI), &dwRead, NULL) <> 0 THEN
-        DisplayLastError()
-      END IF
-
-      CloseHandle(hFile)
-    END IF
-
+' NEW ## 1.01 // loads registry data
+  IF LoadRegData() THEN
     myi.bOneTime = FALSE
   ELSE
     ' if it does not exist, it must be the first time,
@@ -182,6 +169,7 @@ FUNCTION StartMain(hInst AS HINSTANCE)
     RichMain(hInstance)
     myi.bOneTime = TRUE
   END IF
+' NEW ## 1.01 // loads registry data
 
   ' setup default values
   myi.bCtlFlag = myi.bInScan = FALSE
@@ -285,7 +273,10 @@ CALLBACK FUNCTION WndProc1()
     END IF
   CASE IDM_SAVE
     ' check if scan is not in the process or listview is not empty
-    IF myi.bInScan OR ListView_GetItemCount(ListView) = 0 THEN FUNCTION = 0
+' NEW ## 1.01 // checks for missing total
+    IF (uiGood + uiBad = 0) OR (myi.bInScan) OR _
+       (ListView_GetItemCount(ListView) = 0) THEN FUNCTION = 0
+' NEW ## 1.01 // checks for missing total
 
     ' initialize OPENFILENAME
     ZeroMemory(&ofn, sizeof(OPENFILENAME))
@@ -404,7 +395,6 @@ CALLBACK FUNCTION WndProc1()
   DIM uNumFiles AS UINT
   DIM uFile AS UINT
   DIM szFile$
-  DIM dwAttrib AS DWORD
 
   ' reset all scanning values
   ' 
@@ -473,34 +463,20 @@ CALLBACK FUNCTION WndProc1()
     ShowWindow(hWnd, SW_RESTORE)
   END IF
 
+' NEW ## 1.01 // saves to registry
+  ' a huge majority values in the MY_INI structure already
+  ' contain the custom values, so we just need to worry
+  ' about the other ones, not modified by the settings dialog
+
+  GetWindowRect(hWnd, &myi.rc)
+
   DIM wCnt AS WORD
-  DIM hFile AS HANDLE
-  DIM dwWritten AS DWORD
+  FOR wCnt = 0 TO MAX_COLUMNS - 1
+    myi.dwCol[wCnt] = ListView_GetColumnWidth(ListView, wCnt)
+  NEXT
 
-  hFile = CreateFile(szINI$, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, _
-    FILE_ATTRIBUTE_NORMAL OR FILE_FLAG_RANDOM_ACCESS, NULL)
-  IF hFile = INVALID_HANDLE_VALUE THEN
-    DisplayLastError()
-  ELSE
-
-    ' if we can create the INI file, get all custom values
-    ' 
-    ' a huge majority values in the MY_INI structure already
-    ' contain the custom values, so we just need to worry
-    ' about the other ones, not modified by the settings dialog
-
-    GetWindowRect(hWnd, &myi.rc)
-
-    FOR wCnt = 0 TO MAX_COLUMNS - 1
-      myi.dwCol[wCnt] = ListView_GetColumnWidth(ListView, wCnt)
-    NEXT
-
-    IF WriteFile(hFile, &myi, sizeof(MY_INI), &dwWritten, NULL) = 0 THEN
-      DisplayLastError()
-    END IF
-
-    CloseHandle(hFile)
-  END IF
+  StoreRegData()
+' NEW ## 1.01 // saves to registry
 
   DestroyWindow(hWnd)
   FUNCTION = 0
@@ -694,5 +670,5 @@ SUB FormLoad(hInst AS HINSTANCE)
 END SUB
 
 ' //////////////////////////////////////////////////////////////////////////
-' > 699 lines for BCX-32 2.41d                          End of Main Dialog <
+' > 675 lines for BCX-32 2.41d                          End of Main Dialog <
 ' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

@@ -3,7 +3,7 @@
 SET bld_typ=-subsystem console
 SET bld_nme=litesfv
 SET bld_ext=exe
-SET bld_otr=shell32.lib crc32.lib readme.lib
+SET bld_otr=shell32.lib crc32.lib advapi32.lib readme.lib
 
 : compile all sources
 ECHO Started BCX translation process on %date% at %time% ...

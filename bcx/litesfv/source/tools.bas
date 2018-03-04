@@ -1,15 +1,35 @@
 ' //////////////////////////////////////////////////////////////////////////
-' > tools.bas 1.0 11:54 AM 8/15/2001                        Tool Functions <
+' > tools.bas 1.01 8:20 PM 8/15/2001                        Tool Functions <
 ' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 '
 ' Collection of reusable function not tied down by any global variables.
 ' Basically it means that you can use it in your other programs by simply
 ' including $include "tools.bas" in your main program.
 '
+' History
+'    1.0  -> 11:54 AM  8/15/2001
+'    1.01 ->  8:20 PM  8/15/2001
+'
 ' Copyright (c) 2001 DL
 ' All Rights Reserved.
 '
 ' //////////////////////////////////////////////////////////////////////////
+
+' --------------------------------------------------------------------------
+' DESCRIPTION: Adds a backslash to a file path
+'       INPUT: szPath$
+'      OUTPUT: String with backslash
+'       USAGE: szBuffer$ = Backslash$("c:\test")
+'     RETURNS: c:\test\
+'        NEW : 1.01
+' --------------------------------------------------------------------------
+FUNCTION Backslash$(szPath$)
+  IF RIGHT$(szPath$, 1) <> CHR$(92) THEN
+    FUNCTION = szPath$ & CHR$(92)
+  END IF
+
+  FUNCTION = szPath$
+END FUNCTION
 
 ' --------------------------------------------------------------------------
 ' DESCRIPTION: Formats the time and date
@@ -199,5 +219,5 @@ FUNCTION IsChAlpha(ch$)
 END FUNCTION
 
 ' //////////////////////////////////////////////////////////////////////////
-' > 204 lines for BCX-32 2.41d                       End of Tool Functions <
+' > 224 lines for BCX-32 2.41d                       End of Tool Functions <
 ' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

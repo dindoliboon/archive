@@ -1,8 +1,12 @@
 /* /////////////////////////////////////////////////////////////////////////
-  > litesfv.rc 1.0 11:55 AM 8/15/2001                        Resource File <
+  > litesfv.rc 1.01 10:15 PM 8/15/2001                       Resource File <
   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   Contains menu and dialog resources.
+
+ History
+    1.0  -> 11:55 AM  8/15/2001
+    1.01 -> 10:15 PM  8/15/2001
 
   Copyright (c) 2001 DL
   All Rights Reserved.
@@ -59,10 +63,10 @@ BEGIN
 
   POPUP "&Help"
   BEGIN
-    MENUITEM "&About",               IDM_ABOUT
+    MENUITEM "&About LiteSFV 1.01",  IDM_ABOUT
   END
 END
 
 /* /////////////////////////////////////////////////////////////////////////
-  > 69 lines for LRC 1.2                              End of Resource File <
+  > 73 lines for LRC 1.2                              End of Resource File <
   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
