@@ -1,0 +1,4 @@
+PLAYWAV.FRM
+PLAYWGLO.BAS
+ProjWinSize=88,381,255,357
+ProjWinShow=2

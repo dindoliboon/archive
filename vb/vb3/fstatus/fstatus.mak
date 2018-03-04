@@ -1,0 +1,6 @@
+CODE.FRM
+CODE.BAS
+ProjWinSize=1,467,246,451
+ProjWinShow=2
+Title="FSTATUS"
+ExeName="FSTATUS.EXE"

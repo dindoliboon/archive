@@ -1,0 +1,199 @@
+'KTFileFind version 1.0  Programmed by Karl D Albrecht  (KARL25@AOL.COM)
+'Use MatchFiles() for third parameter in KTFileFind
+DIM MatchFiles()
+
+
+Static Function KTFileFind (Path, filespec, FilesFound(), ReFreshPath%) As Integer
+
+  'Rest vaiables
+  ReDim FilesFound(1)
+  FileCount% = 0
+  ErrorFlag% = 0
+  
+
+  'Set up error handler
+  On Local Error GoTo Handler
+
+  'Add backslash to path if not present
+  'Use GetAttr to cause an error if invalid path
+  'GetAttr doesn't like "\" on the end unless it's the root path
+  Path = UCase$(Path)
+  If Right$(Path, 1) <> "\" Then
+    dummy = GetAttr(Path)
+    Path = Path + "\"
+  Else
+    'See if drive only
+    If Len(Path) = 3 Then
+      dummy = GetAttr(Path)
+    Else
+      dummy = GetAttr(Left$(Path, Len(Path) - 1))
+    End If
+  End If
+
+
+  
+  'If in auto and there is a previous path then check it
+  If ReFreshPath% = 0 And MaxItem% > 0 Then
+    ReDim Preserve Paths(MaxItem%)
+    'Check if new path is part of Paths() if so Skip path builder
+    If Left$(Path, Len(Paths(1))) = Paths(1) Then GoTo SkipPathBuilder
+  End If
+
+  
+  
+  'Dim Paths
+  ReDim Paths(50)
+  
+  'Set Paths(1)
+  Paths(1) = Path
+
+'This label is to allow the Function to rebuild the directory
+'Path if it finds that a new directory was created since the
+'Last Path refresh
+ReFreshIt:
+  
+  'Make a list of all sub directories under Path
+  'Reset vaiables
+  MaxItem% = 1
+  CurItem% = 1
+  Finished% = 0
+
+  Do Until Finished%
+
+    'Find first directory in Paths() if any
+    DirName = Dir$(Paths(CurItem%), 16)
+    
+    'If no directories don't look for anymore
+    'Can only happen on a Root directory with no sub dirs
+    If DirName = "" Then GoTo SkipPathBuilder
+    
+    'Find additional directories in Paths()
+    Do
+      
+      'Check if valid directory and filter out dots!
+      If DirName <> "." And DirName <> ".." Then
+        CheckIt = GetAttr(Paths(CurItem%) + DirName) And 16
+      Else
+        CheckIt = 0
+      End If
+      
+      'If a valid directory then add it
+      If CheckIt = 16 Then
+        MaxItem% = MaxItem% + 1
+        Paths(MaxItem%) = Paths(CurItem%) + DirName + "\"
+      End If
+      
+      'Get next Directory
+      DirName = Dir$
+      
+      'If no more then exit this Do Loop
+      If DirName = "" Then Exit Do
+      
+    Loop
+    
+      'Select next Path
+      CurItem% = CurItem% + 1
+    
+      'If at end of the list stop looking
+      If CurItem% > MaxItem% Then Finished% = 1
+
+  Loop
+
+  'Sort directories
+  For Loop1 = 1 To MaxItem%
+    For Loop2 = 1 To MaxItem%
+      If Paths(Loop1) < Paths(Loop2) Then
+        Temp = Paths(Loop1)
+        Paths(Loop1) = Paths(Loop2)
+        Paths(Loop2) = Temp
+      End If
+    Next Loop2
+  Next Loop1
+
+'This label is to allow skipping of the Path builder to allow
+'faster file searching if it's not needed
+SkipPathBuilder:
+
+'If filespec = "" then don't find files.  This is to allow
+'refreshinf Paths() without searching
+If filespec = "" Then GoTo SkipFileSearch
+
+  'Find files that match filespec
+  FileCount% = 0
+  PathFlag% = 0
+  For a = 1 To MaxItem%
+    
+    'Make sure we are only checking paths that are subs
+    'of the called Path.
+    If Left$(Paths(a), Len(Path)) = Path Then
+    
+      PathFlag% = 1
+
+      FileName = Dir$(Paths(a) + filespec, 0)
+
+      'ErrorFlag% is set when a path not found error occurs
+      'This is caused when a directory is deleted and Paths()
+      'Is not refreshed.  If ErrorFlag%=1 then Path is skipped
+      If ErrorFlag% <> 1 Then
+        Do While FileName <> ""
+          FileCount% = FileCount% + 1
+          FilesFound(FileCount%) = Paths(a) + FileName
+          FileName = Dir$
+        Loop
+      End If
+
+    End If
+
+  Next a
+  
+  'If Path was not in Paths() then it must have been added
+  'since the last refresh.  So..Go back and refresh
+  If PathFlag% = 0 Then
+    Beep
+    GoTo ReFreshIt
+  End If
+
+SkipFileSearch:
+  
+  'Redim FilesFound to actual amount
+  ReDim Preserve FilesFound(FileCount%)
+  KTFileFind = FileCount%
+
+Exit Function
+
+Handler:
+
+Select Case Err
+
+  'Subscript out of range
+  Case 9
+    If FileCount% = 0 Then
+      'Paths too small, make it bigger
+      ReDim Preserve Paths(MaxItem% + 50)
+      Resume
+    Else
+      'FilesFound too samll, make it bigger
+      ReDim Preserve FilesFound(FileCount% + 50)
+      Resume
+    End If
+
+  'Incorrect path passed to function
+  Case 53
+    KTFileFind = -1
+    Exit Function
+
+  'Deleted Path still in Paths()
+  Case 76
+    ErrorFlag% = 1
+    Resume Next
+
+  'Unexpected error
+  Case Else
+    KTFileFind = -1 * Err
+    Exit Function
+
+End Select
+
+
+End Function
+

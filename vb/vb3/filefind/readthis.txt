@@ -1,0 +1,229 @@
+              KTFileFind    Version 1.0
+            -----------------------------
+
+
+Thank you for downloading KTFileFind!!  KTFileFind is a 
+self-contained Visual Basic for Windows 3.0 Function that 
+allows easy searches for files across entire hard drives.  I 
+developed this function for several program I wished to make 
+but were not feasible without hard drive searches.  The example 
+that came with VBWIN 3.0 just was too complex and bulky.  I 
+wanted a single Function that would be easy to add to an 
+application and easy to use.  I find it very useful and I hope 
+that you will as well.
+
+
+NOTE: Version 1.0 is relatively tested version but I'm putting
+it up on America On-line for testing purposes.  I have found no 
+errors as of yet but please tell me of any you find!!
+
+
+
+
+
+Sorry, but gotta have one.
+
+DISCLAIMER --> KTFileFind is presented AS-IS.  There are no 
+warranties, expressed or implied, as to the fitness or 
+suitability for any particular purpose.  Karl Albrecht nor K&T 
+will be help liable for any damages (actual, consequential or 
+otherwise) from the use, or inability to use, KTFileFind.
+
+
+You may use this function as you see fit, and modify it in any way,
+but with one request from the author, that if you like it, and/or
+you have any suggestions or improvements you drop a note to one of
+the following places:
+
+BY POSTAGE SEND TO:
+                     K & T
+                 KARL D ALBRECHT
+                  P.O. Box 478
+           SAN LORENZO, CA 94580-0478
+
+FROM AMERICA ON-LINE:             KARL25
+FROM CompuServe:                  >INTERNET KARL25@aol.com
+FROM ELSEWHERE ON THE INTERNET:   KARL25@aol.com
+
+NOTICE: You may distribute and Upload to BBS as you like, under
+        the following terms:
+
+       1) You must include ALL the file it came with.
+       2) All files must be in original format UNMODIFIED.
+       3) You must upload the in zipped fashion.
+
+The following is a list and explanation of the included files:
+
+        FILEFIND.EXE      Demo program
+        FILEFIND.MAK      Demo program source Project (VBWIN3.0)
+        FILEFIND.FRM      Demo program source code Form (VBWIN3.0)
+
+        KTFIND.TXT        ASCII text file containing KTFileFind
+
+        READTHIS.TXT      This file        
+
+
+         Thank You Very Much For Your Cooperation!
+
+NOTE:  KTFileFind is slightly modified in FILEFIND.FRM, it 
+simply has references to Label1 for display purposes.
+
+HOW TO USE IT
+-------------
+To use KTFileFind simply load up KTFIND.TXT into your favorite 
+text editor, COPY it's contents to the clip board then PASTE it
+to the declarations section of your form or module.  It will
+insert the function and a declaration for MatchFiles().  As an 
+alternative you can use the LOAD TEXT command under the FILE 
+menu and it will create a MODULE for you.
+
+FEATURES:
+
+        - Can search entire disk drives or any sub directories
+
+        - Can use conventional wild cards
+
+        - Retains a disk path image to expedite subsequent file 
+          searches
+
+        - Returns multiple matching files and their paths
+
+
+EXTRA:
+
+The next version of KTFileFind will include some added 
+features.  If you have any suggestions of anymore please send 
+them to me.
+
+        - Can search a directory but not it's sub directories
+
+        - Can search for other than normal files (i.e. Hidden, etc.)
+        
+        - Can return the Paths() variable as a parameter
+
+
+
+FUNCTION EXPLANATION
+--------------------
+KTFileFind is a self-contained functioned designed in Visual 
+Basic for Windows version 3.0.  With some modification it 
+should work well in QuickBASIC or others Basic's with the Dir 
+command.  KTFileFind allows you to search any directory 
+including all their sub-directories for file names.  You can 
+search for particular files or use wild-cards.  KTFileFind will 
+return a value indicating the number of matching files and an 
+array containing the names and paths of each file.
+
+
+
+SYNTAX:     (INTEGER VARIABLE FUNCTION)
+
+KTFileFind ( path, filespec, Filesfound(), ReFreshPath% )
+
+where:
+
+path          - (STRING) contains the beginning path to search.
+                Must start with drive letter and include full 
+                path.  The trailing '\' is optional.  If this 
+                path is incorrect or does not exist then an 
+                internal error will be generated and returned 
+                by the function as -1.
+
+filespec      - (STRING) contains the search files spec.  This 
+                uses standard wildcard conventions.  If an 
+                invalid filespec is entered the function will 
+                simply return no matching files.  Setting 
+                filesspec to "" will cause the Paths() array to 
+                be refreshed without searching for files.
+
+FilesFound()  - (STRING ARRAY) this is the variable that the 
+                file names and paths will be returned.  If 
+                KTFileFind returns a number >0 then this array 
+                will contain file names and paths.  NOTE  the 
+                array name you pass must be previously 'dimmed' 
+                in your declarations section with no parameter 
+                ,i.e. DIM MatchFiles().
+
+ReFreshPath%  - (INTEGER) This controls how Paths() array is 
+                refreshed. Normally it is set to '0' (ZERO) 
+                which places the refresh mode in auto.  Any other 
+                value will force a path refresh.  Please see 
+                explanation below.
+
+RETURNED      - The value returned by the function represents 
+VALUE           several items:
+
+                POSITIVE: If the value is zero or greater it 
+                          represents the actual number of 
+                          matching files found.
+
+                NEGATIVE: An error has occurred.  -1 indicates 
+                          an invalid or non-existent path was 
+                          passed to the function.  Any other 
+                          number indicates an unexpected 
+                          error.  If the error is <-2 then 
+                          multiply by (-1) and that is the 
+                          actual error code.
+
+
+
+HOW IT WORKS
+------------
+Here is the basic sequence in which the function operates.  
+When the function is called it will first determine if the Path 
+is valid.  If it is the function will next check to see if a
+previous Path image was created.
+
+        A Path image is simply an array ( Paths() ) that 
+        contains all the found paths.  The first element 
+        ,Paths(1), always contains the highest level path.  
+        This may not always be the root directory of the drive 
+        since you can call a search from any sub directory.  To 
+        make for easier reading the array is sorted.  This is 
+        not really a true sort because of the backslashes '\' in 
+        the paths.  This causes the sort to be different from 
+        what it would be if based on names alone.
+
+If a previous path image was created the function next checks 
+to see if the new path that is being called is a subset of the 
+original path image.
+
+        FOR EXAMPLE:  If the previous image was based on C:\VB\ 
+        then Paths(1) will equal "C:\VB\".  If the new called 
+        path passed to the function is C:\VB\SAMPLES\ then it 
+        is a subset and the same image can be used.
+
+At this point if the newly passed path is a subset of the 
+previous existing path image then we can reuse it.  This is 
+assuming we are in 'AUTO' mode.  It ReFreshPath%=0 then we are 
+in 'AUTO' if it is anything else then a 'path refresh' is forced 
+and a new image is created.  The reason for keeping the 'path 
+image' and trying to reuse it is speed.  A lot of time is 
+consumed building the path image and if it can be reused then 
+that greatly speeds things up.  It can cause problems if 
+directories have been created or deleted since the last 
+refresh.  There are some ways this program can detect that and 
+it is described later.  The reason for ReFreshPath% is to allow 
+the programmer to force a refresh if they know changes in the 
+directories have occurred or you can force a refresh at the 
+beginning so each call afterwards would be fast.
+  Now if no previous path image existed or the new path is not 
+a subset of the existing path image or if ReFreshIt%<>0 then a 
+new Paths() array 'path image' will be created.  Once a path 
+image is created (or reused) then the files can be searched 
+for filespec.  Each path in Paths() array is searched and the 
+results are returned in FilesFound() array.
+  While searching for files it can detect deleted directories 
+because they cause an error when accessed (attempted) and it is 
+trapped then skipped.  If a directory was added since the last 
+refresh it can only be detected if it is the passed Path 
+variable.  It can detect it by keeping a flag variable that is 
+set to 1 when a directory is searched.  If going through the 
+entire Paths() array and no directories were searched then in 
+automatically refreshes the path image.
+
+
+
+Well, this a brief rundown of the function and there is 
+obviously more to it.  If you have any questions feel free to 
+contact me and I will try to get back to you.

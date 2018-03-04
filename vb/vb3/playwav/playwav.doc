@@ -1,0 +1,78 @@
+
+Forum member Harmon Rogers helped me learn how to use sndPlaySound in VB.  
+I find it interesting that every code example given by Microsoft declares 
+the function in such a way that it WILL NOT allow you to stop the "SND_LOOP"
+once it's been initiated. 
+
+IE: Microsofts example code is:
+Declare Function sndPlaySound Lib "MMSYSTEM.DLL" (ByVal lpszSoundName$
+        ByVal wFlags%) As Integer                                    ^
+                                           /-------------------------^
+    Limiting the lpszSoundName to being a $ variable WILL NOT allow specifying
+a NULL integer which is required to stop the SND_LOOP.  
+    Neither "" or "NULL" or "0" or "0&" will work!
+    WHAT'S NEEDED is to modify the declare line to read as follows:
+
+Declare Function sndPlaySound Lib "MMSYSTEM.DLL" (ByVal lpszSoundName As Any
+        ByVal wFlags%) As Integer                                     ^^^^^^
+
+    NOW you can pass EITHER a filename $ to start playing, or a NULL INTEGER 
+to stop the play. If for example you've placed the following constants in 
+your global module:
+
+Global Const SND_SYNC      = &H0000
+Global Const SND_ASYNC     = &H0001
+Global Const SND_NODEFAULT = &H0002
+Global Const SND_LOOP      = &H0008
+Global Const SND_NOSTOP    = &H0010
+
+You might want to now add a NULL Definition line:
+
+Global Const NULL = 0&            (Wonder what other No's would work?)
+
+    You can now stop the SND_LOOP with the following line:
+x% = sndPlaySound ( NULL, wFlags%)
+
+     OK, you say, stop what?  How do you start the loop going anyway?
+     The Microsoft article ID No. Q86281 entitled:
+     "How to Play a Waveform (.WAV) Sound File in Visual Basic" says
+you can put 2 wFlags% together in VB with an "And" operator.  Truth is,
+you can't!  What must be used in Visual Basic is the Plus sign: "+"
+     
+     For example, to start the file playing:
+x% = sndPlaySound ("RING.WAV", SND_LOOP + SND_ASYNC)
+     
+     The following line WON'T WORK, even though the article says it will.
+x% = sndPlaySound ("Ring.Wav", SND_LOOP And SND_ASYNC)  
+
+     I've searched all the SPI, SDK & Multimedia help files I have, for
+Win 3.0, 3.1, and the preleminary 3.2 files, AS WELL as the new 
+"Developers Net CD-ROM", and all the code examples are incorrect for usage
+in Visual Basic regarding starting & stopping SND_LOOP.
+
+     Am I correct in assuming that Microsoft expects us all to know "C"
+syntax, and the difference between it and Visual Basic Syntax?  How do you 
+like the idea of suggesting to Microsoft that each article should state what
+language the syntax belongs to, or to write an article for Visual Basic users
+that explains the syntax differences so they could figgure 'em out for 
+themselves, or MAYBE give examples of BOTH syntaxes in each article?
+
+     Of course if such articles already exist, maybe their existance 
+should be more widely exposed...
+
+     In an effort to help others with what we've been discussing, I'm 
+uploading a MAKfile VB-project called "PLAYWAV.ZIP" to the MSBASIC-VB forum.
+Keywords will be: MSGBOX MESSAGE sndPlaySound SND_LOOP WAV.
+Sound good?
+Let me know of anything wrong with the above, since I want to include it too.
+Look for it by the end of the week.
+
+                                                 Regards,
+                                                 Vic Bradley
+                                                 Unique Software Productions
+                                                 CIS 70322,211
+                                                 Phone 310-329-2672
+
+P.S. I like your idea of replacing:
+"lpxSoundName" with "FileName".
+It's much less cryptic!

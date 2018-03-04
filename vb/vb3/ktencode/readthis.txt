@@ -1,0 +1,208 @@
+                       KTEncrypt  Version 1.0
+                       ----------------------
+
+Thank you for downloading  these files entitled KTEncrypt.
+This file was written by Karl D. Albrecht for immediate use with
+Visual Basic for Windows.  This code is used for file security.
+when you wish to write something to a file and not have it read,
+you use this function and the text gets altered to a format that is
+unreadable.  All you do is supply it a string you want to encrypt and
+a password and the Function will return a uniquely encrypted string
+based solely on the password provided.  The benefit of this is you
+do not need to keep the password in a file anywhere to compare.  If
+you use the wrong password a useless, unreadable string is returned.
+
+
+
+DISCLAIMER: Karl Albrecht takes no responsibility for anything caused
+            by this function. USE AT YOUR OWN RISK!
+
+
+You may use this function as you see fit, and modify it in any way,
+but with one request from the author, that if you like it, and/or
+you have any suggestions or improvements you drop a note to one of
+the following places:
+
+BY POSTAGE SEND TO:
+                     K & T
+                 KARL D ALBRECHT
+                  P.O. Box 478
+           SAN LORENZO, CA 94580-0478
+
+FROM AMERICA ON-LINE:              KARL25
+FROM COMPUSERVE:                  >INTERNET KARL25@aol.com
+FROM ELSEWHERE ON THE INTERNET:   KARL25@aol.com
+
+NOTICE: You may distribute and Upload to BBS as you like, under
+        the following terms:
+
+       1) You must include ALL the file it came with.
+       2) All files must be in original format UNMODIFIED.
+       3) You must upload the in zipped fashion.
+
+The following is a list and explanation of the included files:
+
+    KTENCODE.EXE  - Compiled demo program
+    KTENCODE.MAK  - VBWIN  3.0 Sample code project for KTENCODE.EXE
+    KTENCODE.FRM  - VBWIN  3.0 Sample code form for KTENCODE.EXE
+    
+    VBWIN30.BAS   - VBWIN 3.0 Module with Function loaded in
+    QUICKBAS.BAS  - QuickBASIC DEMO program with modified function
+    QBASIC.BAS    - QBasic DEMO program with modified function
+ 
+    KTENCODE.TXT  - ORIGINAL VBWIN 3.0 Code saved as ASCII
+
+    READTHIS.TXT  - This file that you are reading
+
+         Thank You Very Much For Your Cooperation!
+
+
+FUNCTION EXPLANATION:
+---------------------
+    This function is designed in and for use with Visual Basic
+    for Windows Version 3.0, but can be ported to other 'basics' with
+    little modification.  In short, this Function will allow you to
+    encode a string using a supplied password to make it unreadable
+    to all that do not posses the password.  It does this by altering
+    each individual ASCII code by different amounts.  The amount each
+    character is altered is solely dependent on the password supplied.
+    That means strings are encoded differently if they have a different
+    password!  WARNING!!  If you forget your password, your data is gone.
+    
+NOTE:    I wrote this password to be completely self contained.  It does
+         not make any calls outside of itself and relies on no variables
+         outside of it aside from what is passed directly to it.  This may
+         cause the code to appear a bit crowded but it will make it easier
+         to incorporate it into your code.
+
+TO USE:  To use this Function simply copy and paste it into a Module (*.BAS)
+         or directly into a form.  Once that done, it is ready for use.
+
+
+
+
+SYNTAX:   (STRING VARIABLE FUNCTION)
+
+KTEncrypt (password$, string$, flag%, Errors$)
+
+where:
+
+
+password$ - is the password to use in the encoding.  Must be at
+            least 1 character long and can be any characters.  If
+            password$="" then the function will abort and
+            Errors$ will be set to "NO PASSWORD!"
+
+string$   - This is the string to encode.  Must be at least 1
+            character long.  If not Errors$ will be set to
+            "NO STRING!"
+
+Flag%     - This is the Encode or Decode F]ag.  If it is set to
+            0 then it will encode.  If set to anything else it
+            will decode.
+
+Errors$   - This is just a blank string (CAN BE ANY NAME) that
+            is used to return errors.  If an error occurs the
+            Function will abort and the function will return the
+            original unmodified string.  Errors$ will be set
+            to one of the following:
+
+          1- "NO PASSWORD!"  - means password$ = ""
+
+          2- "NO STRING!"    - means string$ = ""
+
+          3- "FILE ALREADY ENCODED!" - means that you are attempting
+                                       to encoded an already encoded
+                                       file!
+          4- "FILE NOT ENCODED!" - means that you are attempting to
+                                   decode a file that has not been
+                                   encoded .
+
+          5- "INVALID PASSWORD!" - means an error incurred while
+                                   decoding that could only result
+                                   from an invalid password.
+
+
+
+Errors 1 and 2 are self explanatory.  Errors 3-5 are the result of some
+special encoding.  One problem that I was having originally is that
+occasionally a password may encode a string and try and change one
+of it's characters to a value <0 or >255.  This would cause an error.
+In order to not limit the password or the string I designed a feature
+to fix this.  This modification needed to know if it was encoding or
+decoding the file.  An encoded file has a bunch of CHR$(255)'s tacked
+onto the end to identify it as encoded.  So this will prevent from
+encoding an encoded file or decoding a not encoded file.  Sometimes
+when decoding a file with the wrong password two things may happen.  One
+the Function will incur an error because an ASCII value is <O or >255
+(this can happen because the checking does not occur on decoding) if this
+happens the function will end and Errors$ will be set to "INVALID PASSWORD"
+The second thing that can happen is no errors will occur and the
+function will return a scrambled file which is useless.  If you don't
+want that to happen then encode the password in with the file and
+decode it first if they don't match then don't decode the rest.
+
+note that these are just errors specific to my function.  Run time errors
+can occur and should only happen if you invoke the function with the wrong
+parameters.  The function does have an ON LOCAL ERROR routine that is used
+to trap the custom errors.  If a run-time error occurs that was not planned
+it will abort the function and return the Error Name in the Errors$.
+
+NOTE:  Two of the errors can be overrided.  'FILE ALREADY ENCODED' and
+       'FILE NOTE ENCODED!' can be forced so that the Function will
+       encrypt or de-encrypt anyway.  This is useful if you wish to double
+       encrypt a file (or more times!).  Normally you don't want to
+       encrypt more than once because if you forget how many times you did
+       encrypt it you may have trouble restoring the file!  Also if a file
+       was damaged or lost it's trailing CHR$(255)'s it may not see it
+       as Encrypted but you can force it so you can recover the data.  To
+       ignore these two errors simply set Errors$="FORCE" prior to calling
+       the Function (it is not case sensitive).  Try it!!
+
+
+EXAMPLES:
+
+'assumes that there is an array called MyText$() loaded with text to save
+'Also assumes a password has been entered by user called password$
+
+
+OPEN "SAVETEXT.TXT" FOR OUTPUT AS 1
+
+For Looper = 1 to 20
+
+  Scramble$ = KTEncrypt (password$, MyText$(Looper), 0, Errors$)
+
+  If Errors$<>"" THEN GOSUB ErrorHandler:
+
+  PRINT #1, Scramble$
+
+NEXT Looper
+
+.
+.
+.
+
+
+ErrorHandler:
+
+  ..Code to detect and handle the returned error codes
+
+
+This example would scramble each string in turn using the password$ and then
+save it to the file.  To decode it would be very similar but the syntax would 
+be:
+
+   UnScramble$ = KTEncrypt (password$, MyText$(Looper), 1, Errors$)
+
+
+
+
+
+
+
+
+IF YOU HAVE ANY QUESTIONS OR COMMENTS PLEASE FEEL FREE TO WRITE 
+TO ME AT THE ABOVE ADDRESSES. HOPE YOU ENJOY IT. 
+                                     
+                                THANKS A LOT FOR YOUR COOPERATION,
+                                                    KARL ALBRECHTPK  € ¸ÔU	&zð  +&     KTENCODE.EXEí:mpT

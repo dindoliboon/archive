@@ -1,0 +1,41 @@
+This is my immitation CoolBar control.  A CoolBar is essentially a Cool 
+looking ToolBar or ButtonBar, the real thing has a few extra features ... 
+such as it is dockable, and they can be docked side by side and resized 
+using a resize bar.  My Imitation CoolBar doesn't do that, all it does is 
+give you a fancy Button Bar, with buttons which appear to pop up when the 
+mouse is over them.  
+
+My self imposed criteria when designing this was to use as few controls 
+as possible, and to try to keep the code as simple as possible so that it 
+is easy to move from one program to another.  The essential functionality 
+is all held inside one routine - DrawCoolBar() and it has three parameters, 
+the MouseButton and the Mouse X and Y co-ordinates.  
+
+There are a few variables and flags which are set inside the DrawCoolBar() 
+routine and which can be changed to change the appearance of the bar, for 
+instance you can easily switch off the text.
+
+The CoolBar is implemented as three PictureBoxes and a Timer control.  The 
+first PictureBox is used as the canvas to draw the CoolBar on, the second 
+PictureBox is used to hold the resource bitmap which holds pictures of the 
+icons that are to be drawn on the buttons, I have drawn these using the 
+standard 16 colour palette, the third PictureBox is used purely as a 
+scratchpad, while we juggle the colours around on the resource bitmap, and 
+the timer which is used to detect when the mouse moves off of the toolbar.  
+
+The DrawCoolBar() function is called every time the Resize, MouseMove, 
+MouseDown and MouseUp events are triggered for the first PictureBox, and 
+also every time the timer is triggered.  The function returns an integer 
+which is the button that the mouse is over, 1 for the first one, etc...  
+I suggect catching the return value in the MouseUp event and executing the 
+appropriate code for each button.  
+
+I think the code is fairly straight forward and I have tried to comment it 
+clearly. 
+
+This code is released to the public domain ... enjoy.  
+
+If you have any comments or questions or suggestions then feel free to 
+contact me at PRicketts@compuserve.com.  
+
+18 March 97

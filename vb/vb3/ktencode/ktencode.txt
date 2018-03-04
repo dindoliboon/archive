@@ -1,0 +1,216 @@
+'Programmed by Karl Albrecht (KARL25@AOL.COM)
+Function KTEncrypt (ByVal PASSWORD$, ByVal strng$, Flag%, Errors$)
+  
+  'Dimension the Adjust array
+  ReDim Adjust(4)
+  
+  'Set error capture routine
+  On Local Error GoTo ErrorHandler
+
+  'Preserve original string
+  original$ = strng$
+
+  
+  
+  'Check for errors (Errorcodes are custom)
+  'Is there Password??
+  If Len(PASSWORD$) = 0 Then Error 31100
+  
+  'Is there a strng$ to work with?
+  If Len(strng$) = 0 Then Error 31110
+
+  'Check to see if it is an encoded file
+  If Right$(strng$, 5) = String$(5, 255) Then
+    'if encoding warn!
+    If Flag% = 0 Then Error 31120
+  Else
+    'If decoding warn
+    If Flag% <> 0 Then Error 31130
+  End If
+  
+
+  
+  'Create a four part encryption code based on password
+  'First Adjust code based on length of password
+  Adjust(1) = Len(PASSWORD$)
+  
+  'If first character ascii code even make adjust negative
+  If Asc(Left$(PASSWORD$, 1)) / 2 = Int(Asc(Left$(PASSWORD$, 1)) / 2) Then
+    Adjust(1) = Adjust(1) * -1
+  End If
+
+  'Second Adjust code based on first and last character ascii codes
+  Adjust(2) = Asc(Left$(PASSWORD$, 1)) - Asc(Right$(PASSWORD$, 1))
+
+  'Third code based on average of all ascii codes
+  TotalAscii = 0
+  For Looper = 1 To Len(PASSWORD$)
+    TotalAscii = TotalAscii + Asc(Mid$(PASSWORD$, Looper, 1))
+  Next Looper
+  Adjust(3) = Int(TotalAscii / Len(PASSWORD$) / 3)
+
+  'Fourth code based on previous three
+  Adjust(4) = Adjust(1) + Adjust(2) + Adjust(3)
+
+  
+  
+  'Now check if any Adjust codes are zero
+  'If it is zero make it not zero (any number is fine!)
+  For Looper = 1 To 4
+    If Adjust(Looper) = 0 Then Adjust(Looper) = Looper + Len(PASSWORD$)
+  Next Looper
+
+  
+  'Now check if any adjusts are the same
+  NotYet% = 1
+  Do While NotYet%
+    NotYet% = 0
+    For Loop1 = 1 To 4
+      For Loop2 = 1 To 4
+        'Don't compare same items
+        If Loop1 <> Loop2 Then
+          
+          'Check for a match
+          If Adjust(Loop1) = Adjust(Loop2) Then
+            Adjust(Loop2) = Adjust(Loop2) + Len(PASSWORD$)
+            
+            'Make sure we didn't make it zero
+            If Adjust(Loop2) = 0 Then Adjust(2) = Adjust(Loop2) + Len(PASSWORD$)
+            
+            NotYet% = 1
+          End If
+
+        End If
+      Next Loop2
+    Next Loop1
+  Loop
+
+
+  
+  
+  'Encode or deocde
+  Counts = 0: Looper = 0
+
+  'Loop until scanned though the whole file
+  Do While Looper < Len(strng$)
+    
+    'Add to Looper
+    Looper = Looper + 1
+
+    'Keep Adjust code Counts from 1 to 4
+    Counts = Counts + 1
+    If Counts = 5 Then Counts = 1
+    
+    'Get the character to change
+    ToChange = Asc(Mid$(strng$, Looper, 1))
+    
+    'ENCODE   Flag%=0
+    If Flag% = 0 Then
+      
+      'If adjustment to high or low then reverse the coding and
+      'add in a chr$(255) to mark the change
+      If ToChange - Adjust(Counts) < 1 Or ToChange - Adjust(Counts) > 254 Then
+        
+        Addin$ = Chr$(255) + Chr$(ToChange + Adjust(Counts))
+        strng$ = Left$(strng$, Looper - 1) + Addin$ + Mid$(strng$, Looper + 1)
+        Looper = Looper + 1
+      
+      'If adjustment OK then just cahnge the character
+      Else
+        
+        Mid$(strng$, Looper, 1) = Chr$(ToChange - Adjust(Counts))
+
+      End If
+
+    'DECODE  Flag% <> 0
+    Else
+      
+      'If find a CHR$(255) then remove it and set Flag255% to
+      'ensure reverse codes on next pass reverse coding
+      If ToChange = 255 Then
+        
+        strng$ = Left$(strng$, Looper - 1) + Mid$(strng$, Looper + 1)
+        Flag255% = 1
+        'Since CHR$(255) was removed we need to back up Looper
+        'and Counts because characters all shifted to the left
+        Looper = Looper - 1
+        Counts = Counts - 1
+      
+      'If not CHR$(255) then decode watching if Flag255% is set
+      Else
+        If Flag255% = 1 Then
+          Mid$(strng$, Looper, 1) = Chr$(ToChange - Adjust(Counts))
+          Flag255% = 0
+        Else
+          Mid$(strng$, Looper, 1) = Chr$(ToChange + Adjust(Counts))
+        End If
+      End If
+
+    End If
+    
+  Loop
+
+  
+  
+  
+  'Set function equal to changed string
+  If Flag% = 0 Then
+    
+    'Tack on CHR$(255) to end so it can be recognized as encoded
+    KTEncrypt = strng$ + String$(5, 255)
+
+  Else
+    
+    KTEncrypt = strng$
+  
+  End If
+
+  'Make sure Errors$ is cleared
+  Errors$ = ""
+
+  Exit Function
+
+
+
+ErrorHandler:
+  Select Case Err
+
+    'Illegal Function Call --> out of range ASCII code
+    Case 5
+      Errors$ = "INVALID PASSWORD!"
+
+    'Is there Password??
+    Case 31100
+      Errors$ = "NO PASSWORD!"
+      
+    'Is there a strng$ to work with?
+    Case 31110
+      Errors$ = "NO STRING!"
+
+    'Encoding a encoded file?
+    Case 31120
+      If UCase$(Errors$) = "FORCE" Then
+        Resume Next
+      Else
+        Errors$ = "FILE ALREADY ENCODED!"
+      End If
+
+    'Decoding a non-encoded file?
+    Case 31130
+      If UCase$(Errors$) = "FORCE" Then
+        Resume Next
+      Else
+        Errors$ = "FILE NOT ENCODED!"
+      End If
+    
+    'Unanticipated
+    Case Else
+      Errors$ = Error$(Err)
+
+  End Select
+  
+  KTEncrypt = original$
+  Exit Function
+
+End Function
+
