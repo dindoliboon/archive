@@ -7,8 +7,8 @@ Most of *my* apps target **Windows 95/98/2000** and probably no longer run or co
 View at your **own risk**! :smiley:
 
 ## Resources
-* [BCX Yahoo! Group](https://groups.yahoo.com/neo/groups/BCX/info) - Get help from other BCX developers. Download the latest BCX translator in the Files section. Free registration is required.
-* [BCX Website Archive](https://web.archive.org/web/20160422073918/http://www.bcxbasic.com/) - Download the BCX Windows installer.
+* [BCX Forum](https://bcxbasiccoders.com/smf/) - Get help from other BCX developers. Free registration is required.
+* [BCX Website](https://bcxbasiccoders.com) - Download the BCX Windows installer.
 * [Pelles C](http://www.smorgasbordet.com/pellesc/) - Compile C code to Windows executables. Download the 32-bit verison for use with the code on this site.
 
 ## Files
