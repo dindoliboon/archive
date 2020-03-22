@@ -8,7 +8,7 @@ View at your **own risk**! :smiley:
 
 ## Resources
 * [MASM32 SDK](http://www.masm32.com) - Download the MASM32 SDK to start developing 32-bit Windows apps in assembly.
-* [Iczelion's Win32 Assembly Homepage](http://win32assembly.programminghorizon.com) - A snapshot of Iczelion's tutorials and downloads for Win32 assembly.
+* [Iczelion's Win32 Assembly Homepage](https://web.archive.org/web/20190720235115/http://win32assembly.programminghorizon.com/) - A snapshot of Iczelion's tutorials and downloads for Win32 assembly.
 * [SPIM](http://spimsimulator.sourceforge.net) - A simulator that implements most MIPS32 instructions.
 
 ## Files
